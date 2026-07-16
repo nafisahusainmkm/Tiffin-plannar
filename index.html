@@ -160,7 +160,10 @@
     const SUPABASE_URL = "https://bjlbdlgnecrcyfwuwgkl.supabase.co"; 
     const SUPABASE_ANON_KEY = "Sb_publishable_0P_HRLYM2jMscdsoQPTVNA_nmnECwGj";
 
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // CONNECTION FIX APPLIED BELOW
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth: { persistSession: false }
+    });
 
     const defaultSchedule = {
       "21": { date: "21 Jul", day: "Tue", menu: "Mini Vegetable Idli", qty: "4 mini idlis", side: "½ cup sliced cucumber", student: "Unassigned", theme: "orange" },
@@ -233,10 +236,8 @@
       supabaseClient
         .channel('public:tiffin_data')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'tiffin_data' }, (payload) => {
-          // Listen for any insert/update/delete events on the table
           const changeData = payload.new && Object.keys(payload.new).length > 0 ? payload.new : payload.old;
           if (changeData && changeData.class_name === currentClassName) {
-            // Refetch to guarantee perfect UI mapping state
             fetchInitialData();
           }
         })
@@ -265,7 +266,7 @@
         topBadge.className = "text-xs bg-amber-500 text-slate-950 px-3 py-1 rounded-lg font-bold border border-amber-400";
         switchMode('teacher'); 
       } else {
-        toggleContainer.classList.remove('hidden'); // Leave tabs present for verification during link building
+        toggleContainer.classList.remove('hidden');
         authBanner.classList.remove('hidden');
         topBadge.innerText = "Parent View Mode";
         topBadge.className = "text-xs bg-white/20 text-white px-3 py-1 rounded-lg font-semibold border border-white/10";
