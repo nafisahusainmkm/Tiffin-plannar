@@ -3,109 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSB Tiffin Planner | July 2026</title>
+    <title>MSB Tiffin Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Quicksand', sans-serif; background-color: #fffaf5; }
+        body { font-family: 'Quicksand', sans-serif; background-color: #fdfaf6; }
         .font-header { font-family: 'Fredoka', sans-serif; }
-        .day-column-tuesday { background-color: #e8f5e9; border-color: #a5d6a7; }
-        .day-column-wednesday { background-color: #fff3e0; border-color: #ffcc80; }
-        .day-column-thursday { background-color: #e0f2f1; border-color: #80cbc4; }
-        .day-column-friday { background-color: #fce4ec; border-color: #f8bbd0; }
-        .header-tab-tuesday { background-color: #4caf50; }
-        .header-tab-wednesday { background-color: #ff9800; }
-        .header-tab-thursday { background-color: #009688; }
-        .header-tab-friday { background-color: #e91e63; }
     </style>
 </head>
 <body class="pb-20">
 
     <!-- Header Section -->
-    <div class="relative overflow-hidden bg-gradient-to-b from-amber-100 to-amber-50 pt-10 pb-8 px-4 rounded-b-[4rem] border-b-4 border-amber-200">
-        <div class="max-w-4xl mx-auto text-center relative z-10">
-            <h1 id="classNameDisplay" class="text-5xl font-extrabold text-orange-500 font-header tracking-wide uppercase">Class Name</h1>
-            <span class="block bg-rose-500 text-white font-header text-3xl font-bold px-8 py-2 rounded-2xl shadow-md my-4 inline-block">JULY 2026 TIFFIN PLANNER</span>
-            <p class="text-slate-600 font-semibold text-lg">Healthy Food • Happy Mood</p>
-        </div>
+    <div class="bg-gradient-to-r from-rose-500 to-orange-500 pt-8 pb-6 px-4 text-center shadow-xl">
+        <h1 class="text-3xl font-extrabold text-white font-header uppercase">MSB Educational Institute, Kota</h1>
+        <h2 id="classNameHeader" class="text-2xl font-bold text-yellow-200 mt-2">Class: Loading...</h2>
+        <div class="inline-block bg-white text-rose-600 px-6 py-1 rounded-full font-bold mt-4 shadow-md">JULY 2026 TIFFIN PLANNER</div>
     </div>
 
-    <div class="max-w-6xl mx-auto px-4 mt-8">
+    <div class="max-w-5xl mx-auto px-4 mt-8">
+        <!-- Daily Planner Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="plannerGrid"></div>
 
-        <!-- Healthy Alternatives -->
-        <div class="mt-12 bg-white rounded-3xl p-6 shadow-md border-2 border-amber-200">
-            <h3 class="font-header text-2xl font-bold text-amber-600 text-center mb-6">🍎 HEALTHY SIDE ALTERNATIVES</h3>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm"><div class="text-4xl mb-2">🍿</div><h5 class="font-bold text-slate-800">Roasted Makhana</h5></div>
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm"><div class="text-4xl mb-2">🥜</div><h5 class="font-bold text-slate-800">Peanuts</h5></div>
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm"><div class="text-4xl mb-2">🥥</div><h5 class="font-bold text-slate-800">Dry Fruits</h5></div>
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm"><div class="text-4xl mb-2">📅</div><h5 class="font-bold text-slate-800">Dates</h5></div>
+        <!-- Alternatives & Policy Section -->
+        <div class="mt-12 bg-white p-8 rounded-3xl border-2 border-amber-200 shadow-lg">
+            <h3 class="font-header text-2xl font-bold text-amber-600 mb-6 text-center">🍎 Healthy Side Alternatives</h3>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center text-sm font-bold">
+                <div class="bg-amber-50 p-4 rounded-2xl border">🍿<br>Roasted Makhana</div>
+                <div class="bg-amber-50 p-4 rounded-2xl border">🥜<br>Peanuts</div>
+                <div class="bg-amber-50 p-4 rounded-2xl border">🥥<br>Dry Fruits</div>
+                <div class="bg-amber-50 p-4 rounded-2xl border">📅<br>Dates</div>
             </div>
-        </div>
+            
+            <div class="mt-8 bg-rose-50 p-6 rounded-2xl border-2 border-rose-100">
+                <h4 class="font-bold text-rose-800 mb-2">🤝 Mutual Exchange Policy</h4>
+                <p class="text-sm text-slate-700 italic">If you are unavailable on your assigned date, please coordinate a mutual exchange with another parent. The school does not provide administrative coordination for these swaps.</p>
+            </div>
 
-        <!-- Policies -->
-        <div class="mt-8 bg-amber-50 border-2 border-dashed border-amber-300 p-6 rounded-3xl text-slate-700">
-            <h4 class="font-bold text-lg font-header text-amber-700 mb-2">Mutual Exchange Policy</h4>
-            <p class="text-sm">If you are unavailable on your assigned date, please coordinate a mutual exchange with another parent. The school will not provide administrative coordination for these swaps.</p>
+            <div class="mt-8 text-center pt-6 border-t border-slate-200">
+                <h4 class="font-bold text-slate-800">Questions or Suggestions?</h4>
+                <p class="text-slate-600 text-sm">Contact the administrator at:</p>
+                <a href="mailto:nafisa.preprimary.hos@gmail.com" class="text-rose-600 font-bold underline">nafisa.preprimary.hos@gmail.com</a>
+            </div>
         </div>
     </div>
 
-    <!-- Recipe Modal -->
-    <div id="recipeModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg p-8 max-h-[80vh] overflow-y-auto">
-            <h3 id="modalDishTitle" class="text-3xl font-bold font-header text-orange-600 mb-4"></h3>
-            <p id="modalStudentName" class="text-lg font-bold text-slate-800 mb-4"></p>
-            <div id="modalInstructions" class="text-slate-600 text-sm space-y-2"></div>
-            <button onclick="document.getElementById('recipeModal').classList.add('hidden')" class="mt-8 w-full bg-slate-800 text-white py-3 rounded-2xl font-bold">Close</button>
+    <!-- Recipe Detail Modal -->
+    <div id="recipeModal" class="hidden fixed inset-0 bg-black/70 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-[2rem] w-full max-w-lg p-8 shadow-2xl max-h-[80vh] overflow-y-auto">
+            <h3 id="modalDish" class="text-2xl font-bold font-header text-rose-600"></h3>
+            <p id="modalInfo" class="text-sm font-bold text-slate-500 mb-6"></p>
+            <div id="modalInstructions" class="text-slate-700 space-y-4 text-sm"></div>
+            <button onclick="document.getElementById('recipeModal').classList.add('hidden')" class="mt-8 w-full bg-slate-800 text-white py-3 rounded-xl font-bold">Close</button>
         </div>
     </div>
 
     <script>
-        const dishDetails = [
-            { date: "21 JUL", icon: "🍱", dish: "Mini Vegetable Idli", color: "tuesday", portions: "3 Mini Idlis", side: "½ cup cucumber", recipe: ["1. Mix semolina with yogurt.", "2. Add grated veggies.", "3. Steam for 10 minutes."] },
-            { date: "22 JUL", icon: "🫓", dish: "Paneer Paratha", color: "wednesday", portions: "1 Medium Paratha", side: "½ cup carrot/beetroot", recipe: ["1. Grate paneer with spices.", "2. Stuff into dough.", "3. Roast until golden."] },
-            { date: "23 JUL", icon: "🥞", dish: "Veg Besan Chilla", color: "thursday", portions: "2 Small Chillas", side: "½ cup cucumber", recipe: ["1. Whisk besan with veggies.", "2. Pour onto hot pan.", "3. Cook until crispy."] },
-            { date: "24 JUL", icon: "🍝", dish: "Whole Wheat Pasta", color: "friday", portions: "1 Small Bowl", side: "½ cup tomatoes", recipe: ["1. Boil pasta.", "2. Prepare tomato sauce.", "3. Toss with veggies."] },
-            { date: "28 JUL", icon: "🌯", dish: "Chicken-Roti", color: "tuesday", portions: "1 Medium Wrap", side: "½ cup cucumber", recipe: ["1. Sauté chicken.", "2. Place in soft roti.", "3. Roll tightly."] },
-            { date: "29 JUL", icon: "🧆", dish: "Vegetable Appe", color: "wednesday", portions: "4-5 Mini Appes", side: "½ cup carrot/beetroot", recipe: ["1. Mix batter with veggies.", "2. Pour in appe pan.", "3. Brown both sides."] },
-            { date: "30 JUL", icon: "🥟", dish: "Keema-Potato Samosa", color: "thursday", portions: "2 Small Samosas", side: "½ cup cucumber", recipe: ["1. Stuff dough with filling.", "2. Seal edges.", "3. Bake until crisp."] },
-            { date: "31 JUL", icon: "🍕", dish: "Mini Veg Pizza", color: "friday", portions: "2 Mini Pizzas", side: "½ cup tomatoes", recipe: ["1. Top roti with sauce/veggies.", "2. Add cheese.", "3. Bake."] }
+        const dishData = [
+            { date: "20 JUL (MON)", dish: "SELF LUNCH BOX DAY", portion: "Student's choice", side: "Student's choice", recipe: "Students bring their own home-cooked nutritious meal." },
+            { date: "21 JUL (TUE)", dish: "Mini Vegetable Idli", portion: "3 Mini Idlis", side: "½ cup cucumber", recipe: "1. Mix semolina with curd. 2. Add grated carrots/peas. 3. Steam 10 mins." },
+            { date: "22 JUL (WED)", dish: "Paneer Paratha", portion: "1 Medium Paratha", side: "½ cup carrot", recipe: "1. Grate paneer; mix with herbs. 2. Stuff in dough. 3. Roast with ghee." },
+            { date: "23 JUL (THU)", dish: "Veg Besan Chilla", portion: "2 Small Chillas", side: "½ cup cucumber", recipe: "1. Whisk besan, veggies, spices. 2. Cook on non-stick pan till golden." },
+            { date: "24 JUL (FRI)", dish: "Whole Wheat Pasta", portion: "1 Small Bowl", side: "½ cup tomato", recipe: "1. Boil pasta. 2. Sauté veggies. 3. Toss with tomato puree and herbs." },
+            { date: "27 JUL (MON)", dish: "SELF LUNCH BOX DAY", portion: "Student's choice", side: "Student's choice", recipe: "Students bring their own home-cooked nutritious meal." },
+            { date: "28 JUL (TUE)", dish: "Chicken-Roti Wrap", portion: "1 Medium Wrap", side: "½ cup cucumber", recipe: "1. Cook chicken strips. 2. Wrap in roti. 3. Add 1 tbsp Egg Mayonnaise (Blend 1 egg, 1 cup sunflower oil, 1 tsp mustard, pinch salt)." },
+            { date: "29 JUL (WED)", dish: "Vegetable Appe", portion: "5 Mini Appes", side: "½ cup carrot", recipe: "1. Mix batter with chopped veggies. 2. Cook in appe pan until crisp." },
+            { date: "30 JUL (THU)", dish: "Keema-Potato Samosa", portion: "2 Small Samosas", side: "½ cup cucumber", recipe: "1. Fill dough with cooked minced meat/potato. 2. Bake until golden." },
+            { date: "31 JUL (FRI)", dish: "Mini Veg Pizza", portion: "2 Mini Pizzas", side: "½ cup tomato", recipe: "1. Roti base. 2. Tomato sauce, cheese, veggies. 3. Bake." }
         ];
 
-        const classRosters = {
-            nursery: { name: "Nursery", students: ["Fatema Bilaspurwala", "Nafisa Shakir", "Abbas Tyerwala", "Zainab Faizy", "Husaina Hamid", "Juzer Rangwala", "Burhanuddin Rangwala", "Saifuddin Imadi"] },
-            lkg: { name: "LKG", students: ["Nafisa Bahrainwala", "Aliasger Ragib", "Hasan Baran wala", "Husaina Rangwala", "Mohammad Lokhandwala", "Nisreen Medical wala", "Fatema Mhowwala", "Insiya Shakir"] },
-            pre1: { name: "Pre-First", students: ["Ajab sailanawala", "Amatullah Ratlamwala", "Burhanuddin Bahrainwala", "Burhanuddin Muffadal Patanwala", "Burhanuddin Juzer Patanwala", "Husain Kushalgarh", "Hussaina kantabatwala", "Mohammed Rangwala"] }
+        const classes = {
+            nursery: { name: "Nursery", students: ["-", "Fatema Bilaspurwala", "Nafisa Shakir", "Abbas Tyerwala", "Zainab Faizy", "-", "Husaina Hamid", "Juzer Rangwala", "Burhanuddin Rangwala", "Saifuddin Imadi"] },
+            lkg: { name: "LKG", students: ["-", "Nafisa Bahrainwala", "Aliasger Ragib", "Hasan Baran wala", "Husaina Rangwala", "-", "Mohammad Lokhandwala", "Nisreen Medical wala", "Fatema Mhowwala", "Insiya Shakir"] },
+            pre1: { name: "Pre-First", students: ["-", "Ajab sailanawala", "Amatullah Ratlamwala", "Burhanuddin Bahrainwala", "Burhanuddin Muffadal Patanwala", "-", "Husain Kushalgarh", "Hussaina kantabatwala", "Mohammed Rangwala", "M. Rangwala"] }
         };
 
         const params = new URLSearchParams(window.location.search);
         const className = params.get('class') || 'nursery';
-        const selectedClass = classRosters[className];
+        const data = classes[className];
 
-        document.getElementById('classNameDisplay').innerText = selectedClass.name;
+        document.getElementById('classNameHeader').innerText = "Class: " + data.name;
         const grid = document.getElementById('plannerGrid');
 
-        dishDetails.forEach((item, index) => {
-            const student = selectedClass.students[index];
+        dishData.forEach((item, index) => {
+            const student = data.students[index];
             grid.innerHTML += `
-                <div class="rounded-3xl border-2 p-5 day-column-${item.color} shadow-md flex flex-col">
-                    <div class="header-tab-${item.color} text-white text-center py-1 rounded-2xl font-header font-bold mb-3 uppercase text-sm">${item.date}</div>
-                    <div class="text-4xl mb-2">${item.icon}</div>
-                    <h3 class="font-bold text-slate-800 text-lg">${item.dish}</h3>
-                    <p class="text-slate-800 font-extrabold text-xl mt-2 mb-4 bg-white/50 p-2 rounded-xl text-center">${student}</p>
+                <div class="bg-white p-5 rounded-3xl border shadow-lg flex flex-col">
+                    <span class="text-rose-500 font-bold text-xs">${item.date}</span>
+                    <h3 class="font-bold text-slate-800 text-sm mt-1">${item.dish}</h3>
+                    <p class="text-lg font-extrabold text-rose-600 my-3 bg-rose-50 p-3 rounded-2xl text-center">${student}</p>
                     <div class="text-xs text-slate-600 space-y-1 mb-4 flex-grow">
-                        <p><strong>Main:</strong> ${item.portions}</p>
-                        <p><strong>Side:</strong> ${item.side}</p>
+                        <p><b>Main Portion:</b> ${item.portion}</p>
+                        <p><b>Side Portion:</b> ${item.side}</p>
                     </div>
-                    <button onclick="openRecipe('${item.dish}', '${student}', '${item.recipe.join('|')}')" class="w-full bg-white font-bold text-xs py-2 rounded-xl border border-slate-200 hover:bg-slate-50 transition">View Recipe</button>
+                    <button onclick="openRecipe(${index})" class="w-full bg-slate-800 text-white font-bold py-2 rounded-xl text-xs">View Recipe</button>
                 </div>`;
         });
 
-        function openRecipe(dish, student, recipe) {
-            document.getElementById('modalDishTitle').innerText = dish;
-            document.getElementById('modalStudentName').innerText = "Catered by: " + student;
-            document.getElementById('modalInstructions').innerHTML = recipe.split('|').map(s => `<p>• ${s}</p>`).join('');
+        function openRecipe(index) {
+            const item = dishData[index];
+            document.getElementById('modalDish').innerText = item.dish;
+            document.getElementById('modalInfo').innerText = "Main Portion: " + item.portion + " | Side: " + item.side;
+            document.getElementById('modalInstructions').innerText = item.recipe;
             document.getElementById('recipeModal').classList.remove('hidden');
         }
     </script>
