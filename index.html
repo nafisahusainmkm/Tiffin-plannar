@@ -161,7 +161,8 @@
     const SUPABASE_URL = "https://bjlbdlgnecrcyfwuwgkl.supabase.co"; 
     const SUPABASE_ANON_KEY = "Sb_publishable_0P_HRLYM2jMscdsoQPTVNA_nmnECwGj";
 
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    // Fixed variable naming conflict freezing execution
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const defaultSchedule = {
       "21": { date: "21 Jul", day: "Tue", menu: "Mini Vegetable Idli", qty: "4 mini idlis", side: "½ cup sliced cucumber", student: "Unassigned", theme: "orange" },
@@ -192,28 +193,36 @@
       document.getElementById('headerClassLabel').innerText = displayTitle;
       document.getElementById('titleClassLabel').innerText = displayTitle;
 
-      // Always populate local backup dictionary template initially
+      // Always populate local backup template initially so layout renders instantly
       Object.keys(defaultSchedule).forEach(day => {
         activeSchedule[day].student = "Unassigned";
       });
 
-      // Synchronize live table records directly from Supabase server across all devices
+      // Render view immediately so screen is never blank while waiting for network
+      determineViewSecurity(urlParams);
+      renderParentPlanner();
+      renderTeacherAssignments();
+      renderFeedbackWall();
+
+      // Synchronize live table records directly from Supabase server across all devices safely
       try {
-        let { data: dbSchedule, error } = await supabase.from('tiffin_data').select('*').eq('class_name', currentClassName);
+        let { data: dbSchedule, error } = await supabaseClient.from('tiffin_data').select('*').eq('class_name', currentClassName);
         if (!error && dbSchedule && dbSchedule.length > 0) {
           dbSchedule.forEach(row => {
             if (activeSchedule[row.day_id]) {
               activeSchedule[row.day_id].student = row.student_name;
             }
           });
+          renderParentPlanner();
+          renderTeacherAssignments();
         }
       } catch (err) {
-        console.log("Database fetch mismatch fallback.");
+        console.log("Database fetch fallback active.");
       }
 
-      // Synchronize Feedbacks
+      // Synchronize Feedbacks safely
       try {
-        let { data: dbFeedback, error } = await supabase.from('tiffin_feedback').select('*').eq('class_name', currentClassName).order('id', { ascending: false });
+        let { data: dbFeedback, error } = await supabaseClient.from('tiffin_feedback').select('*').eq('class_name', currentClassName).order('id', { ascending: false });
         if (!error && dbFeedback) {
           parentFeedbackList = dbFeedback.map(f => ({
             menuName: f.menu_name,
@@ -221,13 +230,9 @@
             parentName: f.parent_name,
             comment: f.comment
           }));
+          renderFeedbackWall();
         }
       } catch (e) {}
-
-      determineViewSecurity(urlParams);
-      renderParentPlanner();
-      renderTeacherAssignments();
-      renderFeedbackWall();
     }
 
     function determineViewSecurity(urlParams) {
@@ -359,7 +364,7 @@
       activeSchedule[dayId].student = assignedName;
       
       try {
-        await supabase.from('tiffin_data').upsert([
+        await supabaseClient.from('tiffin_data').upsert([
           { class_name: currentClassName, day_id: dayId, student_name: assignedName }
         ], { onConflict: 'class_name,day_id' });
       } catch (e) { console.log(e); }
@@ -380,7 +385,7 @@
       parentFeedbackList.unshift(item);
       
       try {
-        await supabase.from('tiffin_feedback').insert([
+        await supabaseClient.from('tiffin_feedback').insert([
           { class_name: currentClassName, menu_name: menuName, rating: parseInt(rating), parent_name: item.parentName, comment: item.comment }
         ]);
       } catch (e) {}
@@ -393,7 +398,7 @@
       if (!confirm("Completely reset review wall logs?")) return;
       parentFeedbackList = [];
       try {
-        await supabase.from('tiffin_feedback').delete().eq('class_name', currentClassName);
+        await supabaseClient.from('tiffin_feedback').delete().eq('class_name', currentClassName);
       } catch (e) {}
       renderFeedbackWall();
       showSnack("Reviews cleared!");
