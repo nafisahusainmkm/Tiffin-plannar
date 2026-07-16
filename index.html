@@ -47,7 +47,7 @@
       </div>
       
       <div class="flex flex-wrap items-center gap-2">
-        <div class="bg-slate-100 p-1.5 rounded-2xl flex gap-1">
+        <div id="modeToggleContainer" class="bg-slate-100 p-1.5 rounded-2xl flex gap-1">
           <button id="btnParentView" onclick="switchMode('parent')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all bg-white text-indigo-900 shadow-sm">
             👪 Parent Mode
           </button>
@@ -245,6 +245,9 @@
 
     // Start-up function
     async function startApplication() {
+      // Check for view context rules first
+      checkUrlParameters();
+
       if (!firebaseConfig) {
         document.getElementById('syncStatus').innerText = "Offline Mode (Using local device storage)";
         document.getElementById('userIdTag').innerText = "ID: Offline-Local";
@@ -278,6 +281,27 @@
         document.getElementById('syncStatus').innerText = "Database connection offline. Showing fallback.";
         renderParentPlanner();
         renderTeacherAssignments();
+      }
+    }
+
+    // NEW FUNCTION: Checks the URL for ?mode=teacher
+    function checkUrlParameters() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const modeParam = urlParams.get('mode');
+      
+      const toggleContainer = document.getElementById('modeToggleContainer');
+      const authBanner = document.getElementById('authStatusBanner');
+
+      if (modeParam === 'teacher') {
+        // Teacher Link: Show the control buttons and connection status layout
+        toggleContainer.classList.remove('hidden');
+        authBanner.classList.remove('hidden');
+        switchMode('teacher'); 
+      } else {
+        // Parent Link: Hide toggles completely, hide database diagnostic banners, force parent UI
+        toggleContainer.classList.add('hidden');
+        authBanner.classList.add('hidden');
+        switchMode('parent');
       }
     }
 
