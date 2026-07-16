@@ -161,7 +161,6 @@
     const SUPABASE_URL = "https://bjlbdlgnecrcyfwuwgkl.supabase.co"; 
     const SUPABASE_ANON_KEY = "Sb_publishable_0P_HRLYM2jMscdsoQPTVNA_nmnECwGj";
 
-    // Fixed variable naming conflict freezing execution
     const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
     const defaultSchedule = {
@@ -193,18 +192,15 @@
       document.getElementById('headerClassLabel').innerText = displayTitle;
       document.getElementById('titleClassLabel').innerText = displayTitle;
 
-      // Always populate local backup template initially so layout renders instantly
       Object.keys(defaultSchedule).forEach(day => {
         activeSchedule[day].student = "Unassigned";
       });
 
-      // Render view immediately so screen is never blank while waiting for network
       determineViewSecurity(urlParams);
       renderParentPlanner();
       renderTeacherAssignments();
       renderFeedbackWall();
 
-      // Synchronize live table records directly from Supabase server across all devices safely
       try {
         let { data: dbSchedule, error } = await supabaseClient.from('tiffin_data').select('*').eq('class_name', currentClassName);
         if (!error && dbSchedule && dbSchedule.length > 0) {
@@ -220,7 +216,6 @@
         console.log("Database fetch fallback active.");
       }
 
-      // Synchronize Feedbacks safely
       try {
         let { data: dbFeedback, error } = await supabaseClient.from('tiffin_feedback').select('*').eq('class_name', currentClassName).order('id', { ascending: false });
         if (!error && dbFeedback) {
@@ -364,10 +359,18 @@
       activeSchedule[dayId].student = assignedName;
       
       try {
-        await supabaseClient.from('tiffin_data').upsert([
+        const { error } = await supabaseClient.from('tiffin_data').upsert([
           { class_name: currentClassName, day_id: dayId, student_name: assignedName }
         ], { onConflict: 'class_name,day_id' });
-      } catch (e) { console.log(e); }
+        
+        if (error) {
+          alert("Database Error: " + error.message);
+          return;
+        }
+      } catch (e) { 
+        alert("Connection Error: Could not reach the database.");
+        return;
+      }
 
       renderParentPlanner();
       renderTeacherAssignments();
@@ -433,7 +436,7 @@
       const body = document.getElementById('recipeModalBody');
 
       const recipeMap = {
-        "21": { title: "Mini Vegetable Idli", time: "20m Prep", yield: "~20 Mini Idlis", ingredients: ["2 cups Batter", "½ cup carrots", "¼ cup green peas"], steps: ["Mix batter with grated vegetables.", "Steam in molds for 7-10 minutes."] },
+        "21": { title: "Mini Vegetable Idli", time: "20m Prep", yield: "~20 Mini Idlis", ingredients: ["2 cups Batter", "½ cup carrots", "¼ cup green peas"], steps: ["Mix battery with grated vegetables.", "Steam in molds for 7-10 minutes."] },
         "22": { title: "Paneer Paratha & Herb Dip", time: "15m Prep", yield: "3-4 Parathas", ingredients: ["Wheat Dough", "¾ cup Paneer", "½ cup Hung Curd"], steps: ["Stuff rolled flat circles with customized spiced paneer.", "Toast on tawa until golden brown."] },
         "23": { title: "Vegetable Besan Chilla", time: "10m Prep", yield: "4 small Chillas", ingredients: ["1 cup Besan Flour", "¼ cup mixed chopped veggies"], steps: ["Whisk pancake consistency batter.", "Pour onto hot flat griddle pan, flip to finish."] },
         "24": { title: "Whole Wheat Pasta", time: "15m Prep", yield: "2 Portions", ingredients: ["1 cup cooked Penne", "2 pureed fresh tomatoes", "Garlic"], steps: ["Boil whole grain penne.", "Toss with custom pureed garlic tomato base sauce."] },
