@@ -3,23 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSB Nursery | July 2026 Tiffin Planner</title>
+    <title>MSB Tiffin Planner | July 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        body {
-            font-family: 'Quicksand', sans-serif;
-            background-color: #fffaf5;
-        }
-        .font-header {
-            font-family: 'Fredoka', sans-serif;
-        }
+        body { font-family: 'Quicksand', sans-serif; background-color: #fffaf5; }
+        .font-header { font-family: 'Fredoka', sans-serif; }
         .day-column-tuesday { background-color: #e8f5e9; border-color: #a5d6a7; }
         .day-column-wednesday { background-color: #fff3e0; border-color: #ffcc80; }
         .day-column-thursday { background-color: #e0f2f1; border-color: #80cbc4; }
         .day-column-friday { background-color: #fce4ec; border-color: #f8bbd0; }
-        
         .header-tab-tuesday { background-color: #4caf50; }
         .header-tab-wednesday { background-color: #ff9800; }
         .header-tab-thursday { background-color: #009688; }
@@ -28,448 +21,93 @@
 </head>
 <body class="pb-20">
 
-    <!-- Decorative Top Background Elements -->
+    <!-- Header Section -->
     <div class="relative overflow-hidden bg-gradient-to-b from-amber-100 to-amber-50 pt-10 pb-8 px-4 rounded-b-[4rem] border-b-4 border-amber-200">
-        <!-- Floating shapes -->
-        <div class="absolute top-4 left-6 text-yellow-400 text-5xl animate-bounce duration-1000"><i class="fa-solid fa-sun"></i></div>
-        <div class="absolute top-10 right-10 text-rose-300 text-3xl"><i class="fa-solid fa-heart"></i></div>
-        <div class="absolute bottom-4 left-1/4 text-emerald-300 text-2xl"><i class="fa-solid fa-leaf"></i></div>
-
-        <!-- Main Poster Title Wrapper -->
         <div class="max-w-4xl mx-auto text-center relative z-10">
-            <div class="inline-block bg-white text-orange-600 px-6 py-1.5 rounded-full text-xs font-bold shadow-md border-2 border-orange-200 uppercase tracking-widest font-header mb-3">
-                MSB Educational Institute
-            </div>
-            <h1 class="text-5xl md:text-6xl font-extrabold text-orange-500 font-header drop-shadow-sm tracking-wide">
-                JULY 2026
-            </h1>
-            <div class="inline-block relative my-2">
-                <span class="block bg-rose-500 text-white font-header text-3xl md:text-4xl font-bold px-8 py-2 rounded-2xl transform -rotate-1 shadow-md">
-                    TIFFIN PLANNER
-                </span>
-            </div>
-            <p class="text-slate-600 font-semibold text-lg mt-3">
-                Nursery Class • Healthy Food • Happy Mood • Stronger You!
-            </p>
+            <h1 id="classNameDisplay" class="text-5xl font-extrabold text-orange-500 font-header tracking-wide uppercase">Class Name</h1>
+            <span class="block bg-rose-500 text-white font-header text-3xl font-bold px-8 py-2 rounded-2xl shadow-md my-4 inline-block">JULY 2026 TIFFIN PLANNER</span>
+            <p class="text-slate-600 font-semibold text-lg">Healthy Food • Happy Mood</p>
         </div>
     </div>
 
-    <!-- Main Container -->
     <div class="max-w-6xl mx-auto px-4 mt-8">
-        
-        <!-- Interactive Monday Reminder Banner -->
-        <div class="bg-gradient-to-r from-amber-400 to-orange-400 text-white p-5 rounded-3xl shadow-lg mb-8 flex flex-col sm:flex-row items-center gap-4 border-2 border-amber-300">
-            <div class="bg-white/20 p-3 rounded-full text-3xl">
-                <i class="fa-solid fa-star"></i>
-            </div>
-            <div class="text-center sm:text-left">
-                <h4 class="font-bold text-xl font-header">Monday Choice Day!</h4>
-                <p class="text-sm opacity-95">Parents may send any healthy, nutritious tiffin of their own choice for their child on Mondays.</p>
-            </div>
-        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6" id="plannerGrid"></div>
 
-        <!-- Weekly Planner Grid Columns -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-            <!-- TUESDAY COLUMN -->
-            <div class="rounded-3xl border-2 p-4 day-column-tuesday shadow-md flex flex-col justify-between">
-                <div>
-                    <div class="header-tab-tuesday text-white text-center py-2 px-4 rounded-2xl font-header font-bold text-lg mb-4 shadow-sm">
-                        TUESDAY
-                    </div>
-                    
-                    <!-- Week 1: July 21 -->
-                    <div class="bg-white p-5 rounded-2xl border-2 border-green-100 shadow-sm mb-4">
-                        <span class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-0.5 rounded-full">21 JULY</span>
-                        <h3 class="font-bold text-slate-800 text-lg mt-2">Mini Vegetable Idli</h3>
-                        <div class="text-xs text-slate-500 space-y-1 mt-2">
-                            <p><i class="fa-solid fa-bowl-food text-green-600 mr-1"></i> <strong>Portion:</strong> 3 Mini Idlis</p>
-                            <p><i class="fa-solid fa-apple-whole text-emerald-600 mr-1"></i> <strong>Side:</strong> ½ cup cucumber</p>
-                        </div>
-                        <p class="text-[11px] text-indigo-600 font-semibold mt-3 pt-2 border-t border-slate-100">Catering: Fatema Bilaspurwala</p>
-                        <button onclick="showRecipe(0)" class="w-full mt-3 bg-green-50 text-green-700 font-bold text-xs py-2 rounded-xl border border-green-200 hover:bg-green-100 transition">
-                            <i class="fa-solid fa-receipt mr-1"></i> View Recipe
-                        </button>
-                    </div>
-
-                    <!-- Week 2: July 28 -->
-                    <div class="bg-white p-5 rounded-2xl border-2 border-green-100 shadow-sm">
-                        <span class="bg-green-100 text-green-700 text-xs font-bold px-2.5 py-0.5 rounded-full">28 JULY</span>
-                        <h3 class="font-bold text-slate-800 text-lg mt-2">Chicken-Roti</h3>
-                        <div class="text-xs text-slate-500 space-y-1 mt-2">
-                            <p><i class="fa-solid fa-bowl-food text-green-600 mr-1"></i> <strong>Portion:</strong> 1 Medium Wrap</p>
-                            <p><i class="fa-solid fa-apple-whole text-emerald-600 mr-1"></i> <strong>Side:</strong> ½ cup cucumber</p>
-                        </div>
-                        <p class="text-[11px] text-indigo-600 font-semibold mt-3 pt-2 border-t border-slate-100">Catering: Husaina Hamid</p>
-                        <button onclick="showRecipe(4)" class="w-full mt-3 bg-green-50 text-green-700 font-bold text-xs py-2 rounded-xl border border-green-200 hover:bg-green-100 transition">
-                            <i class="fa-solid fa-receipt mr-1"></i> View Recipe
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- WEDNESDAY COLUMN -->
-            <div class="rounded-3xl border-2 p-4 day-column-wednesday shadow-md flex flex-col justify-between">
-                <div>
-                    <div class="header-tab-wednesday text-white text-center py-2 px-4 rounded-2xl font-header font-bold text-lg mb-4 shadow-sm">
-                        WEDNESDAY
-                    </div>
-
-                    <!-- Week 1: July 22 -->
-                    <div class="bg-white p-5 rounded-2xl border-2 border-orange-100 shadow-sm mb-4">
-                        <span class="bg-orange-100 text-orange-700 text-xs font-bold px-2.5 py-0.5 rounded-full">22 JULY</span>
-                        <h3 class="font-bold text-slate-800 text-lg mt-2">Paneer Paratha</h3>
-                        <div class="text-xs text-slate-500 space-y-1 mt-2">
-                            <p><i class="fa-solid fa-bowl-food text-orange-600 mr-1"></i> <strong>Portion:</strong> 1 Medium Paratha</p>
-                            <p><i class="fa-solid fa-apple-whole text-orange-600 mr-1"></i> <strong>Side:</strong> ½ cup carrot/beetroot</p>
-                        </div>
-                        <p class="text-[11px] text-indigo-600 font-semibold mt-3 pt-2 border-t border-slate-100">Catering: Nafisa Shakir</p>
-                        <button onclick="showRecipe(1)" class="w-full mt-3 bg-orange-50 text-orange-700 font-bold text-xs py-2 rounded-xl border border-orange-200 hover:bg-orange-100 transition">
-                            <i class="fa-solid fa-receipt mr-1"></i> View Recipe
-                        </button>
-                    </div>
-
-                    <!-- Week 2: July 29 -->
-                    <div class="bg-white p-5 rounded-2xl border-2 border-orange-100 shadow-sm">
-                        <span class="bg-orange-100 text-orange-700 text-xs font-bold px-2.5 py-0.5 rounded-full">29 JULY</span>
-                        <h3 class="font-bold text-slate-800 text-lg mt-2">Vegetable Appe</h3>
-                        <div class="text-xs text-slate-500 space-y-1 mt-2">
-                            <p><i class="fa-solid fa-bowl-food text-orange-600 mr-1"></i> <strong>Portion:</strong> 4-5 Mini Appes</p>
-                            <p><i class="fa-solid fa-apple-whole text-orange-600 mr-1"></i> <strong>Side:</strong> ½ cup carrot/beetroot</p>
-                        </div>
-                        <p class="text-[11px] text-indigo-600 font-semibold mt-3 pt-2 border-t border-slate-100">Catering: Juzer Rangwala</p>
-                        <button onclick="showRecipe(5)" class="w-full mt-3 bg-orange-50 text-orange-700 font-bold text-xs py-2 rounded-xl border border-orange-200 hover:bg-orange-100 transition">
-                            <i class="fa-solid fa-receipt mr-1"></i> View Recipe
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- THURSDAY COLUMN -->
-            <div class="rounded-3xl border-2 p-4 day-column-thursday shadow-md flex flex-col justify-between">
-                <div>
-                    <div class="header-tab-thursday text-white text-center py-2 px-4 rounded-2xl font-header font-bold text-lg mb-4 shadow-sm">
-                        THURSDAY
-                    </div>
-
-                    <!-- Week 1: July 23 -->
-                    <div class="bg-white p-5 rounded-2xl border-2 border-teal-100 shadow-sm mb-4">
-                        <span class="bg-teal-100 text-teal-700 text-xs font-bold px-2.5 py-0.5 rounded-full">23 JULY</span>
-                        <h3 class="font-bold text-slate-800 text-lg mt-2">Veg Besan Chilla</h3>
-                        <div class="text-xs text-slate-500 space-y-1 mt-2">
-                            <p><i class="fa-solid fa-bowl-food text-teal-600 mr-1"></i> <strong>Portion:</strong> 2 Small Chillas</p>
-                            <p><i class="fa-solid fa-apple-whole text-teal-600 mr-1"></i> <strong>Side:</strong> ½ cup cucumber</p>
-                        </div>
-                        <p class="text-[11px] text-indigo-600 font-semibold mt-3 pt-2 border-t border-slate-100">Catering: Abbas Tyerwala</p>
-                        <button onclick="showRecipe(2)" class="w-full mt-3 bg-teal-50 text-teal-700 font-bold text-xs py-2 rounded-xl border border-teal-200 hover:bg-teal-100 transition">
-                            <i class="fa-solid fa-receipt mr-1"></i> View Recipe
-                        </button>
-                    </div>
-
-                    <!-- Week 2: July 30 -->
-                    <div class="bg-white p-5 rounded-2xl border-2 border-teal-100 shadow-sm">
-                        <span class="bg-teal-100 text-teal-700 text-xs font-bold px-2.5 py-0.5 rounded-full">30 JULY</span>
-                        <h3 class="font-bold text-slate-800 text-lg mt-2">Keema+Potato Samosa</h3>
-                        <div class="text-xs text-slate-500 space-y-1 mt-2">
-                            <p><i class="fa-solid fa-bowl-food text-teal-600 mr-1"></i> <strong>Portion:</strong> 2 Small Samosas</p>
-                            <p><i class="fa-solid fa-apple-whole text-teal-600 mr-1"></i> <strong>Side:</strong> ½ cup cucumber</p>
-                        </div>
-                        <p class="text-[11px] text-indigo-600 font-semibold mt-3 pt-2 border-t border-slate-100">Catering: Burhanuddin Rangwala</p>
-                        <button onclick="showRecipe(6)" class="w-full mt-3 bg-teal-50 text-teal-700 font-bold text-xs py-2 rounded-xl border border-teal-200 hover:bg-teal-100 transition">
-                            <i class="fa-solid fa-receipt mr-1"></i> View Recipe
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- FRIDAY COLUMN -->
-            <div class="rounded-3xl border-2 p-4 day-column-friday shadow-md flex flex-col justify-between">
-                <div>
-                    <div class="header-tab-friday text-white text-center py-2 px-4 rounded-2xl font-header font-bold text-lg mb-4 shadow-sm">
-                        FRIDAY
-                    </div>
-
-                    <!-- Week 1: July 24 -->
-                    <div class="bg-white p-5 rounded-2xl border-2 border-rose-100 shadow-sm mb-4">
-                        <span class="bg-rose-100 text-rose-700 text-xs font-bold px-2.5 py-0.5 rounded-full">24 JULY</span>
-                        <h3 class="font-bold text-slate-800 text-lg mt-2">Whole Wheat Pasta</h3>
-                        <div class="text-xs text-slate-500 space-y-1 mt-2">
-                            <p><i class="fa-solid fa-bowl-food text-rose-600 mr-1"></i> <strong>Portion:</strong> 1 Small Bowl</p>
-                            <p><i class="fa-solid fa-apple-whole text-rose-600 mr-1"></i> <strong>Side:</strong> ½ cup tomatoes</p>
-                        </div>
-                        <p class="text-[11px] text-indigo-600 font-semibold mt-3 pt-2 border-t border-slate-100">Catering: Zainab Faizy</p>
-                        <button onclick="showRecipe(3)" class="w-full mt-3 bg-rose-50 text-rose-700 font-bold text-xs py-2 rounded-xl border border-rose-200 hover:bg-rose-100 transition">
-                            <i class="fa-solid fa-receipt mr-1"></i> View Recipe
-                        </button>
-                    </div>
-
-                    <!-- Week 2: July 31 -->
-                    <div class="bg-white p-5 rounded-2xl border-2 border-rose-100 shadow-sm">
-                        <span class="bg-rose-100 text-rose-700 text-xs font-bold px-2.5 py-0.5 rounded-full">31 JULY</span>
-                        <h3 class="font-bold text-slate-800 text-lg mt-2">Mini Veg Pizza</h3>
-                        <div class="text-xs text-slate-500 space-y-1 mt-2">
-                            <p><i class="fa-solid fa-bowl-food text-rose-600 mr-1"></i> <strong>Portion:</strong> 2 Mini Pizzas</p>
-                            <p><i class="fa-solid fa-apple-whole text-rose-600 mr-1"></i> <strong>Side:</strong> ½ cup tomatoes</p>
-                        </div>
-                        <p class="text-[11px] text-indigo-600 font-semibold mt-3 pt-2 border-t border-slate-100">Catering: Saifuddin Imadi</p>
-                        <button onclick="showRecipe(7)" class="w-full mt-3 bg-rose-50 text-rose-700 font-bold text-xs py-2 rounded-xl border border-rose-200 hover:bg-rose-100 transition">
-                            <i class="fa-solid fa-receipt mr-1"></i> View Recipe
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <!-- HEALTHY SIDE OPTIONS SECTION -->
+        <!-- Healthy Alternatives -->
         <div class="mt-12 bg-white rounded-3xl p-6 shadow-md border-2 border-amber-200">
-            <h3 class="font-header text-2xl font-bold text-amber-600 text-center mb-6">
-                🍎 HEALTHY SIDE ALTERNATIVES
-            </h3>
-            <p class="text-slate-600 text-sm text-center mb-8 max-w-2xl mx-auto">
-                If the fresh fruits or vegetables assigned above are unavailable, parents are encouraged to send one of these four healthy alternative sides instead:
-            </p>
+            <h3 class="font-header text-2xl font-bold text-amber-600 text-center mb-6">🍎 HEALTHY SIDE ALTERNATIVES</h3>
             <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm">
-                    <div class="text-4xl mb-2">🍿</div>
-                    <h5 class="font-bold text-slate-800">Makhana</h5>
-                    <p class="text-xs text-slate-500 mt-1">Lightly Roasted</p>
-                </div>
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm">
-                    <div class="text-4xl mb-2">🥒</div>
-                    <h5 class="font-bold text-slate-800">Cucumber</h5>
-                    <p class="text-xs text-slate-500 mt-1">Slices or Sticks</p>
-                </div>
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm">
-                    <div class="text-4xl mb-2">🥜</div>
-                    <h5 class="font-bold text-slate-800">Chikki / Peanuts</h5>
-                    <p class="text-xs text-slate-500 mt-1">Energy-boosting snack</p>
-                </div>
-                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm">
-                    <div class="text-4xl mb-2">📅</div>
-                    <h5 class="font-bold text-slate-800">1 Date</h5>
-                    <p class="text-xs text-slate-500 mt-1">Sweet & wholesome</p>
-                </div>
+                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm"><div class="text-4xl mb-2">🍿</div><h5 class="font-bold text-slate-800">Roasted Makhana</h5></div>
+                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm"><div class="text-4xl mb-2">🥜</div><h5 class="font-bold text-slate-800">Peanuts</h5></div>
+                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm"><div class="text-4xl mb-2">🥥</div><h5 class="font-bold text-slate-800">Dry Fruits</h5></div>
+                <div class="bg-amber-50 p-4 rounded-2xl border border-amber-100 text-center shadow-sm"><div class="text-4xl mb-2">📅</div><h5 class="font-bold text-slate-800">Dates</h5></div>
             </div>
         </div>
 
-        <!-- MUTUAL EXCHANGE DISCLAIMER -->
-        <div class="mt-8 bg-amber-50 border-2 border-dashed border-amber-300 p-6 rounded-3xl shadow-sm text-slate-700">
-            <div class="flex items-start gap-4">
-                <div class="text-amber-500 text-3xl mt-1">
-                    <i class="fa-solid fa-circle-info"></i>
-                </div>
-                <div>
-                    <h4 class="font-bold text-lg font-header text-amber-700 mb-1">Mutual Exchange Policy</h4>
-                    <p class="text-sm leading-relaxed">
-                        If you find yourself unavailable or uncomfortable preparing tiffin on your assigned date, you are highly encouraged to contact and mutually coordinate a date exchange with another parent. Please kindly note that the school operates on a self-managed structure for swaps and will not provide administrative involvement or coordination for these exchanges.
-                    </p>
-                </div>
-            </div>
+        <!-- Policies -->
+        <div class="mt-8 bg-amber-50 border-2 border-dashed border-amber-300 p-6 rounded-3xl text-slate-700">
+            <h4 class="font-bold text-lg font-header text-amber-700 mb-2">Mutual Exchange Policy</h4>
+            <p class="text-sm">If you are unavailable on your assigned date, please coordinate a mutual exchange with another parent. The school will not provide administrative coordination for these swaps.</p>
         </div>
-
-        <!-- Direct Email Feedback Section -->
-        <div class="mt-12 bg-white p-8 rounded-3xl border-2 border-orange-200 shadow-md text-center max-w-xl mx-auto">
-            <h2 class="text-2xl font-bold font-header text-orange-600 mb-2">Have Feedback or Questions?</h2>
-            <p class="text-slate-500 text-sm mb-6">We would love to hear from you. Tap below to send us your suggestions directly.</p>
-            <a href="mailto:nafisa.preprimary.hos@gmail.com" class="inline-block bg-orange-500 text-white px-10 py-4 rounded-2xl font-bold text-lg hover:bg-orange-600 hover:scale-105 shadow-lg transition-transform duration-200">
-                <i class="fa-solid fa-envelope mr-2"></i> Email the School
-            </a>
-        </div>
-
     </div>
 
-    <!-- Interactive Recipe Modal Sheet -->
+    <!-- Recipe Modal -->
     <div id="recipeModal" class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg overflow-hidden transform scale-95 transition-transform duration-300">
-            <!-- Modal Header -->
-            <div id="modalHeaderBg" class="p-6 text-white text-center relative">
-                <button onclick="closeRecipe()" class="absolute top-4 right-4 text-white hover:text-orange-100 text-2xl transition">
-                    <i class="fa-solid fa-circle-xmark"></i>
-                </button>
-                <div id="modalIcon" class="text-5xl mb-2">🍳</div>
-                <h3 id="modalDishTitle" class="text-3xl font-bold font-header">Dish Title</h3>
-                <p id="modalStudentName" class="text-sm opacity-90 mt-1">Catered by: Name</p>
-            </div>
-            <!-- Modal Body -->
-            <div class="p-8 max-h-[60vh] overflow-y-auto">
-                <div class="mb-6">
-                    <h5 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-carrot text-orange-500"></i> Portion Details
-                    </h5>
-                    <p id="modalPortions" class="text-slate-600 text-sm bg-orange-50 p-3 rounded-xl border border-orange-100">
-                        Main portions and sides
-                    </p>
-                </div>
-                <div>
-                    <h5 class="font-bold text-slate-800 text-lg mb-2 flex items-center gap-2">
-                        <i class="fa-solid fa-utensils text-orange-500"></i> Step-by-Step Instructions
-                    </h5>
-                    <ol id="modalInstructions" class="list-decimal list-inside text-slate-600 text-sm space-y-3 pl-2">
-                        <!-- Filled dynamically -->
-                    </ol>
-                </div>
-            </div>
-            <!-- Modal Footer -->
-            <div class="p-6 bg-slate-50 border-t border-slate-100 flex justify-end">
-                <button onclick="closeRecipe()" class="bg-slate-800 text-white font-bold px-8 py-3 rounded-2xl hover:bg-slate-700 transition">
-                    Done
-                </button>
-            </div>
+        <div class="bg-white rounded-[2.5rem] shadow-2xl w-full max-w-lg p-8 max-h-[80vh] overflow-y-auto">
+            <h3 id="modalDishTitle" class="text-3xl font-bold font-header text-orange-600 mb-4"></h3>
+            <p id="modalStudentName" class="text-lg font-bold text-slate-800 mb-4"></p>
+            <div id="modalInstructions" class="text-slate-600 text-sm space-y-2"></div>
+            <button onclick="document.getElementById('recipeModal').classList.add('hidden')" class="mt-8 w-full bg-slate-800 text-white py-3 rounded-2xl font-bold">Close</button>
         </div>
     </div>
 
     <script>
-        const recipes = [
-            {
-                dish: "Mini Vegetable Idli",
-                student: "Fatema Bilaspurwala",
-                icon: "🍱",
-                color: "bg-gradient-to-r from-emerald-500 to-green-400",
-                portions: "<strong>Main portion:</strong> 3 freshly steamed mini idlis<br><strong>Side portion:</strong> ½ cup finely sliced fresh cucumbers",
-                steps: [
-                    "Whisk thick organic yogurt with clean semolina (suji) to prepare a smooth, lump-free batter.",
-                    "Finely grate nutritious carrots, beans, and fresh sweet peas, then lightly sauté them in a pan with zero spices.",
-                    "Gently fold the sautéed vegetables into the idli batter, letting it sit for 10 minutes to rise.",
-                    "Pour thin layers of batter into oiled mini idli molds.",
-                    "Steam carefully for 8-10 minutes until puffed, soft, and easy to chew for little ones."
-                ]
-            },
-            {
-                dish: "Paneer Paratha + Herb Curd",
-                student: "Nafisa Shakir",
-                icon: "🫓",
-                color: "bg-gradient-to-r from-amber-500 to-orange-400",
-                portions: "<strong>Main portion:</strong> 1 stuffed medium paratha<br><strong>Side portion:</strong> ½ cup juicy sliced carrots and beetroot",
-                steps: [
-                    "Knead a super-soft dough using high-fiber whole wheat flour and a spoon of ghee.",
-                    "Grate soft paneer finely, mixing in small pinches of coriander powder and fresh coriander leaves.",
-                    "Roll a small dough ball, place a generous pocket of paneer stuffing inside, and seal tightly.",
-                    "Roll into a neat circle gently, and roast on a medium tawa using drops of homemade ghee.",
-                    "Serve with a side of fresh curd whipped with refreshing mint leaves."
-                ]
-            },
-            {
-                dish: "Veg Besan Chilla + Mayo",
-                student: "Abbas Tyerwala",
-                icon: "🥞",
-                color: "bg-gradient-to-r from-teal-500 to-cyan-400",
-                portions: "<strong>Main portion:</strong> 2 small savory pancakes<br><strong>Side portion:</strong> ½ cup crisp sliced cucumbers",
-                steps: [
-                    "Whisk pure gram flour (besan) with pure water to create a silky, spreadable pouring batter.",
-                    "Blend in super-finely chopped baby spinach, grated carrots, and onions with a dash of pink salt.",
-                    "Pour a neat ladle onto a non-stick flat pan and spread into a medium circle.",
-                    "Shallow fry both sides on low flame with clean olive oil until beautifully golden-brown.",
-                    "Cut into easy finger-strips and pack alongside smooth eggless mayonnaise."
-                ]
-            },
-            {
-                dish: "Whole Wheat Pasta",
-                student: "Zainab Faizy",
-                icon: "🍝",
-                color: "bg-gradient-to-r from-rose-500 to-pink-400",
-                portions: "<strong>Main portion:</strong> 1 small bowl of loaded pasta<br><strong>Side portion:</strong> ½ cup juicy sweet cherry tomatoes",
-                steps: [
-                    "Boil premium whole wheat penne pasta with a pinch of salt until soft and tender.",
-                    "Blanch ripe red tomatoes, peeling them to blend into a smooth, preservative-free marinara sauce.",
-                    "Sauté sweet yellow bell peppers and tiny broccoli florets in premium extra virgin olive oil.",
-                    "Toss the pasta into the warm tomato purée along with the sautéed veggies.",
-                    "Garnish with a sprinkle of mild dried oregano and let it cool before packing."
-                ]
-            },
-            {
-                dish: "Chicken-Roti Wrap",
-                student: "Husaina Hamid",
-                icon: "🌯",
-                color: "bg-gradient-to-r from-emerald-500 to-green-400",
-                portions: "<strong>Main portion:</strong> 1 medium tightly wrapped roll<br><strong>Side portion:</strong> ½ cup crisp sliced cucumbers",
-                steps: [
-                    "Sauté tender, boneless shredded chicken breast in a skillet with butter and ground cumin.",
-                    "Knead whole wheat flour to make a soft, thin, easy-to-bite roomali-style flatbread (roti).",
-                    "Place the sautéed chicken strips down the middle of the warm roti.",
-                    "Add thin slices of raw, peeled cucumber for that fresh, satisfying crunch.",
-                    "Roll the roti tightly, wrapping the lower half in parchment paper so it doesn't fall apart."
-                ]
-            },
-            {
-                dish: "Vegetable Appe",
-                student: "Juzer Rangwala",
-                icon: "🧆",
-                color: "bg-gradient-to-r from-amber-500 to-orange-400",
-                portions: "<strong>Main portion:</strong> 4 to 5 fluffy vegetable dumplings<br><strong>Side portion:</strong> ½ cup sweet grated carrots and beetroot",
-                steps: [
-                    "Take dynamic fermented lentil batter and stir in super-finely chopped carrots and purple beetroot.",
-                    "Warm a non-stick multi-cavity appe pan, brushing each cup lightly with oil.",
-                    "Spoon the colorful batter into the wells, covering with a lid to steam cook on medium heat.",
-                    "Flip carefully after 3-4 minutes using a wooden stick once the bottom is crisp.",
-                    "Let both sides crisp to golden perfection while keeping the inside delightfully soft."
-                ]
-            },
-            {
-                dish: "Keema + Potato Samosa",
-                student: "Burhanuddin Rangwala",
-                icon: "🥟",
-                color: "bg-gradient-to-r from-teal-500 to-cyan-400",
-                portions: "<strong>Main portion:</strong> 2 small triangles<br><strong>Side portion:</strong> ½ cup refreshing sliced cucumbers",
-                steps: [
-                    "Cook lean minced meat (keema) or boiled potatoes with sweet peas and mild herbs.",
-                    "Roll out thin sheets of premium whole-wheat dough, cutting them into neat long ribbons.",
-                    "Fold the ribbons into pocket cones, filling them with the savory minced mixture.",
-                    "Seal the edges securely using a touch of water or dough paste.",
-                    "Place in an oven or air-fryer and bake at 180°C until delightfully crispy without deep frying."
-                ]
-            },
-            {
-                dish: "Mini Veg Pizza",
-                student: "Saifuddin Imadi",
-                icon: "🍕",
-                color: "bg-gradient-to-r from-rose-500 to-pink-400",
-                portions: "<strong>Main portion:</strong> 2 mini roti-pizza slices<br><strong>Side portion:</strong> ½ cup cherry tomatoes",
-                steps: [
-                    "Prepare mini, soft flatbread bases using nutritious stone-ground whole wheat.",
-                    "Coat the base with a thin layer of natural, home-blended tomato pizza sauce.",
-                    "Top with shredded, low-sodium mozzarella cheese and colorful sweet corn kernels.",
-                    "Place in an oven or on a covered non-stick pan until the cheese melts into bubbly goodness.",
-                    "Allow to cool completely to ensure the cheese remains set before packing."
-                ]
-            }
+        const dishDetails = [
+            { date: "21 JUL", icon: "🍱", dish: "Mini Vegetable Idli", color: "tuesday", portions: "3 Mini Idlis", side: "½ cup cucumber", recipe: ["1. Mix semolina with yogurt.", "2. Add grated veggies.", "3. Steam for 10 minutes."] },
+            { date: "22 JUL", icon: "🫓", dish: "Paneer Paratha", color: "wednesday", portions: "1 Medium Paratha", side: "½ cup carrot/beetroot", recipe: ["1. Grate paneer with spices.", "2. Stuff into dough.", "3. Roast until golden."] },
+            { date: "23 JUL", icon: "🥞", dish: "Veg Besan Chilla", color: "thursday", portions: "2 Small Chillas", side: "½ cup cucumber", recipe: ["1. Whisk besan with veggies.", "2. Pour onto hot pan.", "3. Cook until crispy."] },
+            { date: "24 JUL", icon: "🍝", dish: "Whole Wheat Pasta", color: "friday", portions: "1 Small Bowl", side: "½ cup tomatoes", recipe: ["1. Boil pasta.", "2. Prepare tomato sauce.", "3. Toss with veggies."] },
+            { date: "28 JUL", icon: "🌯", dish: "Chicken-Roti", color: "tuesday", portions: "1 Medium Wrap", side: "½ cup cucumber", recipe: ["1. Sauté chicken.", "2. Place in soft roti.", "3. Roll tightly."] },
+            { date: "29 JUL", icon: "🧆", dish: "Vegetable Appe", color: "wednesday", portions: "4-5 Mini Appes", side: "½ cup carrot/beetroot", recipe: ["1. Mix batter with veggies.", "2. Pour in appe pan.", "3. Brown both sides."] },
+            { date: "30 JUL", icon: "🥟", dish: "Keema-Potato Samosa", color: "thursday", portions: "2 Small Samosas", side: "½ cup cucumber", recipe: ["1. Stuff dough with filling.", "2. Seal edges.", "3. Bake until crisp."] },
+            { date: "31 JUL", icon: "🍕", dish: "Mini Veg Pizza", color: "friday", portions: "2 Mini Pizzas", side: "½ cup tomatoes", recipe: ["1. Top roti with sauce/veggies.", "2. Add cheese.", "3. Bake."] }
         ];
 
-        function showRecipe(index) {
-            const recipe = recipes[index];
-            const headerBg = document.getElementById('modalHeaderBg');
-            
-            // Clean old color classes
-            headerBg.className = "p-6 text-white text-center relative " + recipe.color;
-            
-            document.getElementById('modalIcon').innerText = recipe.icon;
-            document.getElementById('modalDishTitle').innerText = recipe.dish;
-            document.getElementById('modalStudentName').innerHTML = `<strong>Prepared by:</strong> ${recipe.student}`;
-            document.getElementById('modalPortions').innerHTML = recipe.portions;
-            
-            const stepsList = document.getElementById('modalInstructions');
-            stepsList.innerHTML = '';
-            recipe.steps.forEach(step => {
-                stepsList.innerHTML += `<li>${step}</li>`;
-            });
-            
-            const modal = document.getElementById('recipeModal');
-            modal.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // Lock background scroll
-        }
+        const classRosters = {
+            nursery: { name: "Nursery", students: ["Fatema Bilaspurwala", "Nafisa Shakir", "Abbas Tyerwala", "Zainab Faizy", "Husaina Hamid", "Juzer Rangwala", "Burhanuddin Rangwala", "Saifuddin Imadi"] },
+            lkg: { name: "LKG", students: ["Nafisa Bahrainwala", "Aliasger Ragib", "Hasan Baran wala", "Husaina Rangwala", "Mohammad Lokhandwala", "Nisreen Medical wala", "Fatema Mhowwala", "Insiya Shakir"] },
+            pre1: { name: "Pre-First", students: ["Ajab sailanawala", "Amatullah Ratlamwala", "Burhanuddin Bahrainwala", "Burhanuddin Muffadal Patanwala", "Burhanuddin Juzer Patanwala", "Husain Kushalgarh", "Hussaina kantabatwala", "Mohammed Rangwala"] }
+        };
 
-        function closeRecipe() {
-            const modal = document.getElementById('recipeModal');
-            modal.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // Unlock scroll
-        }
+        const params = new URLSearchParams(window.location.search);
+        const className = params.get('class') || 'nursery';
+        const selectedClass = classRosters[className];
 
-        // Close on overlay click
-        document.getElementById('recipeModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                closeRecipe();
-            }
+        document.getElementById('classNameDisplay').innerText = selectedClass.name;
+        const grid = document.getElementById('plannerGrid');
+
+        dishDetails.forEach((item, index) => {
+            const student = selectedClass.students[index];
+            grid.innerHTML += `
+                <div class="rounded-3xl border-2 p-5 day-column-${item.color} shadow-md flex flex-col">
+                    <div class="header-tab-${item.color} text-white text-center py-1 rounded-2xl font-header font-bold mb-3 uppercase text-sm">${item.date}</div>
+                    <div class="text-4xl mb-2">${item.icon}</div>
+                    <h3 class="font-bold text-slate-800 text-lg">${item.dish}</h3>
+                    <p class="text-slate-800 font-extrabold text-xl mt-2 mb-4 bg-white/50 p-2 rounded-xl text-center">${student}</p>
+                    <div class="text-xs text-slate-600 space-y-1 mb-4 flex-grow">
+                        <p><strong>Main:</strong> ${item.portions}</p>
+                        <p><strong>Side:</strong> ${item.side}</p>
+                    </div>
+                    <button onclick="openRecipe('${item.dish}', '${student}', '${item.recipe.join('|')}')" class="w-full bg-white font-bold text-xs py-2 rounded-xl border border-slate-200 hover:bg-slate-50 transition">View Recipe</button>
+                </div>`;
         });
+
+        function openRecipe(dish, student, recipe) {
+            document.getElementById('modalDishTitle').innerText = dish;
+            document.getElementById('modalStudentName').innerText = "Catered by: " + student;
+            document.getElementById('modalInstructions').innerHTML = recipe.split('|').map(s => `<p>• ${s}</p>`).join('');
+            document.getElementById('recipeModal').classList.remove('hidden');
+        }
     </script>
 </body>
 </html>
