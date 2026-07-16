@@ -3,168 +3,136 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MSB Tiffin Planner</title>
+  <title>MSB Educational Institute - Tiffin Planner</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Quicksand', sans-serif; }
+    .hidden { display: none !important; }
   </style>
 </head>
-<body class="bg-indigo-50 min-h-screen pb-12">
+<body class="bg-gray-50 min-h-screen p-4">
 
-  <div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="max-w-2xl mx-auto">
     
-    <!-- Header Block -->
-    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-100 mb-6 text-center">
-      <span class="text-4xl">🗓️</span>
-      <h1 class="text-3xl font-bold text-indigo-950 mt-2">July Tiffin Menu</h1>
-      <p class="text-sm text-slate-500 font-medium mt-1">MSB Educational Institute</p>
-      
-      <!-- Quick Help Note for Parents -->
-      <p class="text-xs text-indigo-600 font-semibold mt-2">💡 Tip: Tap any dish to view its quick recipe!</p>
-    </div>
-
-    <!-- ⚠️ IMPORTANT DISCLAIMER BOX -->
-    <div class="bg-amber-50 border-2 border-dashed border-amber-300 rounded-2xl p-4 mb-8 flex items-start gap-3">
-      <span class="text-xl mt-0.5">📢</span>
+    <!-- 1. Header with Monogram -->
+    <div class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm mb-6 border border-gray-100">
+      <img src="https://raw.githubusercontent.com/nafisahusainmkm/Tiffin-plannar/main/1001296689.png" alt="School Logo" class="w-16 h-16 object-contain">
       <div>
-        <h4 class="font-bold text-amber-900 text-sm">Important Note for Parents:</h4>
-        <p class="text-xs text-amber-800 font-medium mt-0.5 leading-relaxed">
-          Depending on availability or seasonal changes, healthy dry snacks like **dates, roasted makhana, or peanuts** may occasionally be sent as alternatives instead of fresh vegetables.
-        </p>
+        <h1 id="pageTitle" class="text-xl font-bold text-gray-800">July Tiffin Planner</h1>
+        <p class="text-xs text-gray-500">MSB Educational Institute, Kota</p>
       </div>
     </div>
 
-    <!-- Calendar Grid Dashboard -->
-    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-100">
-      
-      <!-- Days of the Week -->
-      <div class="grid grid-cols-7 gap-2 mb-2 text-center text-xs font-bold text-indigo-950 tracking-wider">
-        <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
-      </div>
+    <!-- 2. Disclaimer -->
+    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6 rounded-r-lg">
+      <p class="text-sm font-semibold text-amber-900">Important Note:</p>
+      <p class="text-xs text-amber-800 mt-1">
+        Instead of vegetables, you can also send healthy dry snacks like <strong>dates, roasted makhana, or peanuts</strong> as alternative side food.
+      </p>
+    </div>
 
-      <!-- Calendar Dates Matrix -->
-      <div class="grid grid-cols-7 gap-2">
-        
-        <!-- Empty Spacers (July starts on Wednesday) -->
-        <div class="bg-slate-50/50 rounded-2xl min-h-[90px]"></div>
-        <div class="bg-slate-50/50 rounded-2xl min-h-[90px]"></div>
-        <div class="bg-slate-50/50 rounded-2xl min-h-[90px]"></div>
+    <!-- 3. Calendar Grid -->
+    <div id="calendar" class="grid grid-cols-7 gap-2 text-center text-xs">
+      <div class="font-bold text-gray-400">S</div>
+      <div class="font-bold text-gray-400">M</div>
+      <div class="font-bold text-gray-400">T</div>
+      <div class="font-bold text-gray-400">W</div>
+      <div class="font-bold text-gray-400">T</div>
+      <div class="font-bold text-gray-400">F</div>
+      <div class="font-bold text-gray-400">S</div>
+      <!-- Days will be injected here -->
+    </div>
 
-        <!-- July 1 -->
-        <div onclick="showRecipe('Veg Poha', '• Wash poha and drain water.<br>• Heat oil, add mustard seeds, curry leaves, chopped onions, and turmeric.<br>• Add boiled green peas/carrots and sauté.<br>• Mix in the poha, salt, and lemon juice. Garnish with fresh coriander.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-indigo-900">1</span>
-          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Veg Poha</span>
-        </div>
-
-        <!-- July 2 -->
-        <div onclick="showRecipe('Mini Idlis', '• Use fresh idli batter.<br>• Pour small spoonfuls into a mini-idli mold plate.<br>• Steam for 7-8 minutes.<br>• Toss gently with a little ghee and mild podi powder or serve plain with mild coconut chutney.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-indigo-900">2</span>
-          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Mini Idlis</span>
-        </div>
-
-        <!-- July 3 -->
-        <div onclick="showRecipe('Stuffed Paratha', '• Mash boiled potatoes/paneer and mix with salt, cumin powder, and coriander.<br>• Roll a small ball of whole wheat dough, place the stuffing inside, and seal it.<br>• Roll it out gently.<br>• Cook on a hot tawa with ghee until golden brown.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-indigo-900">3</span>
-          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Stuffed Paratha</span>
-        </div>
-
-        <!-- July 4 (Weekend) -->
-        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-amber-700">4</span>
-          <span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span>
-        </div>
-
-        <!-- July 5 (Weekend) -->
-        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-amber-700">5</span>
-          <span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span>
-        </div>
-
-        <!-- July 6 -->
-        <div onclick="showRecipe('Cheese Sandwich', '• Butter two slices of whole wheat bread.<br>• Place a slice of cheese or spread grated cheese inside.<br>• Add thinly sliced cucumber or tomato if preferred.<br>• Toast lightly on a pan until the cheese melts.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-indigo-900">6</span>
-          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Cheese Sandwich</span>
-        </div>
-
-        <!-- July 7 -->
-        <div onclick="showRecipe('Macaroni', '• Boil macaroni pasta with a pinch of salt until soft.<br>• In a pan, heat butter, sauté finely chopped carrots, corn, and bell peppers.<br>• Add a mild tomato puree or white milk sauce.<br>• Toss the pasta in, season lightly, and serve.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-indigo-900">7</span>
-          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Macaroni</span>
-        </div>
-
-        <!-- July 8 -->
-        <div onclick="showRecipe('Aloo Puri', '• Knead wheat flour with water and oil into a firm dough.<br>• Roll out tiny round puris and deep fry in hot oil until they puff up.<br>• Cook mashed potatoes with mild cumin, turmeric, and tomato gravy to serve along.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-indigo-900">8</span>
-          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Aloo Puri</span>
-        </div>
-
-        <!-- July 9 -->
-        <div onclick="showRecipe('Dhokla Bits', '• Make a smooth batter using gram flour (besan), curd, turmeric, and water.<br>• Add a pinch of fruit salt and steam the batter immediately for 15 mins.<br>• Cut into bite-sized squares.<br>• Temper with mustard seeds and curry leaves in warm water/sugar syrup.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-indigo-900">9</span>
-          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Dhokla Bits</span>
-        </div>
-
-        <!-- July 10 -->
-        <div onclick="showRecipe('Paneer Wrap', '• Crumble or cut paneer into small cubes.<br>• Sauté with onions, bell peppers, and mild home spices.<br>• Take a cooked soft chapati, apply a thin layer of mint chutney or ketchup.<br>• Place the paneer filling in the center and roll tightly.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
-          <span class="text-xs font-bold text-indigo-900">10</span>
-          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Paneer Wrap</span>
-        </div>
-
-        <!-- Note: Remaining days will work similarly with their respective recipes. Shortened for preview clarity. -->
-        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">11</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
-        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">12</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">13</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Vermicelli</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">14</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Veg Cutlet</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">15</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Appam Rounds</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">16</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Pancake Bits</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">17</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Sabudana Khichdi</span></div>
-        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">18</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
-        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">19</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">20</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Corn Chaat</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">21</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Idli Fries</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">22</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Wheat Pasta</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">23</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Besan Chilla</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">24</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Bread Upma</span></div>
-        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">25</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
-        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">26</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">27</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Pav Bhaji Bits</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">28</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Sprout Salad</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">29</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Makhana Roast</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">30</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Fruit Platter</span></div>
-        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">31</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Special Kheer</span></div>
-
-        <div class="bg-slate-50/20 rounded-2xl min-h-[90px]"></div>
-      </div>
+    <!-- 4. Teacher Actions (Hidden by default) -->
+    <div id="teacherActions" class="mt-8 hidden text-center">
+      <button onclick="saveChanges()" class="bg-green-600 text-white py-2 px-6 rounded-lg font-bold">Save Changes</button>
     </div>
   </div>
 
-  <!-- INTERACTIVE RECIPE POPUP MODAL -->
-  <div id="recipeModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center hidden p-4 z-50">
-    <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-xl border border-indigo-50">
-      <h3 id="modalTitle" class="text-xl font-bold text-indigo-950"></h3>
-      <hr class="my-3 border-indigo-50">
-      <p class="text-xs font-bold text-indigo-900 uppercase tracking-wide">Quick Recipe:</p>
-      <p id="modalBody" class="text-sm text-slate-600 font-medium mt-1 leading-relaxed space-y-2"></p>
-      <button onclick="closeRecipe()" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl text-sm transition-colors">
-        Got it, thanks!
-      </button>
+  <!-- Recipe Modal -->
+  <div id="recipeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4">
+    <div class="bg-white p-6 rounded-2xl w-full max-w-sm">
+      <h2 id="modalTitle" class="text-lg font-bold text-gray-800 mb-2"></h2>
+      <p id="modalRecipe" class="text-sm text-gray-600 mb-4"></p>
+      <button onclick="closeModal()" class="w-full bg-gray-800 text-white py-2 rounded-lg font-bold">Close</button>
     </div>
   </div>
 
   <script>
-    function showRecipe(dishName, recipeSteps) {
-      document.getElementById('modalTitle').innerText = dishName;
-      document.getElementById('modalBody').innerHTML = recipeSteps;
+    // --- Configuration ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetClass = urlParams.get('class') || 'nursery';
+    const isTeacher = (urlParams.get('mode') === 'teacher' && urlParams.get('secret') === 'MSB2026');
+    const storageKey = `menu_${targetClass}`;
+
+    // --- Data ---
+    const recipes = {
+      "Veg Poha": "Wash poha. Heat oil, add mustard seeds, curry leaves, onions, turmeric, peas/carrots. Mix in poha and salt.",
+      "Mini Idlis": "Steam for 7-8 minutes. Toss with ghee and mild podi powder.",
+      "Stuffed Paratha": "Mash potato/paneer, season, fill in dough, roll gently, and cook on tawa with ghee.",
+      "Cheese Sandwich": "Butter bread, place cheese, toast lightly on pan.",
+      "Macaroni": "Boil pasta. Sauté carrots/corn in butter, toss pasta with mild tomato puree.",
+      "Aloo Puri": "Knead dough, make small puris, fry until puffed. Serve with potato subji.",
+      "Dhokla Bits": "Steam besan batter for 15 mins. Temper with mustard seeds.",
+      "Paneer Wrap": "Sauté paneer with onions/spices. Wrap in soft chapati with ketchup.",
+      "Vermicelli": "Roast vermicelli. Sauté mustard/onions/veggies, add water/vermicelli, cook till absorbed.",
+      "Veg Cutlet": "Mash boiled potatoes/carrots/peas with spices. Shallow fry.",
+      "Appam Rounds": "Pour rice batter into appam pan holes, cook until golden.",
+      "Pancake Bits": "Mix wheat flour/milk/jaggery. Cook small drops on skillet.",
+      "Sabudana Khichdi": "Soak sabudana. Sauté cumin/chilies/peanuts. Toss with sabudana.",
+      "Corn Chaat": "Steam corn, mix with cucumber, lemon, and salt.",
+      "Idli Fries": "Cut idli into strips, roast with ghee/podi.",
+      "Wheat Pasta": "Boil pasta, toss with olive oil, peppers, corn, herbs.",
+      "Besan Chilla": "Whisk besan, water, coriander, carom seeds. Spread thinly on pan.",
+      "Bread Upma": "Sauté mustard/onions/turmeric. Add bread bits.",
+      "Pav Bhaji Bits": "Mash veggies, cook with spices. Serve with buttered mini pavs.",
+      "Sprout Salad": "Steam sprouts, mix with tomato, pomegranate, lemon.",
+      "Makhana Roast": "Dry roast makhana with ghee, salt, and turmeric.",
+      "Fruit Platter": "Chop fresh seasonal fruits.",
+      "Special Kheer": "Simmer milk and rice until thick, sweeten with jaggery."
+    };
+
+    let menuData = JSON.parse(localStorage.getItem(storageKey)) || {
+      1: "Veg Poha", 2: "Mini Idlis", 3: "Stuffed Paratha", 6: "Cheese Sandwich",
+      7: "Macaroni", 8: "Aloo Puri", 9: "Dhokla Bits", 10: "Paneer Wrap",
+      13: "Vermicelli", 14: "Veg Cutlet", 15: "Appam Rounds", 16: "Pancake Bits",
+      17: "Sabudana Khichdi", 20: "Corn Chaat", 21: "Idli Fries", 22: "Wheat Pasta",
+      23: "Besan Chilla", 24: "Bread Upma", 27: "Pav Bhaji Bits", 28: "Sprout Salad",
+      29: "Makhana Roast", 30: "Fruit Platter", 31: "Special Kheer"
+    };
+
+    // --- Logic ---
+    const calendar = document.getElementById('calendar');
+    if (isTeacher) document.getElementById('teacherActions').classList.remove('hidden');
+
+    // 3 empty spacers for July 1st (Wednesday)
+    for(let i=0; i<3; i++) calendar.innerHTML += `<div></div>`;
+
+    for(let i=1; i<=31; i++) {
+      let dish = menuData[i] || "";
+      let cell = document.createElement('div');
+      cell.className = "p-2 border rounded-lg bg-white h-16 flex flex-col items-center justify-center cursor-pointer";
+      
+      if(isTeacher) {
+        cell.innerHTML = `<span class="text-[8px]">${i}</span><input value="${dish}" onchange="update(${i}, this.value)" class="w-full text-center text-[10px]">`;
+      } else {
+        cell.onclick = () => openModal(dish);
+        cell.innerHTML = `<span class="text-[8px]">${i}</span><span class="text-[10px] font-bold">${dish}</span>`;
+      }
+      calendar.appendChild(cell);
+    }
+
+    function update(day, val) { menuData[day] = val; }
+    function saveChanges() { localStorage.setItem(storageKey, JSON.stringify(menuData)); alert("Saved!"); }
+    
+    function openModal(dish) {
+      if(!dish || !recipes[dish]) return;
+      document.getElementById('modalTitle').innerText = dish;
+      document.getElementById('modalRecipe').innerText = recipes[dish];
       document.getElementById('recipeModal').classList.remove('hidden');
     }
-    function closeRecipe() {
-      document.getElementById('recipeModal').classList.add('hidden');
-    }
+    function closeModal() { document.getElementById('recipeModal').classList.add('hidden'); }
   </script>
-
 </body>
-                                                                                                                                                                                                                                                                                                </html>
-                                                                                                                                                                                                                                                                                                
+</html>
