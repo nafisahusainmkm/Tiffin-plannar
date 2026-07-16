@@ -310,4 +310,229 @@
               </div>
               <div class="my-4 p-3 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between">
                 <div>
-                  <span class="block text-[9px] uppercase 
+                  <span class="block text-[9px] uppercase font-bold text-slate-400">Assigned Cooking Family:</span>
+                  <span class="font-playful text-sm text-indigo-950">${item.student || "Open for Volunteer"}</span>
+                </div>
+                <span class="text-xs px-2.5 py-1 rounded-xl ${studentPillClass}">${isAssigned ? "🔥 Cooking" : "Volunteer Needed"}</span>
+              </div>
+              <div class="space-y-1.5 text-xs text-slate-600">
+                <div class="flex items-center gap-2 flex-wrap"><span>🍱 <strong>Total Portion:</strong> ${item.qty}</span></div>
+                <div class="flex items-center gap-2 flex-wrap"><span>🥗 <strong>Sides:</strong> ${item.side}</span></div>
+              </div>
+            </div>
+            <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
+              <button onclick="window.viewRecipe('${dayId}')" class="${btnTheme} font-playful text-xs px-3.5 py-1.5 rounded-xl transition-all shadow-sm">📖 Recipes</button>
+              <button onclick="window.openFeedbackDialog('${dayId}', '${item.menu}')" class="text-xs text-indigo-700 font-semibold hover:underline">⭐ Review Meal</button>
+            </div>
+          </div>
+        `;
+        container.innerHTML += cardHtml;
+      });
+    };
+
+    window.renderTeacherAssignments = function() {
+      const container = document.getElementById('teacherAssignGrid');
+      container.innerHTML = "";
+
+      Object.keys(activeSchedule).forEach(dayId => {
+        const item = activeSchedule[dayId];
+        const studentVal = item.student === "Unassigned" ? "" : item.student;
+
+        const editBoxHtml = `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">${item.date}</span>
+              <span class="text-xs text-indigo-600 font-bold truncate max-w-[120px]">${item.menu}</span>
+            </div>
+            <div class="flex gap-2">
+              <input type="text" id="assign-input-${dayId}" value="${studentVal}" placeholder="Student Name" class="bg-slate-50 border border-slate-200 focus:border-indigo-500 outline-none rounded-xl px-2.5 py-1 text-xs text-indigo-950 font-bold w-full">
+              <button onclick="window.saveSingleAssignment('${dayId}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-playful text-xs px-3 py-1 rounded-xl">Save</button>
+            </div>
+          </div>
+        `;
+        container.innerHTML += editBoxHtml;
+      });
+    };
+
+    function renderFeedbackWall() {
+      const container = document.getElementById('feedbackWall');
+      if (parentFeedbackList.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 italic py-4">No reviews logged yet for this class portal.</p>`;
+        return;
+      }
+      container.innerHTML = "";
+      parentFeedbackList.forEach(fb => {
+        let stars = "⭐".repeat(fb.rating);
+        container.innerHTML += `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+            <div class="text-amber-500 text-xs">${stars}</div>
+            <h4 class="text-xs font-bold text-indigo-950 mt-0.5">${fb.menuName}</h4>
+            <p class="text-xs text-slate-600 italic mt-0.5">"${fb.comment}"</p>
+            <div class="text-[9px] font-bold text-slate-400 uppercase mt-1">From: ${fb.parentName}</div>
+          </div>
+        `;
+      });
+    }
+
+    window.saveSingleAssignment = async function(dayId) {
+      const inputVal = document.getElementById(`assign-input-${dayId}`).value.trim();
+      const assignedName = inputVal === "" ? "Unassigned" : inputVal;
+
+      try {
+        const { error } = await supabaseClient.from('tiffin_data').upsert([
+          { class_name: currentClassName, day_id: dayId, student_name: assignedName }
+        ], { onConflict: 'class_name,day_id' });
+        
+        if (error) {
+          alert("Database Error: " + error.message);
+          return;
+        }
+        showSnack(`Live update broadcast to all ${currentClassName.toUpperCase()} screens!`);
+      } catch (e) { 
+        alert("Connection Error.");
+      }
+    };
+
+    window.submitFeedback = async function(dayId, menuName, rating, parentName, comment) {
+      const item = {
+        menuName: menuName,
+        rating: parseInt(rating),
+        parentName: parentName || "Anonymous Parent",
+        comment: comment || "Healthy tiffin packet prepared well!"
+      };
+      
+      try {
+        await supabaseClient.from('tiffin_feedback').insert([
+          { class_name: currentClassName, menu_name: menuName, rating: parseInt(rating), parent_name: item.parentName, comment: item.comment }
+        ]);
+        showSnack("Review shared globally!");
+      } catch (e) {}
+    };
+
+    window.clearAllFeedback = async function() {
+      if (!confirm("Reset review wall logs?")) return;
+      try {
+        await supabaseClient.from('tiffin_feedback').delete().eq('class_name', currentClassName);
+        fetchInitialData();
+      } catch (e) {}
+    };
+
+    function switchMode(mode) {
+      appMode = mode;
+      const parentLabel = document.getElementById('currentViewLabel');
+      const parentBtn = document.getElementById('btnParentView');
+      const teacherBtn = document.getElementById('btnTeacherView');
+      const parentSection = document.getElementById('parentViewSection');
+      const teacherSection = document.getElementById('teacherViewSection');
+
+      if (mode === 'parent') {
+        parentLabel.innerText = "Currently Viewing: Parent Mode Workspace";
+        parentSection.classList.remove('hidden');
+        teacherSection.classList.add('hidden');
+        parentBtn.classList.add('bg-white', 'text-indigo-900', 'shadow-sm');
+        teacherBtn.classList.remove('bg-white', 'text-indigo-900', 'shadow-sm');
+      } else {
+        parentLabel.innerText = "Currently Viewing: Teacher Panel Administration";
+        parentSection.classList.add('hidden');
+        teacherSection.classList.remove('hidden');
+        teacherBtn.classList.add('bg-white', 'text-indigo-900', 'shadow-sm');
+        parentBtn.classList.remove('bg-white', 'text-indigo-900', 'shadow-sm');
+      }
+    }
+
+    function viewRecipe(dayId) {
+      const modal = document.getElementById('recipeModal');
+      const container = document.getElementById('recipeModalContent');
+      const body = document.getElementById('recipeModalBody');
+
+      const recipeMap = {
+        "21": { title: "Mini Vegetable Idli", time: "20m Prep", yield: "~20 Mini Idlis", ingredients: ["2 cups Batter", "½ cup carrots", "¼ cup green peas"], steps: ["Mix battery with grated vegetables.", "Steam in molds for 7-10 minutes."] },
+        "22": { title: "Paneer Paratha & Herb Dip", time: "15m Prep", yield: "3-4 Parathas", ingredients: ["Wheat Dough", "¾ cup Paneer", "½ cup Hung Curd"], steps: ["Stuff rolled flat circles with customized spiced paneer.", "Toast on tawa until golden brown."] },
+        "23": { title: "Vegetable Besan Chilla", time: "10m Prep", yield: "4 small Chillas", ingredients: ["1 cup Besan Flour", "¼ cup mixed chopped veggies"], steps: ["Whisk pancake consistency batter.", "Pour onto hot flat griddle pan, flip to finish."] },
+        "24": { title: "Whole Wheat Pasta", time: "15m Prep", yield: "2 Portions", ingredients: ["1 cup cooked Penne", "2 pureed fresh tomatoes", "Garlic"], steps: ["Boil whole grain penne.", "Toss with custom pureed garlic tomato base sauce."] },
+        "28": { title: "Shredded Chicken-Roti Roll", time: "15m Prep", yield: "2 wraps", ingredients: ["1 thin wheat roti", "½ cup boiled chicken breast"], steps: ["Sauté breast strips with mild seasonings.", "Roll inside fresh warm wrap envelope layers securely."] },
+        "29": { title: "Vegetable Appe (Paniyaram)", time: "10m Prep", yield: "12-14 Appe", ingredients: ["2 cups rice batter", "½ cup grated carrots"], steps: ["Stir ingredients smoothly together.", "Spoon small portions inside oiled direct pan indentation molds."] },
+        "30": { title: "Baked Samosas", time: "20m Prep", yield: "6 small pieces", ingredients: ["½ cup Keema or Potato", "Pastry wrapper strips"], steps: ["Fold sheet segments into uniform triangular envelopes.", "Bake at 180°C for 15-20 minutes smoothly."] },
+        "31": { title: "Mini Veg Pizza on Roti", time: "10m Assembly", yield: "1 piece", ingredients: ["1 pre-toasted wheat roti", "Pizza sauce", "Mozzarella"], steps: ["Layer components directly onto open surface area.", "Heat enclosed beneath pan lid cover for 3-4 minutes to melt cheese."] }
+      };
+
+      const recipe = recipeMap[dayId];
+      if (!recipe) return;
+
+      let ingHtml = recipe.ingredients.map(i => `<li>🟢 ${i}</li>`).join("");
+      let stepsHtml = recipe.steps.map((s, idx) => `<p><strong>${idx+1}.</strong> ${s}</p>`).join("");
+
+      body.innerHTML = `<h3 class="font-playful text-indigo-950 text-xl">${recipe.title}</h3><div class="text-xs my-2 text-slate-400 font-semibold">⏰ ${recipe.time} | 📦 Yields: ${recipe.yield}</div><ul class="my-3 text-xs space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-100">${ingHtml}</ul><div class="text-xs space-y-2 mt-2 text-slate-600">${stepsHtml}</div>`;
+      modal.classList.remove('hidden');
+      setTimeout(() => container.classList.remove('scale-95', 'opacity-0'), 10);
+    }
+
+    function closeRecipeModal() {
+      const modal = document.getElementById('recipeModal');
+      const container = document.getElementById('recipeModalContent');
+      container.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
+    function openFeedbackDialog(dayId, menuName) {
+      const modal = document.getElementById('recipeModal');
+      const container = document.getElementById('recipeModalContent');
+      const body = document.getElementById('recipeModalBody');
+
+      body.innerHTML = `
+        <h3 class="font-playful text-lg text-indigo-950">Add Performance Feedback</h3>
+        <p class="text-[11px] text-slate-400 -mt-1">Meal: ${menuName}</p>
+        <div class="space-y-3 mt-3">
+          <div>
+            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Rating</label>
+            <select id="parent-rating-select" class="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500">
+              <option value="3">⭐⭐⭐ Excellent Execution</option>
+              <option value="2">⭐⭐ Good Quality</option>
+              <option value="1">⭐ Average/Needs Attention</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Parent Identity Name</label>
+            <input type="text" id="parent-feedback-name" placeholder="E.g., Khan Family Parent" class="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-xs text-slate-700 outline-none focus:border-indigo-500">
+          </div>
+          <div>
+            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Observation Remarks</label>
+            <textarea id="parent-feedback-note" placeholder="Share child portion updates or meal experience..." class="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-xs h-20 text-slate-700 outline-none focus:border-indigo-500"></textarea>
+          </div>
+          <button onclick="submitTiffinFeedbackAction('${dayId}', '${menuName}')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-playful text-xs py-2.5 rounded-xl transition-all shadow-sm">Post Review Logs</button>
+        </div>
+      `;
+      modal.classList.remove('hidden');
+      setTimeout(() => container.classList.remove('scale-95', 'opacity-0'), 10);
+    }
+
+    function submitTiffinFeedbackAction(dayId, menuName) {
+      const rating = document.getElementById('parent-rating-select').value;
+      const parentName = document.getElementById('parent-feedback-name').value.trim();
+      const note = document.getElementById('parent-feedback-note').value.trim();
+      window.submitFeedback(dayId, menuName, rating, parentName, note);
+      closeRecipeModal();
+    }
+
+    function openHelpModal() { document.getElementById('helpModal').classList.remove('hidden'); }
+    function closeHelpModal() { document.getElementById('helpModal').classList.add('hidden'); }
+
+    function showSnack(msg) {
+      const snack = document.createElement("div");
+      snack.className = "fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-slate-900 text-amber-300 text-xs font-bold font-playful px-6 py-3 rounded-full shadow-lg z-50 text-center";
+      snack.innerText = msg;
+      document.body.appendChild(snack);
+      setTimeout(() => snack.remove(), 3500);
+    }
+
+    window.viewRecipe = viewRecipe;
+    window.openFeedbackDialog = openFeedbackDialog;
+    window.submitTiffinFeedbackAction = submitTiffinFeedbackAction;
+    window.openHelpModal = openHelpModal;
+    window.closeHelpModal = closeHelpModal;
+    window.closeRecipeModal = closeRecipeModal;
+
+    window.onload = initializeStorageData;
+  </script>
+</body>
+</html>
