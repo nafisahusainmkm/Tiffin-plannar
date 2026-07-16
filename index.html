@@ -1,539 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MSB Educational Institute - Collaborative Tiffin Hub</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Quicksand', sans-serif; background-color: #f0f4f8; }
-    h1, h2, h3, h4, .font-playful { font-family: 'Fredoka', sans-serif; }
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #f1f1f1; }
-    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
-    .recipe-transition { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSB Nursery | July Tiffin Planner</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Quicksand', sans-serif; background: #fff8f1; }
+        h1, h2, .font-title { font-family: 'Fredoka', sans-serif; }
+    </style>
 </head>
-<body class="text-slate-700 min-h-screen pb-12">
+<body class="pb-16">
 
-  <div class="max-w-6xl mx-auto px-4 py-6">
-    
-    <div id="topClassNoticeHeader" class="mb-4 bg-indigo-950 text-white font-playful tracking-wider text-sm md:text-base px-6 py-3 rounded-2xl flex items-center justify-between shadow-md">
-      <div class="flex items-center gap-2">
-        <span>🏫 Current Room:</span>
-        <span id="topClassBigHeadingLabel" class="text-amber-400 font-extrabold uppercase text-lg">GENERAL</span>
-      </div>
-      <span class="text-xs bg-white/20 px-3 py-1 rounded-lg font-sans font-semibold border border-white/10" id="topModeViewBadge">Parent Access Mode</span>
-    </div>
-    
-    <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
-      <div class="flex items-center gap-3">
-        <img src="https://raw.githubusercontent.com/nafisahusainmkm/Tiffin-plannar/main/1001296689_2.png" alt="MSB Logo" class="w-12 h-12 object-contain">
-        <div>
-          <h3 class="font-playful text-indigo-950 text-lg leading-tight">MSB Tiffin Portal</h3>
-          <p class="text-xs text-slate-500">Class Workspace: <span id="headerClassLabel" class="font-bold text-orange-600 uppercase">General</span></p>
-        </div>
-      </div>
-      
-      <div class="flex flex-wrap items-center gap-2">
-        <div id="modeToggleContainer" class="bg-slate-100 p-1.5 rounded-2xl flex gap-1">
-          <button id="btnParentView" onclick="switchMode('parent')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all bg-white text-indigo-900 shadow-sm">👪 Parent Mode</button>
-          <button id="btnTeacherView" onclick="switchMode('teacher')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all text-slate-600 hover:text-indigo-900">👩‍🏫 Teacher Panel</button>
-        </div>
-        <button onclick="openHelpModal()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-playful text-xs px-3 py-2 rounded-xl transition-all">❓ App Guide</button>
-        <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-white font-playful text-xs px-3 py-2 rounded-xl transition-all shadow-sm">🖨 Print Layout</button>
-      </div>
+    <div class="bg-gradient-to-b from-orange-400 to-amber-400 text-white p-6 rounded-b-[3rem] shadow-xl text-center">
+        <h1 class="text-4xl font-bold tracking-tight">JULY 2026</h1>
+        <p class="text-lg font-semibold opacity-90">Nursery Tiffin Planner</p>
     </div>
 
-    <div id="authStatusBanner" class="mb-4 bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs px-4 py-2.5 rounded-2xl flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-        </span>
-        <span id="syncStatus">Syncing live updates with Cloud Database...</span>
-      </div>
-      <span class="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-emerald-200" id="userIdTag">DATABASE ACTIVE</span>
-    </div>
+    <div class="max-w-4xl mx-auto px-4 mt-8">
+        <div id="plannerGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
 
-    <div class="bg-white rounded-[2.5rem] border-4 border-amber-200/70 p-6 md:p-10 shadow-xl relative overflow-hidden">
-      <div class="absolute -top-12 -left-12 w-40 h-40 bg-yellow-200 rounded-full mix-blend-multiply filter blur-2xl opacity-40 pointer-events-none"></div>
-      <div class="absolute bottom-12 -right-12 w-48 h-48 bg-pink-100 rounded-full mix-blend-multiply filter blur-2xl opacity-40 pointer-events-none"></div>
-
-      <div class="text-center relative z-10 border-b-2 border-dashed border-amber-200/80 pb-6 mb-8">
-        <div class="flex items-center justify-center gap-3 mb-2">
-          <img src="https://raw.githubusercontent.com/nafisahusainmkm/Tiffin-plannar/main/1001296689_2.png" alt="MSB Logo" class="w-14 h-14 object-contain filter drop-shadow-xs">
-          <div class="text-left">
-            <h1 class="text-sm md:text-base font-bold tracking-widest text-orange-600 uppercase">MSB Educational Institute</h1>
-            <p class="text-xs font-semibold tracking-wider text-slate-400 -mt-1">KOTA, RAJASTHAN</p>
-          </div>
-        </div>
-        <h2 class="text-3xl md:text-5xl font-playful text-indigo-950 mt-2"><span id="titleClassLabel"></span> Tiffin Rotation Plan</h2>
-        <p class="text-slate-500 text-xs md:text-sm max-w-2xl mx-auto mt-2 font-medium">
-          To build community and shared values, <span class="text-indigo-800 font-bold">one parent voluntarily prepares and sends the healthy tiffin</span> for the entire class each day!
-        </p>
-        <div class="mt-4 inline-block bg-indigo-950 text-amber-300 text-xs font-bold font-playful uppercase tracking-widest px-4 py-1.5 rounded-full" id="currentViewLabel">Currently Viewing: Parent Mode Workspace</div>
-      </div>
-
-      <div class="bg-amber-50 border-2 border-dashed border-amber-300 rounded-2xl p-4 mb-6 flex items-start gap-3 relative z-10">
-        <span class="text-xl mt-0.5">📢</span>
-        <div>
-          <h4 class="font-playful text-amber-900 text-sm">Important Note for Parents:</h4>
-          <p class="text-xs text-amber-800 font-medium mt-0.5 leading-relaxed">Depending on availability, instead of vegetables, you can also send healthy alternative side food like <strong>dates, roasted makhana, or peanuts</strong> with the main dish.</p>
-        </div>
-      </div>
-
-      <div class="mb-8 bg-teal-50 border border-teal-200/50 p-4 rounded-2xl flex items-center justify-between relative z-10">
-        <div class="flex items-center gap-3">
-          <span class="text-2xl">💡</span>
-          <div>
-            <h4 class="font-playful text-teal-900 text-sm">Every Monday Choice Day</h4>
-            <p class="text-xs text-slate-500">Parents send any healthy tiffin of their own choice for their child.</p>
-          </div>
-        </div>
-        <span class="bg-teal-600 text-white font-bold text-[10px] tracking-wider uppercase px-2.5 py-1 rounded-lg">Individual</span>
-      </div>
-
-      <div id="parentViewSection" class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10"></div>
-
-      <div id="teacherViewSection" class="hidden relative z-10 space-y-8">
-        <div class="bg-indigo-50/40 border border-indigo-100 p-6 rounded-3xl">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-playful text-indigo-950 text-xl">Assign Cooking Duties</h3>
-              <p class="text-xs text-slate-500">Assign a student's family to cook. Updates instantly across all parents' personal devices!</p>
+        <!-- Recipe Modal -->
+        <div id="recipeModal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-2xl">
+                <h2 id="modalTitle" class="text-2xl font-bold text-orange-600 mb-2">Recipe</h2>
+                <p id="modalSteps" class="text-slate-600 text-sm mb-4"></p>
+                <button onclick="closeModal()" class="w-full bg-slate-800 text-white py-2 rounded-xl">Close</button>
             </div>
-            <span class="bg-indigo-600 text-white font-playful text-xs px-3 py-1 rounded-xl">Supabase Cloud Sync Engine</span>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="teacherAssignGrid"></div>
         </div>
 
-        <div class="bg-emerald-50/20 border border-emerald-100 p-6 rounded-3xl">
-          <div class="flex items-center justify-between mb-4">
-            <div>
-              <h3 class="font-playful text-emerald-950 text-xl">Parent Feedback Wall</h3>
-              <p class="text-xs text-slate-500">Live global cloud tracking of meal ratings and comments submitted by class parents.</p>
-            </div>
-            <button onclick="clearAllFeedback()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold font-playful px-3 py-1.5 rounded-lg border border-rose-200 transition-colors">Reset Feedbacks</button>
-          </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="feedbackWall">
-            <p class="text-xs text-slate-400 italic">No parent feedback submitted yet...</p>
-          </div>
+        <!-- Direct Email Feedback Section -->
+        <div class="mt-12 bg-white p-8 rounded-3xl border-2 border-orange-200 shadow-sm text-center">
+            <h2 class="text-xl font-bold text-orange-600 mb-2">Questions or Suggestions?</h2>
+            <p class="text-sm text-slate-500 mb-6">Click below to send us an email directly.</p>
+            <a href="mailto:nafisa.preprimary.hos@gmail.com" class="inline-block bg-orange-500 text-white px-10 py-4 rounded-2xl font-bold text-lg hover:bg-orange-600 shadow-lg">
+                Email the School
+            </a>
         </div>
-      </div>
-
     </div>
-  </div>
 
-  <div id="recipeModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-xl w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto shadow-2xl relative border-2 border-amber-100 recipe-transition transform scale-95 opacity-0" id="recipeModalContent">
-      <button onclick="closeRecipeModal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 p-2 rounded-full transition-all">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
-      <div id="recipeModalBody"></div>
-    </div>
-  </div>
+    <script>
+        const plannerData = [
+            { date: "21 Jul", dish: "Mini Vegetable Idli", name: "Fatema Bilaspurwala", portion: "½ cup cucumber", recipe: "Steam batter with grated carrots and peas." },
+            { date: "22 Jul", dish: "Paneer Paratha + Herb Curd", name: "Nafisa Shakir", portion: "½ cup carrot & beetroot", recipe: "Stuff dough with spiced paneer, serve with curd." },
+            { date: "23 Jul", dish: "Veg Besan Chilla + Mayo", name: "Abbas Tyerwala", portion: "½ cup cucumber", recipe: "Whisk flour with veggies and shallow fry." },
+            { date: "24 Jul", dish: "Whole Wheat Pasta", name: "Zainab Faizy", portion: "½ cup tomatoes", recipe: "Boil pasta and toss with tomato base." },
+            { date: "28 Jul", dish: "Chicken-Roti", name: "Husaina Hamid", portion: "½ cup cucumber", recipe: "Sauté chicken strips and roll in roti." },
+            { date: "29 Jul", dish: "Vegetable Appe", name: "Juzer Rangwala", portion: "½ cup carrot & beetroot", recipe: "Cook batter in appe pan with veggies." },
+            { date: "30 Jul", dish: "Keema + Potato Samosa", name: "Burhanuddin Rangwala", portion: "½ cup cucumber", recipe: "Stuff triangles and bake until golden." },
+            { date: "31 Jul", dish: "Mini Veg Pizza", name: "Saifuddin Imadi", portion: "½ cup tomatoes", recipe: "Use roti base, top with sauce and cheese." }
+        ];
 
-  <div id="helpModal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 max-h-[85vh] overflow-y-auto shadow-2xl relative border-2 border-indigo-100">
-      <button onclick="closeHelpModal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 p-2 rounded-full transition-all">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-      </button>
-      <h3 class="font-playful text-indigo-950 text-2xl mb-4">🚀 Global Room Routing Setup Matrix</h3>
-      <p class="text-xs text-slate-600 mb-2 font-bold">Use these URL additions to route different grade plans globally across any device:</p>
-      <div class="bg-slate-50 p-3 rounded-xl space-y-3 text-xs text-slate-700 font-mono border">
-        <div><strong>🔴 NURSERY LINKS:</strong><br>Parent Link: <span class="text-indigo-600 font-bold">?class=nursery</span><br>Teacher Link: <span class="text-orange-600 font-bold">?class=nursery&mode=teacher</span></div>
-        <div><strong>🔵 LKG LINKS:</strong><br>Parent Link: <span class="text-indigo-600 font-bold">?class=lkg</span><br>Teacher Link: <span class="text-orange-600 font-bold">?class=lkg&mode=teacher</span></div>
-        <div><strong>🟢 PRE-FIRST (UKG) LINKS:</strong><br>Parent Link: <span class="text-indigo-600 font-bold">?class=prefirst</span><br>Teacher Link: <span class="text-orange-600 font-bold">?class=prefirst&mode=teacher</span></div>
-      </div>
-      <div class="mt-4 flex justify-end">
-        <button onclick="closeHelpModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-playful px-4 py-2 rounded-xl text-sm transition-all shadow">Got it!</button>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    const SUPABASE_URL = "https://bjlbdlgnecrcyfwuwgkl.supabase.co"; 
-    const SUPABASE_ANON_KEY = "Sb_publishable_0P_HRLYM2jMscdsoQPTVNA_nmnECwGj";
-
-    // CONNECTION FIX APPLIED BELOW
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-        auth: { persistSession: false }
-    });
-
-    const defaultSchedule = {
-      "21": { date: "21 Jul", day: "Tue", menu: "Mini Vegetable Idli", qty: "4 mini idlis", side: "½ cup sliced cucumber", student: "Unassigned", theme: "orange" },
-      "22": { date: "22 Jul", day: "Wed", menu: "Paneer Paratha + Herb Hung Curd Dip", qty: "1 medium", side: "½ cup carrot + beetroot", student: "Unassigned", theme: "pink" },
-      "23": { date: "23 Jul", day: "Thu", menu: "Vegetable Besan Chilla + Homemade Mayo Dip", qty: "2 small", side: "½ cup cucumber", student: "Unassigned", theme: "indigo" },
-      "24": { date: "24 Jul", day: "Fri", menu: "Whole Wheat Pasta", qty: "¾ cup", side: "½ cup tomatoes", student: "Unassigned", theme: "teal" },
-      "28": { date: "28 Jul", day: "Tue", menu: "Chicken-Roti", qty: "1 small roti", side: "½ cup cucumber", student: "Unassigned", theme: "amber" },
-      "29": { date: "29 Jul", day: "Wed", menu: "Vegetable Appe", qty: "5–6 mini appe", side: "½ cup carrot + beetroot", student: "Unassigned", theme: "emerald" },
-      "30": { date: "30 Jul", day: "Thu", menu: "Keema + Potato Stuffed Samosa", qty: "3 small samosas", side: "½ cup cucumber", student: "Unassigned", theme: "rose" },
-      "31": { date: "31 Jul", day: "Fri", menu: "Mini Veg Pizza (roti base)", qty: "1 mini pizza", side: "½ cup tomatoes", student: "Unassigned", theme: "violet" }
-    };
-
-    let activeSchedule = { ...defaultSchedule };
-    let parentFeedbackList = [];
-    let currentClassName = "general";
-    let appMode = "parent";
-
-    async function initializeStorageData() {
-      const urlParams = new URLSearchParams(window.location.search);
-      currentClassName = (urlParams.get('class') || 'general').toLowerCase();
-      
-      let displayTitle = currentClassName.toUpperCase();
-      if (currentClassName === 'prefirst') displayTitle = "PRE-FIRST CLASS";
-      if (currentClassName === 'nursery') displayTitle = "NURSERY CLASS";
-      if (currentClassName === 'lkg') displayTitle = "LKG CLASS";
-
-      document.getElementById('topClassBigHeadingLabel').innerText = displayTitle;
-      document.getElementById('headerClassLabel').innerText = displayTitle;
-      document.getElementById('titleClassLabel').innerText = displayTitle;
-
-      Object.keys(defaultSchedule).forEach(day => {
-        activeSchedule[day].student = "Unassigned";
-      });
-
-      determineViewSecurity(urlParams);
-      await fetchInitialData();
-      setupRealtimeSubscription();
-    }
-
-    async function fetchInitialData() {
-      try {
-        let { data: dbSchedule, error } = await supabaseClient.from('tiffin_data').select('*').eq('class_name', currentClassName);
-        if (!error && dbSchedule) {
-          dbSchedule.forEach(row => {
-            if (activeSchedule[row.day_id]) {
-              activeSchedule[row.day_id].student = row.student_name;
-            }
-          });
-        }
-      } catch (err) {}
-
-      try {
-        let { data: dbFeedback, error } = await supabaseClient.from('tiffin_feedback').select('*').eq('class_name', currentClassName).order('id', { ascending: false });
-        if (!error && dbFeedback) {
-          parentFeedbackList = dbFeedback.map(f => ({
-            menuName: f.menu_name,
-            rating: f.rating,
-            parentName: f.parent_name,
-            comment: f.comment
-          }));
-        }
-      } catch (e) {}
-
-      renderParentPlanner();
-      renderTeacherAssignments();
-      renderFeedbackWall();
-    }
-
-    function setupRealtimeSubscription() {
-      supabaseClient
-        .channel('public:tiffin_data')
-        .on('postgres_changes', { event: '*', schema: 'public', table: 'tiffin_data' }, (payload) => {
-          const changeData = payload.new && Object.keys(payload.new).length > 0 ? payload.new : payload.old;
-          if (changeData && changeData.class_name === currentClassName) {
-            fetchInitialData();
-          }
-        })
-        .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tiffin_feedback' }, (payload) => {
-          if (payload.new && payload.new.class_name === currentClassName) {
-            fetchInitialData();
-          }
-        })
-        .subscribe((status) => {
-          if (status === 'SUBSCRIBED') {
-            document.getElementById('syncStatus').innerText = "Live Broadcast Sync Channel Active!";
-          }
+        const grid = document.getElementById('plannerGrid');
+        plannerData.forEach(item => {
+            grid.innerHTML += `
+                <div class="bg-white p-5 rounded-3xl shadow-sm border-2 border-orange-100 hover:border-orange-300 transition-all">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="bg-orange-100 text-orange-600 text-[10px] font-bold px-3 py-1 rounded-full uppercase">${item.date}</span>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-lg">${item.dish}</h3>
+                    <p class="text-sm text-indigo-600 font-semibold mb-1">Student: ${item.name}</p>
+                    <p class="text-[11px] text-slate-500 mb-4">Portion: ${item.portion}</p>
+                    <button onclick="openModal('${item.dish}', '${item.recipe}')" class="text-sm text-orange-600 font-bold underline">View Recipe</button>
+                </div>
+            `;
         });
-    }
 
-    function determineViewSecurity(urlParams) {
-      const modeParam = urlParams.get('mode');
-      const toggleContainer = document.getElementById('modeToggleContainer');
-      const authBanner = document.getElementById('authStatusBanner');
-      const topBadge = document.getElementById('topModeViewBadge');
-
-      if (modeParam === 'teacher') {
-        toggleContainer.classList.remove('hidden');
-        authBanner.classList.remove('hidden');
-        topBadge.innerText = "Authorized Teacher Access";
-        topBadge.className = "text-xs bg-amber-500 text-slate-950 px-3 py-1 rounded-lg font-bold border border-amber-400";
-        switchMode('teacher'); 
-      } else {
-        toggleContainer.classList.remove('hidden');
-        authBanner.classList.remove('hidden');
-        topBadge.innerText = "Parent View Mode";
-        topBadge.className = "text-xs bg-white/20 text-white px-3 py-1 rounded-lg font-semibold border border-white/10";
-        switchMode('parent');
-      }
-    }
-
-    window.renderParentPlanner = function() {
-      const container = document.getElementById('parentViewSection');
-      container.innerHTML = "";
-
-      Object.keys(activeSchedule).forEach(dayId => {
-        const item = activeSchedule[dayId];
-        let themeClasses = "";
-        let btnTheme = "";
-        if (item.theme === "orange") { themeClasses = "border-orange-100 bg-orange-50/10"; btnTheme = "bg-orange-600 hover:bg-orange-700 text-white"; }
-        else if (item.theme === "pink") { themeClasses = "border-pink-100 bg-pink-50/10"; btnTheme = "bg-pink-600 hover:bg-pink-700 text-white"; }
-        else if (item.theme === "indigo") { themeClasses = "border-indigo-100 bg-indigo-50/10"; btnTheme = "bg-indigo-600 hover:bg-indigo-700 text-white"; }
-        else if (item.theme === "teal") { themeClasses = "border-teal-100 bg-teal-50/10"; btnTheme = "bg-teal-600 hover:bg-teal-700 text-white"; }
-        else if (item.theme === "amber") { themeClasses = "border-amber-100 bg-amber-50/10"; btnTheme = "bg-amber-600 hover:bg-amber-700 text-white"; }
-        else if (item.theme === "emerald") { themeClasses = "border-emerald-100 bg-emerald-50/10"; btnTheme = "bg-emerald-600 hover:bg-emerald-700 text-white"; }
-        else if (item.theme === "rose") { themeClasses = "border-rose-100 bg-rose-50/10"; btnTheme = "bg-rose-600 hover:bg-rose-700 text-white"; }
-        else if (item.theme === "violet") { themeClasses = "border-violet-100 bg-violet-50/10"; btnTheme = "bg-violet-600 hover:bg-violet-700 text-white"; }
-
-        const isAssigned = item.student && item.student !== "Unassigned";
-        const studentPillClass = isAssigned ? "bg-indigo-900 text-amber-300 font-bold" : "bg-slate-100 text-slate-500 font-medium italic";
-
-        const cardHtml = `
-          <div class="bg-white rounded-3xl border-2 p-5 ${themeClasses} shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
-            <div>
-              <div class="flex items-start justify-between mb-3">
-                <div class="flex items-center gap-3">
-                  <div class="bg-indigo-50 text-indigo-950 font-playful rounded-2xl py-1.5 px-3 text-center border border-indigo-100">
-                    <span class="block text-[10px] uppercase tracking-tight font-semibold">${item.day}</span>
-                    <span class="block text-base font-bold leading-none mt-0.5">${item.date}</span>
-                  </div>
-                  <div>
-                    <h3 class="font-playful text-slate-900 text-base leading-snug">${item.menu}</h3>
-                    <p class="text-xs text-slate-400">Class Catering Shared Plan</p>
-                  </div>
-                </div>
-              </div>
-              <div class="my-4 p-3 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between">
-                <div>
-                  <span class="block text-[9px] uppercase font-bold text-slate-400">Assigned Cooking Family:</span>
-                  <span class="font-playful text-sm text-indigo-950">${item.student || "Open for Volunteer"}</span>
-                </div>
-                <span class="text-xs px-2.5 py-1 rounded-xl ${studentPillClass}">${isAssigned ? "🔥 Cooking" : "Volunteer Needed"}</span>
-              </div>
-              <div class="space-y-1.5 text-xs text-slate-600">
-                <div class="flex items-center gap-2 flex-wrap"><span>🍱 <strong>Total Portion:</strong> ${item.qty}</span></div>
-                <div class="flex items-center gap-2 flex-wrap"><span>🥗 <strong>Sides:</strong> ${item.side}</span></div>
-              </div>
-            </div>
-            <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between">
-              <button onclick="window.viewRecipe('${dayId}')" class="${btnTheme} font-playful text-xs px-3.5 py-1.5 rounded-xl transition-all shadow-sm">📖 Recipes</button>
-              <button onclick="window.openFeedbackDialog('${dayId}', '${item.menu}')" class="text-xs text-indigo-700 font-semibold hover:underline">⭐ Review Meal</button>
-            </div>
-          </div>
-        `;
-        container.innerHTML += cardHtml;
-      });
-    };
-
-    window.renderTeacherAssignments = function() {
-      const container = document.getElementById('teacherAssignGrid');
-      container.innerHTML = "";
-
-      Object.keys(activeSchedule).forEach(dayId => {
-        const item = activeSchedule[dayId];
-        const studentVal = item.student === "Unassigned" ? "" : item.student;
-
-        const editBoxHtml = `
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">${item.date}</span>
-              <span class="text-xs text-indigo-600 font-bold truncate max-w-[120px]">${item.menu}</span>
-            </div>
-            <div class="flex gap-2">
-              <input type="text" id="assign-input-${dayId}" value="${studentVal}" placeholder="Student Name" class="bg-slate-50 border border-slate-200 focus:border-indigo-500 outline-none rounded-xl px-2.5 py-1 text-xs text-indigo-950 font-bold w-full">
-              <button onclick="window.saveSingleAssignment('${dayId}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-playful text-xs px-3 py-1 rounded-xl">Save</button>
-            </div>
-          </div>
-        `;
-        container.innerHTML += editBoxHtml;
-      });
-    };
-
-    function renderFeedbackWall() {
-      const container = document.getElementById('feedbackWall');
-      if (parentFeedbackList.length === 0) {
-        container.innerHTML = `<p class="text-xs text-slate-400 italic py-4">No reviews logged yet for this class portal.</p>`;
-        return;
-      }
-      container.innerHTML = "";
-      parentFeedbackList.forEach(fb => {
-        let stars = "⭐".repeat(fb.rating);
-        container.innerHTML += `
-          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
-            <div class="text-amber-500 text-xs">${stars}</div>
-            <h4 class="text-xs font-bold text-indigo-950 mt-0.5">${fb.menuName}</h4>
-            <p class="text-xs text-slate-600 italic mt-0.5">"${fb.comment}"</p>
-            <div class="text-[9px] font-bold text-slate-400 uppercase mt-1">From: ${fb.parentName}</div>
-          </div>
-        `;
-      });
-    }
-
-    window.saveSingleAssignment = async function(dayId) {
-      const inputVal = document.getElementById(`assign-input-${dayId}`).value.trim();
-      const assignedName = inputVal === "" ? "Unassigned" : inputVal;
-
-      try {
-        const { error } = await supabaseClient.from('tiffin_data').upsert([
-          { class_name: currentClassName, day_id: dayId, student_name: assignedName }
-        ], { onConflict: 'class_name,day_id' });
-        
-        if (error) {
-          alert("Database Error: " + error.message);
-          return;
+        function openModal(title, steps) {
+            document.getElementById('modalTitle').innerText = title;
+            document.getElementById('modalSteps').innerText = steps;
+            document.getElementById('recipeModal').classList.remove('hidden');
         }
-        showSnack(`Live update broadcast to all ${currentClassName.toUpperCase()} screens!`);
-      } catch (e) { 
-        alert("Connection Error.");
-      }
-    };
 
-    window.submitFeedback = async function(dayId, menuName, rating, parentName, comment) {
-      const item = {
-        menuName: menuName,
-        rating: parseInt(rating),
-        parentName: parentName || "Anonymous Parent",
-        comment: comment || "Healthy tiffin packet prepared well!"
-      };
-      
-      try {
-        await supabaseClient.from('tiffin_feedback').insert([
-          { class_name: currentClassName, menu_name: menuName, rating: parseInt(rating), parent_name: item.parentName, comment: item.comment }
-        ]);
-        showSnack("Review shared globally!");
-      } catch (e) {}
-    };
-
-    window.clearAllFeedback = async function() {
-      if (!confirm("Reset review wall logs?")) return;
-      try {
-        await supabaseClient.from('tiffin_feedback').delete().eq('class_name', currentClassName);
-        fetchInitialData();
-      } catch (e) {}
-    };
-
-    function switchMode(mode) {
-      appMode = mode;
-      const parentLabel = document.getElementById('currentViewLabel');
-      const parentBtn = document.getElementById('btnParentView');
-      const teacherBtn = document.getElementById('btnTeacherView');
-      const parentSection = document.getElementById('parentViewSection');
-      const teacherSection = document.getElementById('teacherViewSection');
-
-      if (mode === 'parent') {
-        parentLabel.innerText = "Currently Viewing: Parent Mode Workspace";
-        parentSection.classList.remove('hidden');
-        teacherSection.classList.add('hidden');
-        parentBtn.classList.add('bg-white', 'text-indigo-900', 'shadow-sm');
-        teacherBtn.classList.remove('bg-white', 'text-indigo-900', 'shadow-sm');
-      } else {
-        parentLabel.innerText = "Currently Viewing: Teacher Panel Administration";
-        parentSection.classList.add('hidden');
-        teacherSection.classList.remove('hidden');
-        teacherBtn.classList.add('bg-white', 'text-indigo-900', 'shadow-sm');
-        parentBtn.classList.remove('bg-white', 'text-indigo-900', 'shadow-sm');
-      }
-    }
-
-    function viewRecipe(dayId) {
-      const modal = document.getElementById('recipeModal');
-      const container = document.getElementById('recipeModalContent');
-      const body = document.getElementById('recipeModalBody');
-
-      const recipeMap = {
-        "21": { title: "Mini Vegetable Idli", time: "20m Prep", yield: "~20 Mini Idlis", ingredients: ["2 cups Batter", "½ cup carrots", "¼ cup green peas"], steps: ["Mix battery with grated vegetables.", "Steam in molds for 7-10 minutes."] },
-        "22": { title: "Paneer Paratha & Herb Dip", time: "15m Prep", yield: "3-4 Parathas", ingredients: ["Wheat Dough", "¾ cup Paneer", "½ cup Hung Curd"], steps: ["Stuff rolled flat circles with customized spiced paneer.", "Toast on tawa until golden brown."] },
-        "23": { title: "Vegetable Besan Chilla", time: "10m Prep", yield: "4 small Chillas", ingredients: ["1 cup Besan Flour", "¼ cup mixed chopped veggies"], steps: ["Whisk pancake consistency batter.", "Pour onto hot flat griddle pan, flip to finish."] },
-        "24": { title: "Whole Wheat Pasta", time: "15m Prep", yield: "2 Portions", ingredients: ["1 cup cooked Penne", "2 pureed fresh tomatoes", "Garlic"], steps: ["Boil whole grain penne.", "Toss with custom pureed garlic tomato base sauce."] },
-        "28": { title: "Shredded Chicken-Roti Roll", time: "15m Prep", yield: "2 wraps", ingredients: ["1 thin wheat roti", "½ cup boiled chicken breast"], steps: ["Sauté breast strips with mild seasonings.", "Roll inside fresh warm wrap envelope layers securely."] },
-        "29": { title: "Vegetable Appe (Paniyaram)", time: "10m Prep", yield: "12-14 Appe", ingredients: ["2 cups rice batter", "½ cup grated carrots"], steps: ["Stir ingredients smoothly together.", "Spoon small portions inside oiled direct pan indentation molds."] },
-        "30": { title: "Baked Samosas", time: "20m Prep", yield: "6 small pieces", ingredients: ["½ cup Keema or Potato", "Pastry wrapper strips"], steps: ["Fold sheet segments into uniform triangular envelopes.", "Bake at 180°C for 15-20 minutes smoothly."] },
-        "31": { title: "Mini Veg Pizza on Roti", time: "10m Assembly", yield: "1 piece", ingredients: ["1 pre-toasted wheat roti", "Pizza sauce", "Mozzarella"], steps: ["Layer components directly onto open surface area.", "Heat enclosed beneath pan lid cover for 3-4 minutes to melt cheese."] }
-      };
-
-      const recipe = recipeMap[dayId];
-      if (!recipe) return;
-
-      let ingHtml = recipe.ingredients.map(i => `<li>🟢 ${i}</li>`).join("");
-      let stepsHtml = recipe.steps.map((s, idx) => `<p><strong>${idx+1}.</strong> ${s}</p>`).join("");
-
-      body.innerHTML = `<h3 class="font-playful text-indigo-950 text-xl">${recipe.title}</h3><div class="text-xs my-2 text-slate-400 font-semibold">⏰ ${recipe.time} | 📦 Yields: ${recipe.yield}</div><ul class="my-3 text-xs space-y-1 bg-slate-50 p-3 rounded-xl border border-slate-100">${ingHtml}</ul><div class="text-xs space-y-2 mt-2 text-slate-600">${stepsHtml}</div>`;
-      modal.classList.remove('hidden');
-      setTimeout(() => container.classList.remove('scale-95', 'opacity-0'), 10);
-    }
-
-    function closeRecipeModal() {
-      const modal = document.getElementById('recipeModal');
-      const container = document.getElementById('recipeModalContent');
-      container.classList.add('scale-95', 'opacity-0');
-      setTimeout(() => modal.classList.add('hidden'), 300);
-    }
-
-    function openFeedbackDialog(dayId, menuName) {
-      const modal = document.getElementById('recipeModal');
-      const container = document.getElementById('recipeModalContent');
-      const body = document.getElementById('recipeModalBody');
-
-      body.innerHTML = `
-        <h3 class="font-playful text-lg text-indigo-950">Add Performance Feedback</h3>
-        <p class="text-[11px] text-slate-400 -mt-1">Meal: ${menuName}</p>
-        <div class="space-y-3 mt-3">
-          <div>
-            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Rating</label>
-            <select id="parent-rating-select" class="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-xs font-bold text-slate-700 outline-none focus:border-indigo-500">
-              <option value="3">⭐⭐⭐ Excellent Execution</option>
-              <option value="2">⭐⭐ Good Quality</option>
-              <option value="1">⭐ Average/Needs Attention</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Parent Identity Name</label>
-            <input type="text" id="parent-feedback-name" placeholder="E.g., Khan Family Parent" class="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-xs text-slate-700 outline-none focus:border-indigo-500">
-          </div>
-          <div>
-            <label class="block text-[10px] uppercase tracking-wider font-bold text-slate-400 mb-1">Observation Remarks</label>
-            <textarea id="parent-feedback-note" placeholder="Share child portion updates or meal experience..." class="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-xs h-20 text-slate-700 outline-none focus:border-indigo-500"></textarea>
-          </div>
-          <button onclick="submitTiffinFeedbackAction('${dayId}', '${menuName}')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-playful text-xs py-2.5 rounded-xl transition-all shadow-sm">Post Review Logs</button>
-        </div>
-      `;
-      modal.classList.remove('hidden');
-      setTimeout(() => container.classList.remove('scale-95', 'opacity-0'), 10);
-    }
-
-    function submitTiffinFeedbackAction(dayId, menuName) {
-      const rating = document.getElementById('parent-rating-select').value;
-      const parentName = document.getElementById('parent-feedback-name').value.trim();
-      const note = document.getElementById('parent-feedback-note').value.trim();
-      window.submitFeedback(dayId, menuName, rating, parentName, note);
-      closeRecipeModal();
-    }
-
-    function openHelpModal() { document.getElementById('helpModal').classList.remove('hidden'); }
-    function closeHelpModal() { document.getElementById('helpModal').classList.add('hidden'); }
-
-    function showSnack(msg) {
-      const snack = document.createElement("div");
-      snack.className = "fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-slate-900 text-amber-300 text-xs font-bold font-playful px-6 py-3 rounded-full shadow-lg z-50 text-center";
-      snack.innerText = msg;
-      document.body.appendChild(snack);
-      setTimeout(() => snack.remove(), 3500);
-    }
-
-    window.viewRecipe = viewRecipe;
-    window.openFeedbackDialog = openFeedbackDialog;
-    window.submitTiffinFeedbackAction = submitTiffinFeedbackAction;
-    window.openHelpModal = openHelpModal;
-    window.closeHelpModal = closeHelpModal;
-    window.closeRecipeModal = closeRecipeModal;
-
-    window.onload = initializeStorageData;
-  </script>
+        function closeModal() {
+            document.getElementById('recipeModal').classList.add('hidden');
+        }
+    </script>
 </body>
 </html>
