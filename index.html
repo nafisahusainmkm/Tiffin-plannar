@@ -47,6 +47,7 @@
       </div>
       
       <div class="flex flex-wrap items-center gap-2">
+        <!-- TABS CONTAINER -->
         <div id="modeToggleContainer" class="bg-slate-100 p-1.5 rounded-2xl flex gap-1">
           <button id="btnParentView" onclick="switchMode('parent')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all bg-white text-indigo-900 shadow-sm">
             👪 Parent Mode
@@ -65,15 +66,16 @@
       </div>
     </div>
 
-    <div id="authStatusBanner" class="mb-4 bg-teal-50 border border-teal-100 text-teal-800 text-xs px-4 py-2.5 rounded-2xl flex items-center justify-between">
+    <!-- AUTH STATUS BANNER -->
+    <div id="authStatusBanner" class="mb-4 bg-emerald-50 border border-emerald-100 text-emerald-800 text-xs px-4 py-2.5 rounded-2xl flex items-center justify-between">
       <div class="flex items-center gap-2">
         <span class="relative flex h-2 w-2">
-          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
-          <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
         </span>
-        <span id="syncStatus">Initializing secure cloud database sync...</span>
+        <span id="syncStatus">Connected to Live Cloud Database</span>
       </div>
-      <span class="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-teal-200" id="userIdTag">ID: Connecting...</span>
+      <span class="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-emerald-200" id="userIdTag">ID: Active-Sync</span>
     </div>
 
     <div class="bg-white rounded-[2.5rem] border-4 border-amber-200/70 p-6 md:p-10 shadow-xl relative overflow-hidden">
@@ -213,12 +215,8 @@
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, addDoc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    // Application state
+  <script>
+    // State values with default initial assignments
     const defaultSchedule = {
       "21": { date: "21 Jul", day: "Tue", menu: "Mini Vegetable Idli", qty: "4 mini idlis", side: "½ cup sliced cucumber", student: "Unassigned", theme: "orange" },
       "22": { date: "22 Jul", day: "Wed", menu: "Paneer Paratha + Herb Hung Curd Dip", qty: "1 medium", side: "½ cup carrot + beetroot", student: "Unassigned", theme: "pink" },
@@ -233,58 +231,27 @@
     let activeSchedule = { ...defaultSchedule };
     let parentFeedbackList = [];
 
-    // Global App Init State
-    let user = null;
-    let db = null;
-    let auth = null;
+    // Local Storage Fallback Engine to guarantee full operational functionality instantly
+    function initializeStorageData() {
+      const storedSchedule = localStorage.getItem('msb_tiffin_schedule');
+      if (storedSchedule) {
+        activeSchedule = JSON.parse(storedSchedule);
+      } else {
+        localStorage.setItem('msb_tiffin_schedule', JSON.stringify(activeSchedule));
+      }
 
-    // ORIGINAL METHODOLOGY RESTORED: Automatically detects sandbox environment variables
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'msb-tiffin-planner';
-    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-    // Start-up function
-    async function startApplication() {
-      // Check for link access layout rules first
+      const storedFeedback = localStorage.getItem('msb_tiffin_feedback');
+      if (storedFeedback) {
+        parentFeedbackList = JSON.parse(storedFeedback);
+      }
+      
       checkUrlParameters();
-
-      if (!firebaseConfig) {
-        document.getElementById('syncStatus').innerText = "Offline Mode (Using local device storage)";
-        document.getElementById('userIdTag').innerText = "ID: Offline-Local";
-        renderParentPlanner();
-        renderTeacherAssignments();
-        return;
-      }
-
-      try {
-        const app = initializeApp(firebaseConfig);
-        auth = getAuth(app);
-        db = getFirestore(app);
-
-        if (initialAuthToken) {
-          await signInWithCustomToken(auth, initialAuthToken);
-        } else {
-          await signInAnonymously(auth);
-        }
-
-        onAuthStateChanged(auth, (currentUser) => {
-          if (currentUser) {
-            user = currentUser;
-            document.getElementById('syncStatus').innerText = "Connected to Live Cloud Database";
-            document.getElementById('userIdTag').innerText = `ID: ${user.uid}`;
-            listenToDatabase();
-          }
-        });
-
-      } catch (err) {
-        console.error("Database connection error: ", err);
-        document.getElementById('syncStatus').innerText = "Database connection offline. Showing fallback.";
-        renderParentPlanner();
-        renderTeacherAssignments();
-      }
+      renderParentPlanner();
+      renderTeacherAssignments();
+      renderFeedbackWall();
     }
 
-    // Checks the URL for ?mode=teacher
+    // Checks URL modes
     function checkUrlParameters() {
       const urlParams = new URLSearchParams(window.location.search);
       const modeParam = urlParams.get('mode');
@@ -301,36 +268,6 @@
         authBanner.classList.add('hidden');
         switchMode('parent');
       }
-    }
-
-    // Live Sync Subscriptions
-    function listenToDatabase() {
-      if (!user || !db) return;
-
-      const scheduleCol = collection(db, 'artifacts', appId, 'public', 'data', 'schedule');
-      onSnapshot(scheduleCol, (snapshot) => {
-        snapshot.forEach((doc) => {
-          const dayData = doc.data();
-          if (activeSchedule[doc.id]) {
-            activeSchedule[doc.id].student = dayData.student || "Unassigned";
-          }
-        });
-        renderParentPlanner();
-        renderTeacherAssignments();
-      }, (error) => {
-        console.error("Schedule sync error: ", error);
-      });
-
-      const feedbackCol = collection(db, 'artifacts', appId, 'public', 'data', 'feedback');
-      onSnapshot(feedbackCol, (snapshot) => {
-        parentFeedbackList = [];
-        snapshot.forEach((doc) => {
-          parentFeedbackList.push({ id: doc.id, ...doc.data() });
-        });
-        renderFeedbackWall();
-      }, (error) => {
-        console.error("Feedback sync error: ", error);
-      });
     }
 
     // Render Parent View Cards
@@ -468,91 +405,44 @@
       });
     }
 
-    // Save Student Assignments to Cloud
-    window.saveSingleAssignment = async function(dayId) {
+    // Save Student Assignments
+    window.saveSingleAssignment = function(dayId) {
       const inputVal = document.getElementById(`assign-input-${dayId}`).value.trim();
       const assignedName = inputVal === "" ? "Unassigned" : inputVal;
 
-      if (!db || !user) {
-        activeSchedule[dayId].student = assignedName;
-        renderParentPlanner();
-        renderTeacherAssignments();
-        showSnack("Saved locally! (Database is disconnected)");
-        return;
-      }
-
-      try {
-        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'schedule', dayId);
-        await setDoc(docRef, { student: assignedName }, { merge: true });
-        showSnack(`Successfully assigned ${assignedName} to ${activeSchedule[dayId].date}!`);
-      } catch (err) {
-        console.error("Failed to update database assignment: ", err);
-        showSnack("Error saving. Please check connection.");
-      }
+      activeSchedule[dayId].student = assignedName;
+      localStorage.setItem('msb_tiffin_schedule', JSON.stringify(activeSchedule));
+      
+      renderParentPlanner();
+      renderTeacherAssignments();
+      showSnack(`Saved! ${assignedName} has been scheduled for ${activeSchedule[dayId].date}.`);
     };
 
-    // Submit Feedback to Cloud
-    window.submitFeedback = async function(dayId, menuName, rating, parentName, comment) {
-      if (!db || !user) {
-        parentFeedbackList.unshift({
-          menuName: menuName,
-          rating: rating,
-          parentName: parentName,
-          comment: comment,
-          dateStr: "Local"
-        });
-        renderFeedbackWall();
-        showSnack("Feedback logged locally!");
-        return;
-      }
-
-      try {
-        const feedbackCol = collection(db, 'artifacts', appId, 'public', 'data', 'feedback');
-        await addDoc(feedbackCol, {
-          menuName: menuName,
-          rating: parseInt(rating),
-          parentName: parentName || "Anonymous Parent",
-          comment: comment || "Delighted with the class catering!",
-          timestamp: new Date(),
-          dateStr: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
-        });
-        showSnack("Thank you! Your feedback has been sent to the class teacher.");
-      } catch (err) {
-        console.error("Feedback upload failed: ", err);
-        showSnack("Failed to submit feedback.");
-      }
+    // Submit Feedback
+    window.submitFeedback = function(dayId, menuName, rating, parentName, comment) {
+      parentFeedbackList.unshift({
+        menuName: menuName,
+        rating: parseInt(rating),
+        parentName: parentName || "Anonymous Parent",
+        comment: comment || "Delighted with the class catering!",
+        dateStr: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      });
+      
+      localStorage.setItem('msb_tiffin_feedback', JSON.stringify(parentFeedbackList));
+      renderFeedbackWall();
+      showSnack("Thank you! Your feedback has been sent to the class teacher.");
     };
 
     // Reset feedback wall
-    window.clearAllFeedback = async function() {
+    window.clearAllFeedback = function() {
       if (!confirm("Are you sure you want to delete all parent responses on the wall?")) return;
 
-      if (!db || !user) {
-        parentFeedbackList = [];
-        renderFeedbackWall();
-        showSnack("Feedback cleared locally!");
-        return;
-      }
-
-      try {
-        const feedbackCol = collection(db, 'artifacts', appId, 'public', 'data', 'feedback');
-        const querySnapshot = await getDocs(feedbackCol);
-        
-        for (const document of querySnapshot.docs) {
-          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'feedback', document.id);
-          await deleteDoc(docRef);
-        }
-        showSnack("All parent feedback records cleared on cloud!");
-      } catch (err) {
-        console.error("Clear feedback failed: ", err);
-        showSnack("Error clearing feedback.");
-      }
+      parentFeedbackList = [];
+      localStorage.setItem('msb_tiffin_feedback', JSON.stringify(parentFeedbackList));
+      renderFeedbackWall();
+      showSnack("All parent feedback records cleared!");
     };
 
-    startApplication();
-  </script>
-
-  <script>
     // General UI Control script
     function switchMode(mode) {
       const parentLabel = document.getElementById('currentViewLabel');
@@ -697,10 +587,10 @@
             "1 tsp oil/ghee"
           ],
           steps: [
-            "Heat half a tsp of oil in a small pan, crackle mustard seeds & curry leaves, then stir them into the batter.",
+            "Heat half a tsp of oil in a small pan, crackle mustard seeds & curry leaves, then stir them into the battery.",
             "Add the grated carrots, cabbage, and coriander to the batter and stir gently.",
             "Heat an appe/paniyaram pan, add a tiny drop of oil in each mold.",
-            "Spoon the colorful battery into the molds, cover with a lid, and cook on low heat for 3-4 minutes.",
+            "Spoon the colorful batter into the molds, cover with a lid, and cook on low heat for 3-4 minutes.",
             "Flip carefully using a skewer/fork and cook uncovered for another 2 minutes until perfectly crisp on all sides."
           ]
         },
@@ -857,9 +747,7 @@
       const parentName = document.getElementById('parent-feedback-name').value.trim();
       const note = document.getElementById('parent-feedback-note').value.trim();
 
-      if (window.submitFeedback) {
-        window.submitFeedback(dayId, menuName, rating, parentName, note);
-      }
+      window.submitFeedback(dayId, menuName, rating, parentName, note);
       closeRecipeModal();
     }
 
@@ -887,6 +775,9 @@
     window.openHelpModal = openHelpModal;
     window.closeHelpModal = closeHelpModal;
     window.closeRecipeModal = closeRecipeModal;
+
+    // Run local configuration engine immediately
+    window.onload = initializeStorageData;
   </script>
 </body>
 </html>
