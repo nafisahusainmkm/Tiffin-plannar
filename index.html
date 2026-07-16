@@ -1,138 +1,1062 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MSB Educational Institute - Tiffin Planner</title>
+  <title>MSB Educational Institute - Collaborative Tiffin Hub</title>
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Quicksand', sans-serif; }
-    .hidden { display: none !important; }
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background-color: #f0f4f8;
+    }
+    h1, h2, h3, h4, .font-playful {
+      font-family: 'Fredoka', sans-serif;
+    }
+    /* Hide scrollbar for beauty */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 10px;
+    }
+    /* Custom CSS transitions */
+    .recipe-transition {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
   </style>
 </head>
-<body class="bg-gray-50 min-h-screen p-4">
+<body class="text-slate-700 min-h-screen pb-12">
 
-  <div class="max-w-2xl mx-auto">
+  <!-- Main Container -->
+  <div class="max-w-6xl mx-auto px-4 py-6">
     
-    <!-- 1. Header with Monogram -->
-    <div class="flex items-center gap-4 bg-white p-4 rounded-2xl shadow-sm mb-6 border border-gray-100">
-      <img src="https://raw.githubusercontent.com/nafisahusainmkm/Tiffin-plannar/main/1001296689.png" alt="School Logo" class="w-16 h-16 object-contain">
-      <div>
-        <h1 id="pageTitle" class="text-xl font-bold text-gray-800">July Tiffin Planner</h1>
-        <p class="text-xs text-gray-500">MSB Educational Institute, Kota</p>
+    <!-- Top Interactive Controller Hub (Interactive only, no-print) -->
+    <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl">🏫</span>
+        <div>
+          <h3 class="font-playful text-indigo-950 text-lg leading-tight">MSB Tiffin Portal</h3>
+          <p class="text-xs text-slate-500">Live cloud sync for cooking schedules and parent feedback</p>
+        </div>
+      </div>
+      
+      <!-- Interactive Navigation & Modes -->
+      <div class="flex flex-wrap items-center gap-2">
+        <!-- View Toggle -->
+        <div class="bg-slate-100 p-1.5 rounded-2xl flex gap-1">
+          <button id="btnParentView" onclick="switchMode('parent')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all bg-white text-indigo-900 shadow-sm">
+            👪 Parent Mode
+          </button>
+          <button id="btnTeacherView" onclick="switchMode('teacher')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all text-slate-600 hover:text-indigo-900">
+            👩‍🏫 Teacher Panel
+          </button>
+        </div>
+
+        <button onclick="openHelpModal()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-playful text-xs px-3 py-2 rounded-xl transition-all">
+          ❓ App Guide
+        </button>
+        <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-white font-playful text-xs px-3 py-2 rounded-xl transition-all shadow-sm">
+          🖨 Print Layout
+        </button>
       </div>
     </div>
 
-    <!-- 2. Disclaimer -->
-    <div class="bg-amber-50 border-l-4 border-amber-400 p-4 mb-6 rounded-r-lg">
-      <p class="text-sm font-semibold text-amber-900">Important Note:</p>
-      <p class="text-xs text-amber-800 mt-1">
-        Instead of vegetables, you can also send healthy dry snacks like <strong>dates, roasted makhana, or peanuts</strong> as alternative side food.
-      </p>
+    <!-- Active User Feedback Notice -->
+    <div id="authStatusBanner" class="mb-4 bg-teal-50 border border-teal-100 text-teal-800 text-xs px-4 py-2.5 rounded-2xl flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <span class="relative flex h-2 w-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-teal-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-teal-500"></span>
+        </span>
+        <span id="syncStatus">Initializing secure cloud database sync...</span>
+      </div>
+      <span class="font-mono text-[10px] bg-white px-2 py-0.5 rounded border border-teal-200" id="userIdTag">ID: Connecting...</span>
     </div>
 
-    <!-- 3. Calendar Grid -->
-    <div id="calendar" class="grid grid-cols-7 gap-2 text-center text-xs">
-      <div class="font-bold text-gray-400">S</div>
-      <div class="font-bold text-gray-400">M</div>
-      <div class="font-bold text-gray-400">T</div>
-      <div class="font-bold text-gray-400">W</div>
-      <div class="font-bold text-gray-400">T</div>
-      <div class="font-bold text-gray-400">F</div>
-      <div class="font-bold text-gray-400">S</div>
-      <!-- Days will be injected here -->
-    </div>
+    <!-- PRIMARY MAIN CANVAS CONTAINER -->
+    <div class="bg-amber-50/20 rounded-[2.5rem] border-4 border-amber-200/70 p-6 md:p-10 shadow-xl relative overflow-hidden bg-white">
+      
+      <!-- Design Background Blobs -->
+      <div class="absolute -top-12 -left-12 w-40 h-40 bg-yellow-200 rounded-full mix-blend-multiply filter blur-2xl opacity-40 pointer-events-none"></div>
+      <div class="absolute bottom-12 -right-12 w-48 h-48 bg-pink-100 rounded-full mix-blend-multiply filter blur-2xl opacity-40 pointer-events-none"></div>
 
-    <!-- 4. Teacher Actions (Hidden by default) -->
-    <div id="teacherActions" class="mt-8 hidden text-center">
-      <button onclick="saveChanges()" class="bg-green-600 text-white py-2 px-6 rounded-lg font-bold">Save Changes</button>
+      <!-- Header -->
+      <div class="text-center relative z-10 border-b-2 border-dashed border-amber-200/80 pb-6 mb-8">
+        <div class="flex items-center justify-center gap-2.5 mb-2">
+          <div class="bg-orange-500 text-white rounded-2xl p-2 transform rotate-3">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+          </div>
+          <div>
+            <h1 class="text-sm md:text-base font-bold tracking-widest text-orange-600 uppercase">MSB Educational Institute</h1>
+            <p class="text-xs font-semibold tracking-wider text-slate-400 -mt-1">KOTA, RAJASTHAN</p>
+          </div>
+        </div>
+        <h2 class="text-3xl md:text-5xl font-playful text-indigo-950 mt-2">Class Tiffin Rotation Plan</h2>
+        <p class="text-slate-500 text-xs md:text-sm max-w-2xl mx-auto mt-2 font-medium">
+          To build community and shared values, <span class="text-indigo-800 font-bold">one parent voluntarily prepares and sends the healthy tiffin</span> for the entire class each day!
+        </p>
+
+        <!-- Current Active View Banner -->
+        <div class="mt-4 inline-block bg-indigo-950 text-amber-300 text-xs font-bold font-playful uppercase tracking-widest px-4 py-1.5 rounded-full" id="currentViewLabel">
+          Currently Viewing: Parent Mode
+        </div>
+      </div>
+
+      <!-- Monday Note Box -->
+      <div class="mb-8 bg-teal-50 border border-teal-200/50 p-4 rounded-2xl flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">💡</span>
+          <div>
+            <h4 class="font-playful text-teal-900 text-sm">Every Monday Choice Day</h4>
+            <p class="text-xs text-slate-500">Parents send any healthy tiffin of their own choice for their child.</p>
+          </div>
+        </div>
+        <span class="bg-teal-600 text-white font-bold text-[10px] tracking-wider uppercase px-2.5 py-1 rounded-lg">Individual</span>
+      </div>
+
+      <!-- PARENT VIEW: GRID PLANNER -->
+      <div id="parentViewSection" class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+        <!-- Javascript will inject cards here dynamically -->
+      </div>
+
+      <!-- TEACHER PANEL VIEW -->
+      <div id="teacherViewSection" class="hidden relative z-10 space-y-8">
+        
+        <!-- Editable Rotation Schedule Grid -->
+        <div class="bg-indigo-50/40 border border-indigo-100 p-6 rounded-3xl">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-playful text-indigo-950 text-xl">Assign Cooking Duties</h3>
+              <p class="text-xs text-slate-500">Assign a student's family to cook for the day. Updates instantly on parents' phones!</p>
+            </div>
+            <span class="bg-indigo-600 text-white font-playful text-xs px-3 py-1 rounded-xl">Live Sync</span>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="teacherAssignGrid">
+            <!-- Dynamically injected assignment forms -->
+          </div>
+        </div>
+
+        <!-- Parents Feedback Consolidated Panel -->
+        <div class="bg-emerald-50/20 border border-emerald-100 p-6 rounded-3xl">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h3 class="font-playful text-emerald-950 text-xl">Parent Feedback Wall</h3>
+              <p class="text-xs text-slate-500">Live feed of meal ratings and comments submitted by class parents.</p>
+            </div>
+            <button onclick="clearAllFeedback()" class="bg-rose-50 hover:bg-rose-100 text-rose-700 text-xs font-bold font-playful px-3 py-1.5 rounded-lg border border-rose-200 transition-colors">
+              Reset Feedbacks
+            </button>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="feedbackWall">
+            <p class="text-xs text-slate-400 italic">No parent feedback submitted yet...</p>
+          </div>
+        </div>
+
+      </div>
+
     </div>
   </div>
 
-  <!-- Recipe Modal -->
-  <div id="recipeModal" class="fixed inset-0 bg-black/50 hidden flex items-center justify-center p-4">
-    <div class="bg-white p-6 rounded-2xl w-full max-w-sm">
-      <h2 id="modalTitle" class="text-lg font-bold text-gray-800 mb-2"></h2>
-      <p id="modalRecipe" class="text-sm text-gray-600 mb-4"></p>
-      <button onclick="closeModal()" class="w-full bg-gray-800 text-white py-2 rounded-lg font-bold">Close</button>
+  <!-- IN-APP DETAILED RECIPE MODAL -->
+  <div id="recipeModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 md:p-8 max-h-[90vh] overflow-y-auto shadow-2xl relative border-2 border-amber-100 recipe-transition transform scale-95 opacity-0" id="recipeModalContent">
+      <button onclick="closeRecipeModal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 p-2 rounded-full transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      <div id="recipeModalBody">
+        <!-- Content will be injected dynamically -->
+      </div>
     </div>
   </div>
+
+  <!-- HELP & SHARE GUIDE MODAL -->
+  <div id="helpModal" class="hidden fixed inset-0 bg-slate-900/70 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 md:p-8 max-h-[85vh] overflow-y-auto shadow-2xl relative border-2 border-indigo-100">
+      <button onclick="closeHelpModal()" class="absolute top-4 right-4 bg-slate-100 hover:bg-slate-200 text-slate-600 p-2 rounded-full transition-all">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+      </button>
+      
+      <h3 class="font-playful text-indigo-950 text-2xl mb-4">🚀 Teacher's Setup & Deployment Guide</h3>
+      
+      <div class="space-y-4 text-xs text-slate-600 leading-relaxed">
+        <div class="bg-indigo-50/50 p-4 rounded-2xl border border-indigo-100">
+          <p class="font-bold text-indigo-900 text-sm mb-1">How do I download this to my computer?</p>
+          <ol class="list-decimal pl-4 space-y-1">
+            <li>Hover over the generated file container in the right panel.</li>
+            <li>Click the **Download** icon or copy all of the HTML code.</li>
+            <li>Save the file as **`index.html`** or **`tiffin_planner.html`** on your desktop.</li>
+          </ol>
+        </div>
+
+        <div class="bg-amber-50/50 p-4 rounded-2xl border border-amber-100">
+          <p class="font-bold text-amber-900 text-sm mb-1">How can I host & share this with parents?</p>
+          <ul class="list-disc pl-4 space-y-1">
+            <li><strong>Option A (Easiest):</strong> Go to <a href="https://tiny.host/" target="_blank" class="text-indigo-600 underline font-semibold">TinyHost</a>, <a href="https://neocities.org/" target="_blank" class="text-indigo-600 underline font-semibold">Neocities</a>, or <a href="https://www.netlify.com/" target="_blank" class="text-indigo-600 underline font-semibold">Netlify</a>.</li>
+            <li>Drag & drop this downloaded `.html` file there. They will give you a free, simple link (e.g., <code>msb-tiffin.neocities.org</code>).</li>
+            <li>Send that link to the parents on your class WhatsApp group!</li>
+          </ul>
+        </div>
+
+        <div class="bg-emerald-50/50 p-4 rounded-2xl border border-emerald-100">
+          <p class="font-bold text-emerald-900 text-sm mb-1">How does the Admin/Rating system work?</p>
+          <ul class="list-disc pl-4 space-y-1">
+            <li><strong>Syncing Student Names:</strong> In Teacher Mode, type any student name inside the date box. It updates on all devices instantly!</li>
+            <li><strong>Viewing Ratings & Reviews:</strong> When parents click a day's card, rate it, and submit comment, it goes straight to the "Feedback Wall" in your Teacher Mode.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-6 flex justify-end">
+        <button onclick="closeHelpModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-playful px-4 py-2 rounded-xl text-sm transition-all shadow">
+          Got it!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Firebase & App Orchestration scripts -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, collection, onSnapshot, updateDoc, addDoc, deleteDoc, getDocs } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    // Application state
+    const defaultSchedule = {
+      "21": { date: "21 Jul", day: "Tue", menu: "Mini Vegetable Idli", qty: "4 mini idlis", side: "½ cup sliced cucumber", student: "Unassigned", theme: "orange" },
+      "22": { date: "22 Jul", day: "Wed", menu: "Paneer Paratha + Herb Hung Curd Dip", qty: "1 medium", side: "½ cup carrot + beetroot", student: "Unassigned", theme: "pink" },
+      "23": { date: "23 Jul", day: "Thu", menu: "Vegetable Besan Chilla + Homemade Mayo Dip", qty: "2 small", side: "½ cup cucumber", student: "Unassigned", theme: "indigo" },
+      "24": { date: "24 Jul", day: "Fri", menu: "Whole Wheat Pasta", qty: "¾ cup", side: "½ cup tomatoes", student: "Unassigned", theme: "teal" },
+      "28": { date: "28 Jul", day: "Tue", menu: "Chicken-Roti", qty: "1 small roti", side: "½ cup cucumber", student: "Unassigned", theme: "amber" },
+      "29": { date: "29 Jul", day: "Wed", menu: "Vegetable Appe", qty: "5–6 mini appe", side: "½ cup carrot + beetroot", student: "Unassigned", theme: "emerald" },
+      "30": { date: "30 Jul", day: "Thu", menu: "Keema + Potato Stuffed Samosa", qty: "3 small samosas", side: "½ cup cucumber", student: "Unassigned", theme: "rose" },
+      "31": { date: "31 Jul", day: "Fri", menu: "Mini Veg Pizza (roti base)", qty: "1 mini pizza", side: "½ cup tomatoes", student: "Unassigned", theme: "violet" }
+    };
+
+    const recipes = {
+      "21": {
+        title: "Mini Vegetable Idli",
+        time: "20 Mins Prep, 10 Mins Cooking",
+        yield: "Makes ~20 Mini Idlis",
+        ingredients: [
+          "2 cups Fermented Idli Batter",
+          "½ cup finely grated carrots",
+          "¼ cup steamed green peas (mashed lightly)",
+          "1 tbsp oil for greasing",
+          "Pinch of mild salt & turmeric"
+        ],
+        steps: [
+          "Mix the fermented idli batter with finely grated carrots, mashed peas, and a hint of salt/turmeric.",
+          "Lightly grease the mini idli plate molds with oil or ghee.",
+          "Spoon batter into the mini molds.",
+          "Steam in an idli steamer on high heat for 7-10 minutes.",
+          "Let them cool for 2 minutes, then use a spoon to scoop them out beautifully."
+        ]
+      },
+      "22": {
+        title: "Paneer Paratha & Herb Dip",
+        time: "15 Mins Prep, 15 Mins Cooking",
+        yield: "Makes 3-4 medium parathas",
+        ingredients: [
+          "1 cup Whole Wheat Flour Dough",
+          "¾ cup grated Paneer",
+          "Pinch of cumin powder and coriander leaves",
+          "½ cup Hung Curd (Strained yogurt)",
+          "Dried mixed herbs, salt, and drops of olive oil"
+        ],
+        steps: [
+          "Mix grated paneer, fresh coriander, cumin powder, and a tiny pinch of salt in a bowl.",
+          "Roll out a ball of wheat dough, place the paneer stuffing in the center, seal the edges, and roll flat.",
+          "Cook on a medium hot tawa (griddle) brushing lightly with ghee or butter until golden brown on both sides.",
+          "To make the dip: Whisk hung curd with dried mixed herbs, olive oil, and tiny pinch of salt. Pack in a leak-proof dip cup."
+        ]
+      },
+      "23": {
+        title: "Vegetable Besan Chilla & Mayo Dip",
+        time: "10 Mins Prep, 10 Mins Cooking",
+        yield: "Makes 4 small chillas",
+        ingredients: [
+          "1 cup Besan (Gram flour)",
+          "½ cup water (adjust for pancake batter consistency)",
+          "¼ cup finely chopped onions, tomatoes & capsicum",
+          "Handful of chopped coriander, pinch of carom seeds (ajwain)",
+          "2 tbsp homemade eggless mayo + 1 tsp curd (diluted for dipping)"
+        ],
+        steps: [
+          "In a mixing bowl, combine besan, water, ajwain, coriander, and chopped vegetables to make a smooth pourable batter.",
+          "Heat a non-stick flat tawa, smear a drop of oil/ghee, and pour a small ladle of batter.",
+          "Spread gently in a small circular motion. Cook on medium-low flame until edges start lifting.",
+          "Flip and cook the other side until fully golden.",
+          "Serve folded with homemade light mayo dip."
+        ]
+      },
+      "24": {
+        title: "Whole Wheat Pasta in Red Sauce",
+        time: "15 Mins Cook, 10 Mins Assembly",
+        yield: "Serves 2 small children",
+        ingredients: [
+          "1 cup cooked Whole Wheat Penne or Fusilli",
+          "2 fresh tomatoes (blanched & pureed)",
+          "1 clove garlic (minced)",
+          "¼ cup sweet corn kernels & baby broccoli florets",
+          "1 tbsp butter or olive oil",
+          "1 tbsp grated mozzarella cheese"
+        ],
+        steps: [
+          "Boil wheat pasta in salted water until soft (al dente). Drain and reserve 2 tablespoons of pasta water.",
+          "Heat olive oil or butter in a pan, add minced garlic, and sauté for 30 seconds.",
+          "Pour pureed blanched tomatoes and simmer until raw smell is gone.",
+          "Toss in corn, steamed broccoli florets, and cooked pasta.",
+          "Mix well adding cheese and a splash of reserved pasta water. Pack once fully cooled."
+        ]
+      },
+      "28": {
+        title: "Shredded Chicken-Roti Roll",
+        time: "15 Mins Prep, 10 Mins Cooking",
+        yield: "Makes 2 small wraps",
+        ingredients: [
+          "1 soft, thin whole-wheat roti",
+          "½ cup boiled shredded chicken breast",
+          "¼ tsp cumin powder & mild tomato puree",
+          "¼ cup finely shredded cucumber & carrots",
+          "1 tsp butter"
+        ],
+        steps: [
+          "In a small skillet, heat butter, toss the shredded chicken with a spoonful of mild tomato puree, cumin, and a pinch of salt to make it juicy.",
+          "Place a warm soft roti on a clean board.",
+          "Lay down a row of cooked juicy chicken in the center, topped with crisp shredded cucumber/carrots.",
+          "Roll the roti tightly and wrap the lower half in parchment paper or clean wrap to keep it securely held for small hands."
+        ]
+      },
+      "29": {
+        title: "Vegetable Appe (Paniyaram)",
+        time: "10 Mins Prep, 15 Mins cooking",
+        yield: "Makes 12-14 Appe",
+        ingredients: [
+          "2 cups fermented rice/dal batter",
+          "½ cup finely grated carrots & cabbage",
+          "1 tbsp chopped coriander leaves",
+          "¼ tsp mustard seeds & curry leaves",
+          "1 tsp oil/ghee"
+        ],
+        steps: [
+          "Heat half a tsp of oil in a small pan, crackle mustard seeds & curry leaves, then stir them into the batter.",
+          "Add the grated carrots, cabbage, and coriander to the batter and stir gently.",
+          "Heat an appe/paniyaram pan, add a tiny drop of oil in each mold.",
+          "Spoon the colorful batter into the molds, cover with a lid, and cook on low heat for 3-4 minutes.",
+          "Flip carefully using a skewer/fork and cook uncovered for another 2 minutes until perfectly crisp on all sides."
+        ]
+      },
+      "30": {
+        title: "Baked Keema + Potato Samosas",
+        time: "20 Mins Prep, 20 Mins Baking",
+        yield: "Makes 6 small samosas",
+        ingredients: [
+          "½ cup minced cooked keema (chicken/mutton) or boiled mashed potatoes (veg choice)",
+          "Pinch of ginger paste, turmeric & coriander powder",
+          "Ready-made spring roll sheets cut into thick strips or homemade dough flaps",
+          "Ghee for brushing"
+        ],
+        steps: [
+          "In a skillet, cook minced keema or mashed potatoes with mild spices until fully dry and seasoned.",
+          "Fold a strip of pastry wrapper into a pocket cone shape.",
+          "Fill with the keema or potato stuffing, then seal the edges using a touch of water or cornstarch slurry.",
+          "Brush the mini samosas lightly with melted ghee.",
+          "Bake in a preheated oven at 180°C (350°F) for 15-20 mins until crisp and beautiful gold."
+        ]
+      },
+      "31": {
+        title: "Mini Veg Pizza on Roti Base",
+        time: "10 Mins Assembly, 5 Mins Baking",
+        yield: "Makes 1 mini pizza",
+        ingredients: [
+          "1 small crisp toasted Roti/Chapati",
+          "1 tbsp simple tomato pizza sauce",
+          "2 tbsp grated mild mozzarella cheese",
+          "6-8 tiny cubes of colorful bell peppers & sweet corn"
+        ],
+        steps: [
+          "Take a lightly pre-toasted whole wheat roti to act as the thin crust base.",
+          "Spread a thin layer of tomato pizza sauce evenly across the roti.",
+          "Scatter the grated mozzarella cheese on top.",
+          "Decorate with sweet corn and tiny bell peppers.",
+          "Pop it onto a dry tawa (pan) covered with a lid on very low heat for 3-4 minutes until the cheese is wonderfully melted and gooey. Slice into quarters."
+        ]
+      }
+    };
+
+    let activeSchedule = { ...defaultSchedule };
+    let parentFeedbackList = [];
+
+    // Global App Init State
+    let user = null;
+    let db = null;
+    let auth = null;
+
+    // Retrieve Firebase Globals safely
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'msb-tiffin-planner';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+    // Start-up function
+    async function startApplication() {
+      if (!firebaseConfig) {
+        document.getElementById('syncStatus').innerText = "Offline Mode (Using local device storage)";
+        document.getElementById('userIdTag').innerText = "ID: Offline-Local";
+        renderParentPlanner();
+        renderTeacherAssignments();
+        return;
+      }
+
+      try {
+        const app = initializeApp(firebaseConfig);
+        auth = getAuth(app);
+        db = getFirestore(app);
+
+        // Sign in anonymously or custom token
+        if (initialAuthToken) {
+          await signInWithCustomToken(auth, initialAuthToken);
+        } else {
+          await signInAnonymously(auth);
+        }
+
+        onAuthStateChanged(auth, (currentUser) => {
+          if (currentUser) {
+            user = currentUser;
+            document.getElementById('syncStatus').innerText = "Connected to Live Cloud Database";
+            document.getElementById('userIdTag').innerText = `ID: ${user.uid}`;
+            
+            // Activate real-time snapshot sync with Firestore
+            listenToDatabase();
+          }
+        });
+
+      } catch (err) {
+        console.error("Database connection error: ", err);
+        document.getElementById('syncStatus').innerText = "Database connection offline. Showing fallback.";
+        renderParentPlanner();
+        renderTeacherAssignments();
+      }
+    }
+
+    // Live Sync Subscriptions
+    function listenToDatabase() {
+      if (!user || !db) return;
+
+      // 1. Listen to schedule assignments
+      const scheduleCol = collection(db, 'artifacts', appId, 'public', 'data', 'schedule');
+      onSnapshot(scheduleCol, (snapshot) => {
+        snapshot.forEach((doc) => {
+          const dayData = doc.data();
+          if (activeSchedule[doc.id]) {
+            activeSchedule[doc.id].student = dayData.student || "Unassigned";
+          }
+        });
+        renderParentPlanner();
+        renderTeacherAssignments();
+      }, (error) => {
+        console.error("Schedule sync error: ", error);
+      });
+
+      // 2. Listen to Feedbacks Submitted
+      const feedbackCol = collection(db, 'artifacts', appId, 'public', 'data', 'feedback');
+      onSnapshot(feedbackCol, (snapshot) => {
+        parentFeedbackList = [];
+        snapshot.forEach((doc) => {
+          parentFeedbackList.push({ id: doc.id, ...doc.data() });
+        });
+        renderFeedbackWall();
+      }, (error) => {
+        console.error("Feedback sync error: ", error);
+      });
+    }
+
+    // Render Parent View Cards
+    window.renderParentPlanner = function() {
+      const container = document.getElementById('parentViewSection');
+      container.innerHTML = "";
+
+      Object.keys(activeSchedule).forEach(dayId => {
+        const item = activeSchedule[dayId];
+        
+        let themeClasses = "";
+        let btnTheme = "";
+        if (item.theme === "orange") { themeClasses = "border-orange-100 bg-orange-50/10"; btnTheme = "bg-orange-600 hover:bg-orange-700 text-white"; }
+        else if (item.theme === "pink") { themeClasses = "border-pink-100 bg-pink-50/10"; btnTheme = "bg-pink-600 hover:bg-pink-700 text-white"; }
+        else if (item.theme === "indigo") { themeClasses = "border-indigo-100 bg-indigo-50/10"; btnTheme = "bg-indigo-600 hover:bg-indigo-700 text-white"; }
+        else if (item.theme === "teal") { themeClasses = "border-teal-100 bg-teal-50/10"; btnTheme = "bg-teal-600 hover:bg-teal-700 text-white"; }
+        else if (item.theme === "amber") { themeClasses = "border-amber-100 bg-amber-50/10"; btnTheme = "bg-amber-600 hover:bg-amber-700 text-white"; }
+        else if (item.theme === "emerald") { themeClasses = "border-emerald-100 bg-emerald-50/10"; btnTheme = "bg-emerald-600 hover:bg-emerald-700 text-white"; }
+        else if (item.theme === "rose") { themeClasses = "border-rose-100 bg-rose-50/10"; btnTheme = "bg-rose-600 hover:bg-rose-700 text-white"; }
+        else if (item.theme === "violet") { themeClasses = "border-violet-100 bg-violet-50/10"; btnTheme = "bg-violet-600 hover:bg-violet-700 text-white"; }
+
+        // Determine assignment pill text
+        const isAssigned = item.student && item.student !== "Unassigned";
+        const studentPillClass = isAssigned 
+          ? "bg-indigo-900 text-amber-300 font-bold" 
+          : "bg-slate-100 text-slate-500 font-medium italic";
+
+        const cardHtml = `
+          <div class="bg-white rounded-3xl border-2 p-5 ${themeClasses} shadow-sm hover:shadow-md transition-all flex flex-col justify-between" id="parent-card-${dayId}">
+            <div>
+              <div class="flex items-start justify-between mb-3">
+                <div class="flex items-center gap-3">
+                  <div class="bg-indigo-50 text-indigo-950 font-playful rounded-2xl py-1.5 px-3 text-center border border-indigo-100">
+                    <span class="block text-[10px] uppercase tracking-tight font-semibold">${item.day}</span>
+                    <span class="block text-base font-bold leading-none mt-0.5">${item.date}</span>
+                  </div>
+                  <div>
+                    <h3 class="font-playful text-slate-900 text-base leading-snug">${item.menu}</h3>
+                    <p class="text-xs text-slate-400">Class Catering Shared Plan</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chef Assignment Banner -->
+              <div class="my-4 p-3 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                <div>
+                  <span class="block text-[9px] uppercase font-bold text-slate-400">Assigned Cooking Family:</span>
+                  <span class="font-playful text-sm text-indigo-950">${item.student || "Open for Volunteer"}</span>
+                </div>
+                <span class="text-xs px-2.5 py-1 rounded-xl ${studentPillClass}">
+                  ${isAssigned ? "🔥 Cooking" : "Volunteer Needed"}
+                </span>
+              </div>
+
+              <div class="space-y-1.5 text-xs text-slate-600">
+                <div class="flex items-center gap-2">
+                  <span class="text-amber-500">🍱</span>
+                  <span><strong>Total Portion Size:</strong> ${item.qty} (per child)</span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="text-emerald-500">🥗</span>
+                  <span><strong>Fresh side:</strong> ${item.side}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Action footer for parent -->
+            <div class="mt-5 pt-3 border-t border-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <button onclick="window.viewRecipe('${dayId}')" class="${btnTheme} font-playful text-xs px-3.5 py-1.5 rounded-xl transition-all shadow-sm">
+                📖 View Recipe instructions
+              </button>
+              
+              <!-- Quick Rate triggers feedback modal -->
+              <button onclick="window.openFeedbackDialog('${dayId}', '${item.menu}')" class="text-xs text-indigo-700 font-semibold hover:underline flex items-center gap-1 self-end sm:self-auto">
+                ⭐ Submmit Review
+              </button>
+            </div>
+          </div>
+        `;
+        container.innerHTML += cardHtml;
+      });
+    };
+
+    // Render Teacher Mode inputs
+    window.renderTeacherAssignments = function() {
+      const container = document.getElementById('teacherAssignGrid');
+      container.innerHTML = "";
+
+      Object.keys(activeSchedule).forEach(dayId => {
+        const item = activeSchedule[dayId];
+        const studentVal = item.student === "Unassigned" ? "" : item.student;
+
+        const editBoxHtml = `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">${item.date} (${item.day})</span>
+              <span class="text-xs text-indigo-600 font-bold truncate max-w-[150px]">${item.menu}</span>
+            </div>
+            <label class="block text-[10px] font-bold text-slate-600 mb-1">Catering Student's Name:</label>
+            <div class="flex gap-2">
+              <input type="text" id="assign-input-${dayId}" value="${studentVal}" placeholder="e.g. Yusuf's Mother" class="bg-slate-50 border border-slate-200 focus:border-indigo-500 outline-none rounded-xl px-2.5 py-1.5 text-xs text-indigo-950 font-bold w-full transition-all">
+              <button onclick="window.saveSingleAssignment('${dayId}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-playful text-xs px-3 py-1.5 rounded-xl transition-all">
+                Save
+              </button>
+            </div>
+          </div>
+        `;
+        container.innerHTML += editBoxHtml;
+      });
+    };
+
+    // Render the Teacher Feedback Wall
+    function renderFeedbackWall() {
+      const container = document.getElementById('feedbackWall');
+      if (parentFeedbackList.length === 0) {
+        container.innerHTML = `<p class="text-xs text-slate-400 italic py-4">No parent ratings or comments received yet. Shared dashboard updates instantly once parents submit feedback!</p>`;
+        return;
+      }
+
+      container.innerHTML = "";
+      parentFeedbackList.forEach(fb => {
+        let stars = "⭐".repeat(fb.rating);
+
+        const card = `
+          <div class="bg-white p-4 rounded-2xl border border-slate-200 shadow-sm relative overflow-hidden">
+            <span class="absolute top-3 right-3 text-[10px] bg-slate-100 px-2 py-0.5 rounded-lg font-mono text-slate-400">${fb.dateStr || "Today"}</span>
+            <div class="flex items-center gap-1.5 text-amber-500 mb-1">
+              <span class="font-bold text-sm">${stars}</span>
+              <span class="text-slate-400 text-xs">(${fb.rating}/3 stars)</span>
+            </div>
+            <h4 class="text-xs font-bold text-indigo-950 mb-1">Feedback for: ${fb.menuName}</h4>
+            <p class="text-xs text-slate-600 italic">"${fb.comment || 'Loved it!'}"</p>
+            <div class="mt-2 text-[9px] font-bold text-slate-400 uppercase tracking-wide">
+              Submitted by: ${fb.parentName || "Anonymous Parent"}
+            </div>
+          </div>
+        `;
+        container.innerHTML += card;
+      });
+    }
+
+    // Save Student Assignments to Cloud
+    window.saveSingleAssignment = async function(dayId) {
+      const inputVal = document.getElementById(`assign-input-${dayId}`).value.trim();
+      const assignedName = inputVal === "" ? "Unassigned" : inputVal;
+
+      if (!db || !user) {
+        // Fallback for offline usage
+        activeSchedule[dayId].student = assignedName;
+        renderParentPlanner();
+        renderTeacherAssignments();
+        showSnack("Saved locally! (Database is disconnected)");
+        return;
+      }
+
+      try {
+        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'schedule', dayId);
+        await setDoc(docRef, { student: assignedName }, { merge: true });
+        showSnack(`Successfully assigned ${assignedName} to ${activeSchedule[dayId].date}!`);
+      } catch (err) {
+        console.error("Failed to update database assignment: ", err);
+        showSnack("Error saving. Please check connection.");
+      }
+    };
+
+    // Submit Feedback to Cloud
+    window.submitFeedback = async function(dayId, menuName, rating, parentName, comment) {
+      if (!db || !user) {
+        // Local only fallback
+        parentFeedbackList.unshift({
+          menuName: menuName,
+          rating: rating,
+          parentName: parentName,
+          comment: comment,
+          dateStr: "Local"
+        });
+        renderFeedbackWall();
+        showSnack("Feedback logged locally!");
+        return;
+      }
+
+      try {
+        const feedbackCol = collection(db, 'artifacts', appId, 'public', 'data', 'feedback');
+        await addDoc(feedbackCol, {
+          menuName: menuName,
+          rating: parseInt(rating),
+          parentName: parentName || "Anonymous Parent",
+          comment: comment || "Delighted with the class catering!",
+          timestamp: new Date(),
+          dateStr: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+        });
+        showSnack("Thank you! Your feedback has been sent to the class teacher.");
+      } catch (err) {
+        console.error("Feedback upload failed: ", err);
+        showSnack("Failed to submit feedback.");
+      }
+    };
+
+    // Reset feedback wall
+    window.clearAllFeedback = async function() {
+      if (!confirm("Are you sure you want to delete all parent responses on the wall?")) return;
+
+      if (!db || !user) {
+        parentFeedbackList = [];
+        renderFeedbackWall();
+        showSnack("Feedback cleared locally!");
+        return;
+      }
+
+      try {
+        const feedbackCol = collection(db, 'artifacts', appId, 'public', 'data', 'feedback');
+        const querySnapshot = await getDocs(feedbackCol);
+        
+        for (const document of querySnapshot.docs) {
+          const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'feedback', document.id);
+          await deleteDoc(docRef);
+        }
+        showSnack("All parent feedback records cleared on cloud!");
+      } catch (err) {
+        console.error("Clear feedback failed: ", err);
+        showSnack("Error clearing feedback.");
+      }
+    };
+
+    // Load and play
+    startApplication();
+  </script>
 
   <script>
-    // --- Configuration ---
-    const urlParams = new URLSearchParams(window.location.search);
-    const targetClass = urlParams.get('class') || 'nursery';
-    const isTeacher = (urlParams.get('mode') === 'teacher' && urlParams.get('secret') === 'MSB2026');
-    const storageKey = `menu_${targetClass}`;
-
-    // --- Data ---
-    const recipes = {
-      "Veg Poha": "Wash poha. Heat oil, add mustard seeds, curry leaves, onions, turmeric, peas/carrots. Mix in poha and salt.",
-      "Mini Idlis": "Steam for 7-8 minutes. Toss with ghee and mild podi powder.",
-      "Stuffed Paratha": "Mash potato/paneer, season, fill in dough, roll gently, and cook on tawa with ghee.",
-      "Cheese Sandwich": "Butter bread, place cheese, toast lightly on pan.",
-      "Macaroni": "Boil pasta. Sauté carrots/corn in butter, toss pasta with mild tomato puree.",
-      "Aloo Puri": "Knead dough, make small puris, fry until puffed. Serve with potato subji.",
-      "Dhokla Bits": "Steam besan batter for 15 mins. Temper with mustard seeds.",
-      "Paneer Wrap": "Sauté paneer with onions/spices. Wrap in soft chapati with ketchup.",
-      "Vermicelli": "Roast vermicelli. Sauté mustard/onions/veggies, add water/vermicelli, cook till absorbed.",
-      "Veg Cutlet": "Mash boiled potatoes/carrots/peas with spices. Shallow fry.",
-      "Appam Rounds": "Pour rice batter into appam pan holes, cook until golden.",
-      "Pancake Bits": "Mix wheat flour/milk/jaggery. Cook small drops on skillet.",
-      "Sabudana Khichdi": "Soak sabudana. Sauté cumin/chilies/peanuts. Toss with sabudana.",
-      "Corn Chaat": "Steam corn, mix with cucumber, lemon, and salt.",
-      "Idli Fries": "Cut idli into strips, roast with ghee/podi.",
-      "Wheat Pasta": "Boil pasta, toss with olive oil, peppers, corn, herbs.",
-      "Besan Chilla": "Whisk besan, water, coriander, carom seeds. Spread thinly on pan.",
-      "Bread Upma": "Sauté mustard/onions/turmeric. Add bread bits.",
-      "Pav Bhaji Bits": "Mash veggies, cook with spices. Serve with buttered mini pavs.",
-      "Sprout Salad": "Steam sprouts, mix with tomato, pomegranate, lemon.",
-      "Makhana Roast": "Dry roast makhana with ghee, salt, and turmeric.",
-      "Fruit Platter": "Chop fresh seasonal fruits.",
-      "Special Kheer": "Simmer milk and rice until thick, sweeten with jaggery."
-    };
-
-    let menuData = JSON.parse(localStorage.getItem(storageKey)) || {
-      1: "Veg Poha", 2: "Mini Idlis", 3: "Stuffed Paratha", 6: "Cheese Sandwich",
-      7: "Macaroni", 8: "Aloo Puri", 9: "Dhokla Bits", 10: "Paneer Wrap",
-      13: "Vermicelli", 14: "Veg Cutlet", 15: "Appam Rounds", 16: "Pancake Bits",
-      17: "Sabudana Khichdi", 20: "Corn Chaat", 21: "Idli Fries", 22: "Wheat Pasta",
-      23: "Besan Chilla", 24: "Bread Upma", 27: "Pav Bhaji Bits", 28: "Sprout Salad",
-      29: "Makhana Roast", 30: "Fruit Platter", 31: "Special Kheer"
-    };
-
-    // --- Logic ---
-    const calendar = document.getElementById('calendar');
-    if (isTeacher) document.getElementById('teacherActions').classList.remove('hidden');
-
-    // 3 empty spacers for July 1st (Wednesday)
-    for(let i=0; i<3; i++) calendar.innerHTML += `<div></div>`;
-
-    for(let i=1; i<=31; i++) {
-      let dish = menuData[i] || "";
-      let cell = document.createElement('div');
-      cell.className = "p-2 border rounded-lg bg-white h-16 flex flex-col items-center justify-center cursor-pointer";
+    // General UI Control script
+    function switchMode(mode) {
+      const parentLabel = document.getElementById('currentViewLabel');
       
-      if(isTeacher) {
-        cell.innerHTML = `<span class="text-[8px]">${i}</span><input value="${dish}" onchange="update(${i}, this.value)" class="w-full text-center text-[10px]">`;
+      const parentBtn = document.getElementById('btnParentView');
+      const teacherBtn = document.getElementById('btnTeacherView');
+
+      const parentSection = document.getElementById('parentViewSection');
+      const teacherSection = document.getElementById('teacherViewSection');
+
+      if (mode === 'parent') {
+        parentLabel.innerText = "Currently Viewing: Parent Mode";
+        parentSection.classList.remove('hidden');
+        teacherSection.classList.add('hidden');
+
+        parentBtn.classList.add('bg-white', 'text-indigo-900', 'shadow-sm');
+        parentBtn.classList.remove('text-slate-600');
+        teacherBtn.classList.add('text-slate-600');
+        teacherBtn.classList.remove('bg-white', 'text-indigo-900', 'shadow-sm');
       } else {
-        cell.onclick = () => openModal(dish);
-        cell.innerHTML = `<span class="text-[8px]">${i}</span><span class="text-[10px] font-bold">${dish}</span>`;
+        parentLabel.innerText = "Currently Viewing: Teacher Panel";
+        parentSection.classList.add('hidden');
+        teacherSection.classList.remove('hidden');
+
+        teacherBtn.classList.add('bg-white', 'text-indigo-900', 'shadow-sm');
+        teacherBtn.classList.remove('text-slate-600');
+        parentBtn.classList.add('text-slate-600');
+        parentBtn.classList.remove('bg-white', 'text-indigo-900', 'shadow-sm');
       }
-      calendar.appendChild(cell);
     }
 
-    function update(day, val) { menuData[day] = val; }
-    function saveChanges() { localStorage.setItem(storageKey, JSON.stringify(menuData)); alert("Saved!"); }
-    
-    function openModal(dish) {
-      if(!dish || !recipes[dish]) return;
-      document.getElementById('modalTitle').innerText = dish;
-      document.getElementById('modalRecipe').innerText = recipes[dish];
-      document.getElementById('recipeModal').classList.remove('hidden');
+    // Modal Control logic for Recipes
+    function viewRecipe(dayId) {
+      const modal = document.getElementById('recipeModal');
+      const container = document.getElementById('recipeModalContent');
+      const body = document.getElementById('recipeModalBody');
+
+      // Pull matching recipe
+      const recipeMap = {
+        "21": {
+          title: "Mini Vegetable Idli",
+          time: "20 Mins Prep, 10 Mins Cooking",
+          yield: "Makes ~20 Mini Idlis",
+          ingredients: [
+            "2 cups Fermented Idli Batter",
+            "½ cup finely grated carrots",
+            "¼ cup steamed green peas (mashed lightly)",
+            "1 tbsp oil for greasing",
+            "Pinch of mild salt & turmeric"
+          ],
+          steps: [
+            "Mix the fermented idli batter with finely grated carrots, mashed peas, and a hint of salt/turmeric.",
+            "Lightly grease the mini idli plate molds with oil or ghee.",
+            "Spoon batter into the mini molds.",
+            "Steam in an idli steamer on high heat for 7-10 minutes.",
+            "Let them cool for 2 minutes, then use a spoon to scoop them out beautifully."
+          ]
+        },
+        "22": {
+          title: "Paneer Paratha & Herb Dip",
+          time: "15 Mins Prep, 15 Mins Cooking",
+          yield: "Makes 3-4 medium parathas",
+          ingredients: [
+            "1 cup Whole Wheat Flour Dough",
+            "¾ cup grated Paneer",
+            "Pinch of cumin powder and coriander leaves",
+            "½ cup Hung Curd (Strained yogurt)",
+            "Dried mixed herbs, salt, and drops of olive oil"
+          ],
+          steps: [
+            "Mix grated paneer, fresh coriander, cumin powder, and a tiny pinch of salt in a bowl.",
+            "Roll out a ball of wheat dough, place the paneer stuffing in the center, seal the edges, and roll flat.",
+            "Cook on a medium hot tawa (griddle) brushing lightly with ghee or butter until golden brown on both sides.",
+            "To make the dip: Whisk hung curd with dried mixed herbs, olive oil, and tiny pinch of salt. Pack in a leak-proof dip cup."
+          ]
+        },
+        "23": {
+          title: "Vegetable Besan Chilla & Mayo Dip",
+          time: "10 Mins Prep, 10 Mins Cooking",
+          yield: "Makes 4 small chillas",
+          ingredients: [
+            "1 cup Besan (Gram flour)",
+            "½ cup water (adjust for pancake batter consistency)",
+            "¼ cup finely chopped onions, tomatoes & capsicum",
+            "Handful of chopped coriander, pinch of carom seeds (ajwain)",
+            "2 tbsp homemade eggless mayo + 1 tsp curd (diluted for dipping)"
+          ],
+          steps: [
+            "In a mixing bowl, combine besan, water, ajwain, coriander, and chopped vegetables to make a smooth pourable batter.",
+            "Heat a non-stick flat tawa, smear a drop of oil/ghee, and pour a small ladle of batter.",
+            "Spread gently in a small circular motion. Cook on medium-low flame until edges start lifting.",
+            "Flip and cook the other side until fully golden.",
+            "Serve folded with homemade light mayo dip."
+          ]
+        },
+        "24": {
+          title: "Whole Wheat Pasta in Red Sauce",
+          time: "15 Mins Cook, 10 Mins Assembly",
+          yield: "Serves 2 small children",
+          ingredients: [
+            "1 cup cooked Whole Wheat Penne or Fusilli",
+            "2 fresh tomatoes (blanched & pureed)",
+            "1 clove garlic (minced)",
+            "¼ cup sweet corn kernels & baby broccoli florets",
+            "1 tbsp butter or olive oil",
+            "1 tbsp grated mozzarella cheese"
+          ],
+          steps: [
+            "Boil wheat pasta in salted water until soft (al dente). Drain and reserve 2 tablespoons of pasta water.",
+            "Heat olive oil or butter in a pan, add minced garlic, and sauté for 30 seconds.",
+            "Pour pureed blanched tomatoes and simmer until raw smell is gone.",
+            "Toss in corn, steamed broccoli florets, and cooked pasta.",
+            "Mix well adding cheese and a splash of reserved pasta water. Pack once fully cooled."
+          ]
+        },
+        "28": {
+          title: "Shredded Chicken-Roti Roll",
+          time: "15 Mins Prep, 10 Mins Cooking",
+          yield: "Makes 2 small wraps",
+          ingredients: [
+            "1 soft, thin whole-wheat roti",
+            "½ cup boiled shredded chicken breast",
+            "¼ tsp cumin powder & mild tomato puree",
+            "¼ cup finely shredded cucumber & carrots",
+            "1 tsp butter"
+          ],
+          steps: [
+            "In a small skillet, heat butter, toss the shredded chicken with a spoonful of mild tomato puree, cumin, and a pinch of salt to make it juicy.",
+            "Place a warm soft roti on a clean board.",
+            "Lay down a row of cooked juicy chicken in the center, topped with crisp shredded cucumber/carrots.",
+            "Roll the roti tightly and wrap the lower half in parchment paper or clean wrap to keep it securely held for small hands."
+          ]
+        },
+        "29": {
+          title: "Vegetable Appe (Paniyaram)",
+          time: "10 Mins Prep, 15 Mins cooking",
+          yield: "Makes 12-14 Appe",
+          ingredients: [
+            "2 cups fermented rice/dal batter",
+            "½ cup finely grated carrots & cabbage",
+            "1 tbsp chopped coriander leaves",
+            "¼ tsp mustard seeds & curry leaves",
+            "1 tsp oil/ghee"
+          ],
+          steps: [
+            "Heat half a tsp of oil in a small pan, crackle mustard seeds & curry leaves, then stir them into the batter.",
+            "Add the grated carrots, cabbage, and coriander to the batter and stir gently.",
+            "Heat an appe/paniyaram pan, add a tiny drop of oil in each mold.",
+            "Spoon the colorful batter into the molds, cover with a lid, and cook on low heat for 3-4 minutes.",
+            "Flip carefully using a skewer/fork and cook uncovered for another 2 minutes until perfectly crisp on all sides."
+          ]
+        },
+        "30": {
+          title: "Baked Keema + Potato Samosas",
+          time: "20 Mins Prep, 20 Mins Baking",
+          yield: "Makes 6 small samosas",
+          ingredients: [
+            "½ cup minced cooked keema (chicken/mutton) or boiled mashed potatoes (veg choice)",
+            "Pinch of ginger paste, turmeric & coriander powder",
+            "Ready-made spring roll sheets cut into thick strips or homemade dough flaps",
+            "Ghee for brushing"
+          ],
+          steps: [
+            "In a skillet, cook minced keema or mashed potatoes with mild spices until fully dry and seasoned.",
+            "Fold a strip of pastry wrapper into a pocket cone shape.",
+            "Fill with the keema or potato stuffing, then seal the edges using a touch of water or cornstarch slurry.",
+            "Brush the mini samosas lightly with melted ghee.",
+            "Bake in a preheated oven at 180°C (350°F) for 15-20 mins until crisp and beautiful gold."
+          ]
+        },
+        "31": {
+          title: "Mini Veg Pizza on Roti Base",
+          time: "10 Mins Assembly, 5 Mins Baking",
+          yield: "Makes 1 mini pizza",
+          ingredients: [
+            "1 small crisp toasted Roti/Chapati",
+            "1 tbsp simple tomato pizza sauce",
+            "2 tbsp grated mild mozzarella cheese",
+            "6-8 tiny cubes of colorful bell peppers & sweet corn"
+          ],
+          steps: [
+            "Take a lightly pre-toasted whole wheat roti to act as the thin crust base.",
+            "Spread a thin layer of tomato pizza sauce evenly across the roti.",
+            "Scatter the grated mozzarella cheese on top.",
+            "Decorate with sweet corn and tiny bell peppers.",
+            "Pop it onto a dry tawa (pan) covered with a lid on very low heat for 3-4 minutes until the cheese is wonderfully melted and gooey. Slice into quarters."
+          ]
+        }
+      };
+
+      const recipe = recipeMap[dayId];
+      if (!recipe) return;
+
+      let ingHtml = "";
+      recipe.ingredients.forEach(i => {
+        ingHtml += `<li class="flex items-center gap-2">🟢 <span class="font-medium text-slate-700">${i}</span></li>`;
+      });
+
+      let stepsHtml = "";
+      recipe.steps.forEach((step, index) => {
+        stepsHtml += `
+          <div class="flex gap-3 items-start">
+            <span class="bg-indigo-100 text-indigo-900 font-bold text-xs h-5 w-5 rounded-full flex items-center justify-center shrink-0 mt-0.5">${index + 1}</span>
+            <p class="text-xs text-slate-600 leading-normal">${step}</p>
+          </div>
+        `;
+      });
+
+      body.innerHTML = `
+        <div class="text-center mb-6">
+          <span class="text-4xl">🍳</span>
+          <h3 class="font-playful text-indigo-950 text-2xl mt-2">${recipe.title}</h3>
+          <div class="flex justify-center gap-4 mt-2 text-xs text-slate-400 font-bold uppercase tracking-wider">
+            <span>⏱ ${recipe.time}</span>
+            <span>🍽 ${recipe.yield}</span>
+          </div>
+        </div>
+
+        <div class="space-y-6">
+          <div>
+            <h4 class="font-playful text-amber-900 text-sm mb-2 flex items-center gap-1">📋 Required Ingredients</h4>
+            <ul class="text-xs space-y-1.5 bg-amber-50/50 p-4 rounded-2xl border border-amber-100">
+              ${ingHtml}
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-playful text-indigo-900 text-sm mb-3 flex items-center gap-1">👩‍🍳 Cooking Directions</h4>
+            <div class="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+              ${stepsHtml}
+            </div>
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        container.classList.remove('scale-95', 'opacity-0');
+      }, 10);
     }
-    function closeModal() { document.getElementById('recipeModal').classList.add('hidden'); }
+
+    function closeRecipeModal() {
+      const modal = document.getElementById('recipeModal');
+      const container = document.getElementById('recipeModalContent');
+      container.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+      }, 300);
+    }
+
+    // Interactive Dialog box for Parent Feedback (to avoid window.alert/prompt)
+    function openFeedbackDialog(dayId, menuName) {
+      const modal = document.getElementById('recipeModal');
+      const container = document.getElementById('recipeModalContent');
+      const body = document.getElementById('recipeModalBody');
+
+      body.innerHTML = `
+        <div class="text-center mb-6">
+          <span class="text-3xl">🌟</span>
+          <h3 class="font-playful text-indigo-950 text-xl mt-2">Submit Tiffin Review</h3>
+          <p class="text-xs text-slate-500">How was the tiffin on ${menuName}?</p>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Star selection -->
+          <div>
+            <label class="block text-xs font-bold text-slate-500 mb-1">Rate the quality:</label>
+            <select id="parent-rating-select" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-indigo-950 font-bold outline-none">
+              <option value="3">⭐⭐⭐ (3 Stars - Kid's absolute favorite!)</option>
+              <option value="2">⭐⭐ (2 Stars - Good portion size and taste)</option>
+              <option value="1">⭐ (1 Star - Needs flavor adjustment)</option>
+            </select>
+          </div>
+
+          <!-- Name -->
+          <div>
+            <label class="block text-xs font-bold text-slate-500 mb-1">Your Name (Parent):</label>
+            <input type="text" id="parent-feedback-name" placeholder="e.g. Yusuf's Father" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-indigo-950 font-medium outline-none">
+          </div>
+
+          <!-- Note -->
+          <div>
+            <label class="block text-xs font-bold text-slate-500 mb-1">Any Comments or Review:</label>
+            <textarea id="parent-feedback-note" placeholder="Write reviews, suggestions, or words of encouragement for the host family..." class="w-full bg-slate-50 border border-slate-200 rounded-xl p-2.5 text-xs text-slate-600 outline-none h-20 resize-none"></textarea>
+          </div>
+
+          <div class="pt-4 flex gap-2">
+            <button onclick="submitTiffinFeedbackAction('${dayId}', '${menuName}')" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-playful text-xs py-2.5 rounded-xl transition-all shadow">
+              Submit Review
+            </button>
+            <button onclick="closeRecipeModal()" class="w-1/3 bg-slate-100 hover:bg-slate-200 text-slate-600 font-playful text-xs py-2.5 rounded-xl transition-all">
+              Cancel
+            </button>
+          </div>
+        </div>
+      `;
+
+      modal.classList.remove('hidden');
+      setTimeout(() => {
+        container.classList.remove('scale-95', 'opacity-0');
+      }, 10);
+    }
+
+    // Bridge action to the Javascript module
+    function submitTiffinFeedbackAction(dayId, menuName) {
+      const rating = document.getElementById('parent-rating-select').value;
+      const parentName = document.getElementById('parent-feedback-name').value.trim();
+      const note = document.getElementById('parent-feedback-note').value.trim();
+
+      // Submit
+      if (window.submitFeedback) {
+        window.submitFeedback(dayId, menuName, rating, parentName, note);
+      }
+      closeRecipeModal();
+    }
+
+    // Help Modals
+    function openHelpModal() {
+      document.getElementById('helpModal').classList.remove('hidden');
+    }
+    function closeHelpModal() {
+      document.getElementById('helpModal').classList.add('hidden');
+    }
+
+    // Custom non-blocking visual Toast Snack notification
+    function showSnack(msg) {
+      const snack = document.createElement("div");
+      snack.className = "fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-slate-900 text-amber-300 text-xs font-bold font-playful px-6 py-3 rounded-full shadow-lg z-50 text-center transition-opacity duration-300 pointer-events-none";
+      snack.innerText = msg;
+      document.body.appendChild(snack);
+      setTimeout(() => {
+        snack.classList.add('opacity-0');
+        setTimeout(() => snack.remove(), 400);
+      }, 3500);
+    }
+
+    // Bind clean globals
+    window.viewRecipe = viewRecipe;
+    window.openFeedbackDialog = openFeedbackDialog;
+    window.submitTiffinFeedbackAction = submitTiffinFeedbackAction;
+    window.openHelpModal = openHelpModal;
+    window.closeHelpModal = closeHelpModal;
+    window.closeRecipeModal = closeRecipeModal;
   </script>
 </body>
 </html>
+
+```
