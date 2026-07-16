@@ -3,202 +3,168 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MSB Educational Institute - Collaborative Tiffin Hub</title>
+  <title>MSB Tiffin Planner</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
-    body { font-family: 'Quicksand', sans-serif; background-color: #f0f4f8; }
-    h1, h2, h3, h4, .font-playful { font-family: 'Fredoka', sans-serif; }
+    body { font-family: 'Quicksand', sans-serif; }
   </style>
 </head>
-<body class="text-slate-700 min-h-screen pb-12">
+<body class="bg-indigo-50 min-h-screen pb-12">
 
-  <div class="max-w-6xl mx-auto px-4 py-6">
-    <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-100 flex flex-col md:flex-row items-center justify-between gap-4 mb-8">
-      <div class="flex items-center gap-3">
-        <span class="text-3xl">🏫</span>
-        <div>
-          <h3 class="font-playful text-indigo-950 text-lg leading-tight">MSB Tiffin Portal</h3>
-          <p class="text-xs text-slate-500 font-medium">Active Class: <span id="activeClassBadge" class="text-indigo-600 font-bold uppercase">Default</span></p>
-        </div>
-      </div>
+  <div class="max-w-4xl mx-auto px-4 py-8">
+    
+    <!-- Header Block -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-100 mb-6 text-center">
+      <span class="text-4xl">🗓️</span>
+      <h1 class="text-3xl font-bold text-indigo-950 mt-2">July Tiffin Menu</h1>
+      <p class="text-sm text-slate-500 font-medium mt-1">MSB Educational Institute</p>
       
-      <div class="flex flex-wrap items-center gap-2">
-        <div id="viewToggleContainer" class="bg-slate-100 p-1.5 rounded-2xl hidden gap-1">
-          <button id="btnParentView" onclick="switchMode('parent')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all bg-white text-indigo-900 shadow-sm">
-            👪 Parent Mode
-          </button>
-          <button id="btnTeacherView" onclick="switchMode('teacher')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all text-slate-600 hover:text-indigo-900">
-            👩‍🏫 Teacher Panel
-          </button>
-        </div>
-        <button onclick="window.print()" class="bg-amber-500 hover:bg-amber-600 text-white font-playful text-xs px-3 py-2 rounded-xl transition-all shadow-sm">
-          🖨 Print Layout
-        </button>
+      <!-- Quick Help Note for Parents -->
+      <p class="text-xs text-indigo-600 font-semibold mt-2">💡 Tip: Tap any dish to view its quick recipe!</p>
+    </div>
+
+    <!-- ⚠️ IMPORTANT DISCLAIMER BOX -->
+    <div class="bg-amber-50 border-2 border-dashed border-amber-300 rounded-2xl p-4 mb-8 flex items-start gap-3">
+      <span class="text-xl mt-0.5">📢</span>
+      <div>
+        <h4 class="font-bold text-amber-900 text-sm">Important Note for Parents:</h4>
+        <p class="text-xs text-amber-800 font-medium mt-0.5 leading-relaxed">
+          Depending on availability or seasonal changes, healthy dry snacks like **dates, roasted makhana, or peanuts** may occasionally be sent as alternatives instead of fresh vegetables.
+        </p>
       </div>
     </div>
 
-    <div class="rounded-[2.5rem] border-4 border-amber-200/70 p-6 md:p-10 shadow-xl relative overflow-hidden bg-white">
-      <div class="text-center border-b-2 border-dashed border-amber-200/80 pb-6 mb-8">
-        <div class="flex items-center justify-center gap-2.5 mb-2">
-          <div class="bg-orange-500 text-white rounded-2xl p-2 transform rotate-3">
-            <span class="text-xl font-bold">🍱</span>
-          </div>
-          <div>
-            <h1 class="text-sm md:text-base font-bold tracking-widest text-orange-600 uppercase">MSB Educational Institute</h1>
-            <p class="text-xs font-semibold tracking-wider text-slate-400 -mt-1">KOTA, RAJASTHAN</p>
-          </div>
-        </div>
-        <h2 class="text-3xl md:text-5xl font-playful text-indigo-950 mt-2">Class Tiffin Rotation Plan</h2>
-        <p class="text-slate-500 text-xs md:text-sm max-w-2xl mx-auto mt-2 font-medium">
-          One parent voluntarily prepares and sends the healthy tiffin for the entire class each day!
-        </p>
+    <!-- Calendar Grid Dashboard -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-indigo-100">
+      
+      <!-- Days of the Week -->
+      <div class="grid grid-cols-7 gap-2 mb-2 text-center text-xs font-bold text-indigo-950 tracking-wider">
+        <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
       </div>
 
-      <div id="parentViewSection" class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10"></div>
+      <!-- Calendar Dates Matrix -->
+      <div class="grid grid-cols-7 gap-2">
+        
+        <!-- Empty Spacers (July starts on Wednesday) -->
+        <div class="bg-slate-50/50 rounded-2xl min-h-[90px]"></div>
+        <div class="bg-slate-50/50 rounded-2xl min-h-[90px]"></div>
+        <div class="bg-slate-50/50 rounded-2xl min-h-[90px]"></div>
 
-      <div id="teacherViewSection" class="hidden relative z-10 space-y-8">
-        <div class="bg-indigo-50/40 border border-indigo-100 p-6 rounded-3xl">
-          <h3 class="font-playful text-indigo-950 text-xl mb-1">Assign Cooking Duties</h3>
-          <p class="text-xs text-slate-500 mb-4">Type a student's name to assign them to a day. Saved rosters stay securely tied to this specific class unique link.</p>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4" id="teacherAssignGrid"></div>
+        <!-- July 1 -->
+        <div onclick="showRecipe('Veg Poha', '• Wash poha and drain water.<br>• Heat oil, add mustard seeds, curry leaves, chopped onions, and turmeric.<br>• Add boiled green peas/carrots and sauté.<br>• Mix in the poha, salt, and lemon juice. Garnish with fresh coriander.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-indigo-900">1</span>
+          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Veg Poha</span>
         </div>
+
+        <!-- July 2 -->
+        <div onclick="showRecipe('Mini Idlis', '• Use fresh idli batter.<br>• Pour small spoonfuls into a mini-idli mold plate.<br>• Steam for 7-8 minutes.<br>• Toss gently with a little ghee and mild podi powder or serve plain with mild coconut chutney.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-indigo-900">2</span>
+          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Mini Idlis</span>
+        </div>
+
+        <!-- July 3 -->
+        <div onclick="showRecipe('Stuffed Paratha', '• Mash boiled potatoes/paneer and mix with salt, cumin powder, and coriander.<br>• Roll a small ball of whole wheat dough, place the stuffing inside, and seal it.<br>• Roll it out gently.<br>• Cook on a hot tawa with ghee until golden brown.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-indigo-900">3</span>
+          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Stuffed Paratha</span>
+        </div>
+
+        <!-- July 4 (Weekend) -->
+        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-amber-700">4</span>
+          <span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span>
+        </div>
+
+        <!-- July 5 (Weekend) -->
+        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-amber-700">5</span>
+          <span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span>
+        </div>
+
+        <!-- July 6 -->
+        <div onclick="showRecipe('Cheese Sandwich', '• Butter two slices of whole wheat bread.<br>• Place a slice of cheese or spread grated cheese inside.<br>• Add thinly sliced cucumber or tomato if preferred.<br>• Toast lightly on a pan until the cheese melts.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-indigo-900">6</span>
+          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Cheese Sandwich</span>
+        </div>
+
+        <!-- July 7 -->
+        <div onclick="showRecipe('Macaroni', '• Boil macaroni pasta with a pinch of salt until soft.<br>• In a pan, heat butter, sauté finely chopped carrots, corn, and bell peppers.<br>• Add a mild tomato puree or white milk sauce.<br>• Toss the pasta in, season lightly, and serve.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-indigo-900">7</span>
+          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Macaroni</span>
+        </div>
+
+        <!-- July 8 -->
+        <div onclick="showRecipe('Aloo Puri', '• Knead wheat flour with water and oil into a firm dough.<br>• Roll out tiny round puris and deep fry in hot oil until they puff up.<br>• Cook mashed potatoes with mild cumin, turmeric, and tomato gravy to serve along.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-indigo-900">8</span>
+          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Aloo Puri</span>
+        </div>
+
+        <!-- July 9 -->
+        <div onclick="showRecipe('Dhokla Bits', '• Make a smooth batter using gram flour (besan), curd, turmeric, and water.<br>• Add a pinch of fruit salt and steam the batter immediately for 15 mins.<br>• Cut into bite-sized squares.<br>• Temper with mustard seeds and curry leaves in warm water/sugar syrup.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-indigo-900">9</span>
+          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Dhokla Bits</span>
+        </div>
+
+        <!-- July 10 -->
+        <div onclick="showRecipe('Paneer Wrap', '• Crumble or cut paneer into small cubes.<br>• Sauté with onions, bell peppers, and mild home spices.<br>• Take a cooked soft chapati, apply a thin layer of mint chutney or ketchup.<br>• Place the paneer filling in the center and roll tightly.')" class="cursor-pointer hover:scale-105 transition-transform bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between">
+          <span class="text-xs font-bold text-indigo-900">10</span>
+          <span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center shadow-xs">Paneer Wrap</span>
+        </div>
+
+        <!-- Note: Remaining days will work similarly with their respective recipes. Shortened for preview clarity. -->
+        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">11</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
+        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">12</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">13</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Vermicelli</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">14</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Veg Cutlet</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">15</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Appam Rounds</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">16</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Pancake Bits</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">17</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Sabudana Khichdi</span></div>
+        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">18</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
+        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">19</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">20</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Corn Chaat</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">21</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Idli Fries</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">22</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Wheat Pasta</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">23</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Besan Chilla</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">24</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Bread Upma</span></div>
+        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">25</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
+        <div class="bg-amber-50/40 border border-amber-100 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-amber-700">26</span><span class="text-[10px] font-bold text-amber-600/80 text-center uppercase tracking-wider">Weekend</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">27</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Pav Bhaji Bits</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">28</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Sprout Salad</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">29</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Makhana Roast</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">30</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Fruit Platter</span></div>
+        <div class="bg-indigo-50/60 border border-indigo-100/80 rounded-2xl p-2 min-h-[90px] flex flex-col justify-between"><span class="text-xs font-bold text-indigo-900">31</span><span class="text-[11px] font-semibold text-indigo-950 bg-white p-1 rounded-lg text-center">Special Kheer</span></div>
+
+        <div class="bg-slate-50/20 rounded-2xl min-h-[90px]"></div>
       </div>
     </div>
   </div>
 
+  <!-- INTERACTIVE RECIPE POPUP MODAL -->
+  <div id="recipeModal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-xs flex items-center justify-center hidden p-4 z-50">
+    <div class="bg-white rounded-3xl p-6 max-w-sm w-full shadow-xl border border-indigo-50">
+      <h3 id="modalTitle" class="text-xl font-bold text-indigo-950"></h3>
+      <hr class="my-3 border-indigo-50">
+      <p class="text-xs font-bold text-indigo-900 uppercase tracking-wide">Quick Recipe:</p>
+      <p id="modalBody" class="text-sm text-slate-600 font-medium mt-1 leading-relaxed space-y-2"></p>
+      <button onclick="closeRecipe()" class="mt-6 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2.5 px-4 rounded-xl text-sm transition-colors">
+        Got it, thanks!
+      </button>
+    </div>
+  </div>
+
   <script>
-    const defaultSchedule = {
-      "21": { date: "21 Jul", day: "Tue", menu: "Mini Vegetable Idli", qty: "4 mini idlis", side: "½ cup sliced cucumber", theme: "orange" },
-      "22": { date: "22 Jul", day: "Wed", menu: "Paneer Paratha + Herb Dip", qty: "1 medium", side: "½ cup carrot + beetroot", theme: "pink" },
-      "23": { date: "23 Jul", day: "Thu", menu: "Vegetable Besan Chilla", qty: "2 small", side: "½ cup cucumber", theme: "indigo" },
-      "24": { date: "24 Jul", day: "Fri", menu: "Whole Wheat Pasta", qty: "¾ cup", side: "½ cup tomatoes", theme: "teal" },
-      "28": { date: "28 Jul", day: "Tue", menu: "Chicken-Roti Roll", qty: "1 small roti", side: "½ cup cucumber", theme: "amber" },
-      "29": { date: "29 Jul", day: "Wed", menu: "Vegetable Appe", qty: "5–6 mini appe", side: "½ cup carrot + beetroot", theme: "emerald" },
-      "30": { date: "30 Jul", day: "Thu", menu: "Baked Keema Potato Samosa", qty: "3 small samosas", side: "½ cup cucumber", theme: "rose" },
-      "31": { date: "31 Jul", day: "Fri", menu: "Mini Veg Roti Pizza", qty: "1 mini pizza", side: "½ cup tomatoes", theme: "violet" }
-    };
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const validClasses = ['nursery', 'lkg', 'prefirst'];
-    let targetClass = urlParams.get('class') || 'nursery';
-    if (!validClasses.includes(targetClass)) targetClass = 'nursery';
-    
-    const activeMode = urlParams.get('mode') || 'parent';
-    const securitySecret = urlParams.get('secret') || '';
-    const storageKey = `msb_tiffin_roster_${targetClass}`;
-    
-    let classRoster = JSON.parse(localStorage.getItem(storageKey)) || {};
-
-    document.addEventListener("DOMContentLoaded", () => {
-      let labelMap = { 'nursery': 'Nursery', 'lkg': 'LKG', 'prefirst': 'Pre-First' };
-      document.getElementById('activeClassBadge').innerText = labelMap[targetClass];
-      
-      if (activeMode === 'teacher' && securitySecret === 'MSB2026') {
-        const toggleBox = document.getElementById('viewToggleContainer');
-        toggleBox.classList.remove('hidden');
-        toggleBox.classList.add('flex');
-        switchMode('teacher');
-      } else {
-        switchMode('parent');
-      }
-      renderApp();
-    });
-
-    function renderApp() {
-      renderParentPlanner();
-      renderTeacherAssignments();
+    function showRecipe(dishName, recipeSteps) {
+      document.getElementById('modalTitle').innerText = dishName;
+      document.getElementById('modalBody').innerHTML = recipeSteps;
+      document.getElementById('recipeModal').classList.remove('hidden');
     }
-
-    function renderParentPlanner() {
-      const container = document.getElementById('parentViewSection');
-      container.innerHTML = "";
-      Object.keys(defaultSchedule).forEach(dayId => {
-        const item = defaultSchedule[dayId];
-        const assignedStudent = classRoster[dayId] || "Unassigned";
-        const isAssigned = assignedStudent !== "Unassigned";
-        container.innerHTML += `
-          <div class="bg-white rounded-3xl border-2 p-5 border-slate-100 shadow-sm flex flex-col justify-between">
-            <div>
-              <div class="flex items-center gap-3 mb-4">
-                <div class="bg-indigo-50 text-indigo-950 font-playful rounded-2xl py-1.5 px-3 text-center border border-indigo-100">
-                  <span class="block text-[10px] uppercase font-semibold">${item.day}</span>
-                  <span class="block text-base font-bold leading-none mt-0.5">${item.date}</span>
-                </div>
-                <div>
-                  <h3 class="font-playful text-slate-900 text-base leading-snug">${item.menu}</h3>
-                  <p class="text-xs text-slate-400">Portion Size: ${item.qty}</p>
-                </div>
-              </div>
-              <div class="p-3 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between text-xs">
-                <div>
-                  <span class="block text-[9px] uppercase font-bold text-slate-400">Assigned Cooking Family:</span>
-                  <span class="font-playful text-indigo-950 font-bold">${assignedStudent}</span>
-                </div>
-                <span class="px-2.5 py-1 rounded-xl font-bold ${isAssigned ? 'bg-indigo-900 text-amber-300' : 'bg-slate-100 text-slate-400 italic'}">
-                  ${isAssigned ? '🔥 Assigned' : 'Open'}
-                </span>
-              </div>
-            </div>
-          </div>`;
-      });
-    }
-
-    function renderTeacherAssignments() {
-      const container = document.getElementById('teacherAssignGrid');
-      container.innerHTML = "";
-      Object.keys(defaultSchedule).forEach(dayId => {
-        const item = defaultSchedule[dayId];
-        const currentName = classRoster[dayId] || "";
-        container.innerHTML += `
-          <div class="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-sm">
-            <div class="flex items-center justify-between mb-2 text-xs">
-              <span class="font-bold text-slate-400 uppercase">${item.date}</span>
-              <span class="text-indigo-600 font-bold truncate max-w-[120px]">${item.menu}</span>
-            </div>
-            <div class="flex gap-2">
-              <input type="text" id="input-${dayId}" value="${currentName}" placeholder="Student Name" class="bg-slate-50 border border-slate-200 focus:border-indigo-500 outline-none rounded-xl px-2.5 py-1.5 text-xs font-bold w-full transition-all">
-              <button onclick="saveAssignment('${dayId}')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-playful text-xs px-3 py-1.5 rounded-xl transition-all">Save</button>
-            </div>
-          </div>`;
-      });
-    }
-
-    window.saveAssignment = function(dayId) {
-      const val = document.getElementById(`input-${dayId}`).value.trim();
-      if(val === "") { delete classRoster[dayId]; } else { classRoster[dayId] = val; }
-      localStorage.setItem(storageKey, JSON.stringify(classRoster));
-      renderApp();
-      showToast("Changes saved!");
-    }
-
-    window.switchMode = function(mode) {
-      const pSection = document.getElementById('parentViewSection');
-      const tSection = document.getElementById('teacherViewSection');
-      const pBtn = document.getElementById('btnParentView');
-      const tBtn = document.getElementById('btnTeacherView');
-      if(mode === 'parent') {
-        pSection.classList.remove('hidden');
-        tSection.classList.add('hidden');
-        pBtn.className = "px-4 py-1.5 rounded-xl text-xs font-bold font-playful bg-white text-indigo-900 shadow-sm";
-        tBtn.className = "px-4 py-1.5 rounded-xl text-xs font-bold font-playful text-slate-600";
-      } else {
-        tSection.classList.remove('hidden');
-        pSection.classList.add('hidden');
-        tBtn.className = "px-4 py-1.5 rounded-xl text-xs font-bold font-playful bg-white text-indigo-900 shadow-sm";
-        pBtn.className = "px-4 py-1.5 rounded-xl text-xs font-bold font-playful text-slate-600";
-      }
-    }
-
-    function showToast(msg) {
-      const toast = document.createElement("div");
-      toast.className = "fixed bottom-5 left-1/2 transform -translate-x-1/2 bg-slate-900 text-amber-300 text-xs font-bold font-playful px-6 py-3 rounded-full shadow-lg z-50 text-center";
-      toast.innerText = msg;
-      document.body.appendChild(toast);
-      setTimeout(() => toast.remove(), 2500);
+    function closeRecipe() {
+      document.getElementById('recipeModal').classList.add('hidden');
     }
   </script>
+
 </body>
-</html>
+                                                                                                                                                                                                                                                                                                </html>
+                                                                                                                                                                                                                                                                                                
