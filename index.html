@@ -40,7 +40,7 @@
       </div>
       
       <div class="flex flex-wrap items-center gap-2">
-        <div id="modeToggleContainer" class="bg-slate-100 p-1.5 rounded-2xl flex gap-1 hidden">
+        <div id="modeToggleContainer" class="bg-slate-100 p-1.5 rounded-2xl flex gap-1">
           <button id="btnParentView" onclick="switchMode('parent')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all bg-white text-indigo-900 shadow-sm">👪 Parent Mode</button>
           <button id="btnTeacherView" onclick="switchMode('teacher')" class="px-4 py-1.5 rounded-xl text-xs font-bold font-playful transition-all text-slate-600 hover:text-indigo-900">👩‍🏫 Teacher Panel</button>
         </div>
@@ -148,7 +148,7 @@
       <div class="bg-slate-50 p-3 rounded-xl space-y-3 text-xs text-slate-700 font-mono border">
         <div><strong>🔴 NURSERY LINKS:</strong><br>Parent Link: <span class="text-indigo-600 font-bold">?class=nursery</span><br>Teacher Link: <span class="text-orange-600 font-bold">?class=nursery&mode=teacher</span></div>
         <div><strong>🔵 LKG LINKS:</strong><br>Parent Link: <span class="text-indigo-600 font-bold">?class=lkg</span><br>Teacher Link: <span class="text-orange-600 font-bold">?class=lkg&mode=teacher</span></div>
-        <div><strong>🟢 PRE-FIRST LINKS:</strong><br>Parent Link: <span class="text-indigo-600 font-bold">?class=prefirst</span><br>Teacher Link: <span class="text-orange-600 font-bold">?class=prefirst&mode=teacher</span></div>
+        <div><strong>🟢 PRE-FIRST (UKG) LINKS:</strong><br>Parent Link: <span class="text-indigo-600 font-bold">?class=prefirst</span><br>Teacher Link: <span class="text-orange-600 font-bold">?class=prefirst&mode=teacher</span></div>
       </div>
       <div class="mt-4 flex justify-end">
         <button onclick="closeHelpModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white font-playful px-4 py-2 rounded-xl text-sm transition-all shadow">Got it!</button>
@@ -157,7 +157,6 @@
   </div>
 
   <script>
-    // ⚙️ AUTHENTICATED INFRASTRUCTURE CREDENTIALS LINKED
     const SUPABASE_URL = "https://bjlbdlgnecrcyfwuwgkl.supabase.co"; 
     const SUPABASE_ANON_KEY = "Sb_publishable_0P_HRLYM2jMscdsoQPTVNA_nmnECwGj";
 
@@ -184,7 +183,7 @@
       currentClassName = (urlParams.get('class') || 'general').toLowerCase();
       
       let displayTitle = currentClassName.toUpperCase();
-      if (currentClassName === 'prefirst') displayTitle = "PRE-FIRST GRADE";
+      if (currentClassName === 'prefirst') displayTitle = "PRE-FIRST CLASS";
       if (currentClassName === 'nursery') displayTitle = "NURSERY CLASS";
       if (currentClassName === 'lkg') displayTitle = "LKG CLASS";
 
@@ -204,16 +203,14 @@
     async function fetchInitialData() {
       try {
         let { data: dbSchedule, error } = await supabaseClient.from('tiffin_data').select('*').eq('class_name', currentClassName);
-        if (!error && dbSchedule && dbSchedule.length > 0) {
+        if (!error && dbSchedule) {
           dbSchedule.forEach(row => {
             if (activeSchedule[row.day_id]) {
               activeSchedule[row.day_id].student = row.student_name;
             }
           });
         }
-      } catch (err) {
-        console.log("Database fetch fallback active.");
-      }
+      } catch (err) {}
 
       try {
         let { data: dbFeedback, error } = await supabaseClient.from('tiffin_feedback').select('*').eq('class_name', currentClassName).order('id', { ascending: false });
@@ -232,33 +229,27 @@
       renderFeedbackWall();
     }
 
-    // ⚡ LIVE REALTIME LISTENER ADDED HERE
     function setupRealtimeSubscription() {
       supabaseClient
-        .channel('schema-db-changes')
+        .channel('public:tiffin_data')
         .on('postgres_changes', { event: '*', schema: 'public', table: 'tiffin_data' }, (payload) => {
-          const updatedRow = payload.new;
-          if (updatedRow && updatedRow.class_name === currentClassName) {
-            if (activeSchedule[updatedRow.day_id]) {
-              activeSchedule[updatedRow.day_id].student = updatedRow.student_name;
-              renderParentPlanner();
-              renderTeacherAssignments();
-            }
+          // Listen for any insert/update/delete events on the table
+          const changeData = payload.new && Object.keys(payload.new).length > 0 ? payload.new : payload.old;
+          if (changeData && changeData.class_name === currentClassName) {
+            // Refetch to guarantee perfect UI mapping state
+            fetchInitialData();
           }
         })
         .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'tiffin_feedback' }, (payload) => {
-          const newFeedback = payload.new;
-          if (newFeedback && newFeedback.class_name === currentClassName) {
-            parentFeedbackList.unshift({
-              menuName: newFeedback.menu_name,
-              rating: newFeedback.rating,
-              parentName: newFeedback.parent_name,
-              comment: newFeedback.comment
-            });
-            renderFeedbackWall();
+          if (payload.new && payload.new.class_name === currentClassName) {
+            fetchInitialData();
           }
         })
-        .subscribe();
+        .subscribe((status) => {
+          if (status === 'SUBSCRIBED') {
+            document.getElementById('syncStatus').innerText = "Live Broadcast Sync Channel Active!";
+          }
+        });
     }
 
     function determineViewSecurity(urlParams) {
@@ -274,8 +265,8 @@
         topBadge.className = "text-xs bg-amber-500 text-slate-950 px-3 py-1 rounded-lg font-bold border border-amber-400";
         switchMode('teacher'); 
       } else {
-        toggleContainer.classList.add('hidden');
-        authBanner.classList.add('hidden');
+        toggleContainer.classList.remove('hidden'); // Leave tabs present for verification during link building
+        authBanner.classList.remove('hidden');
         topBadge.innerText = "Parent View Mode";
         topBadge.className = "text-xs bg-white/20 text-white px-3 py-1 rounded-lg font-semibold border border-white/10";
         switchMode('parent');
@@ -315,4 +306,8 @@
                     <h3 class="font-playful text-slate-900 text-base leading-snug">${item.menu}</h3>
                     <p class="text-xs text-slate-400">Class Catering Shared Plan</p>
                   </div>
-            
+                </div>
+              </div>
+              <div class="my-4 p-3 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-between">
+                <div>
+                  <span class="block text-[9px] uppercase 
