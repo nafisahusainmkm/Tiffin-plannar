@@ -21,6 +21,22 @@
         <div class="mt-4 bg-pink-500 text-white font-bold py-2 px-8 rounded-full inline-block shadow-lg">JULY 2026 TIFFIN PLANNER</div>
     </div>
 
+    <!-- Coordination Desk Section -->
+    <div class="max-w-6xl mx-auto mb-12 p-8 bg-white rounded-[2rem] shadow-lg border-4 border-pink-100">
+        <h3 class="font-header text-2xl text-pink-600 mb-6 text-center">👥 Coordination Desk: Other Classes</h3>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm text-center text-slate-600">
+                <thead class="bg-pink-50 text-pink-600 uppercase">
+                    <tr>
+                        <th class="px-4 py-3">Class</th>
+                        <th class="px-4 py-3">Menu Preview</th>
+                    </tr>
+                </thead>
+                <tbody id="otherClassesBody"></tbody>
+            </table>
+        </div>
+    </div>
+
     <!-- Planner Grid -->
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="plannerGrid"></div>
 
@@ -58,8 +74,8 @@
         const planner = [
             { date: "20 JUL", day: "MON", dish: "SELF LUNCH BOX DAY", portion: "Student's choice", side: "-", recipe: null },
             { date: "21 JUL", day: "TUE", dish: "Mini Vegetable Idli", portion: "3 Mini Idlis per student", side: "½ cup cucumber", recipe: "1. Mix 1 cup Rava, 1 cup Curd, and water. Rest 15 mins.\n2. Add grated carrots and chopped beans.\n3. Pour in molds and steam for 10 mins.\n4. Serve warm." },
-            { date: "22 JUL", day: "WED", dish: "Paneer Paratha", portion: "1 Medium Paratha per student", side: "½ cup carrot", recipe: "1. Mix crumbled paneer with cumin and salt.\n2. Stuff inside a dough ball and seal.\n3. Roll gently into a circle.\n4. Roast on tawa with ghee.\n5. Serve with a side dip of hung curd mixed with fresh herbs." },
-            { date: "23 JUL", day: "THU", dish: "Veg Besan Chilla", portion: "2 Small Chillas per student", side: "½ cup cucumber", recipe: "1. Whisk besan with water, spinach, and grated carrots.\n2. Add salt and turmeric.\n3. Pour on pan and cook until crispy.\n4. Serve with mild tomato-garlic chutney." },
+            { date: "22 JUL", day: "WED", dish: "Paneer Paratha with Hung Curd Dip", portion: "1 Paratha + Dip", side: "½ cup carrot", recipe: "1. Mix crumbled paneer with cumin and salt. Stuff in dough, roll, and roast with ghee.\n2. **Hung Curd Dip:** Hang 1/2 cup yogurt in muslin cloth for 30 mins. Mix with salt, finely chopped mint/coriander, and a pinch of black pepper." },
+            { date: "23 JUL", day: "THU", dish: "Veg Besan Chilla with Tomato-Garlic Chutney", portion: "2 Chillas + Chutney", side: "½ cup cucumber", recipe: "1. Whisk besan with water, spinach, grated carrots, salt, and turmeric. Roast on pan.\n2. **Tomato-Garlic Chutney:** Roast 1 tomato and 2 garlic cloves. Blend with a pinch of salt and coriander leaves into a smooth paste." },
             { date: "24 JUL", day: "FRI", dish: "Whole Wheat Pasta", portion: "1 Small bowl per student", side: "½ cup tomato", recipe: "1. Boil pasta until tender.\n2. Sauté garlic and corn.\n3. Add tomato puree and herbs.\n4. Toss pasta until coated." },
             { date: "27 JUL", day: "MON", dish: "SELF LUNCH BOX DAY", portion: "Student's choice", side: "-", recipe: null },
             { date: "28 JUL", day: "TUE", dish: "Chicken Gravy & Roti", portion: "Mild boneless chicken gravy + 1 palm-sized Roti", side: "½ cup cucumber", recipe: "1. Cook boneless chicken cubes with mild spices (no chili).\n2. Keep gravy thick and flavorful but non-spicy.\n3. Pack 1 small palm-sized Roti separately.\n4. Serve warm." },
@@ -81,6 +97,14 @@
         
         document.getElementById('classNameHeader').innerText = currentClass.name;
         document.getElementById('studentCount').innerText = "Total Students: " + currentClass.count;
+        
+        // Populate Other Classes
+        const otherBody = document.getElementById('otherClassesBody');
+        for (let key in classData) {
+            if (key !== classKey) {
+                otherBody.innerHTML += `<tr><td class="px-4 py-3 font-bold">${classData[key].name}</td><td class="px-4 py-3 text-xs">View on <a href="?class=${key}" class="text-pink-600 underline">?class=${key}</a></td></tr>`;
+            }
+        }
         
         const grid = document.getElementById('plannerGrid');
         const colors = ["bg-sky-400", "bg-pink-400", "bg-amber-400", "bg-emerald-400", "bg-violet-400"];
