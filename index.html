@@ -77,8 +77,7 @@
 
     <script>
         function toggleRegister() {
-            const container = document.getElementById('masterRegisterContainer');
-            container.classList.toggle('hidden');
+            document.getElementById('masterRegisterContainer').classList.toggle('hidden');
         }
 
         const planner = [
@@ -119,7 +118,7 @@
         const classData = {
             nursery: { name: "Nursery", count: 21, students: ["-", "Fatema Bilaspurwala", "Nafisa Shakir", "Abbas Tyerwala", "Zainab Faizy", "-", "Husaina Hamid", "Juzer Rangwala", "Burhanuddin Rangwala", "Saifuddin Imadi"] },
             lkg: { name: "LKG", count: 21, students: ["-", "Nafisa Bahrainwala", "Aliasger Ragib", "Hasan Baran wala", "Husaina Rangwala", "-", "Mohammad Lokhandwala", "Nisreen Medical wala", "Fatema Mhowwala", "Insiya Shakir"] },
-            "pre-first": { name: "Pre-First", count: 23, students: ["-", "Ajab sailanawala", "Amatullah Ratlamwala", "Burhanuddin Bahrainwala", "Burhanuddin Muffadal Patanwala", "-", "Husain Kushalgarh", "Hussaina kantabatwala", "Mohammed Rangwala", "M. Rangwala", "Zainab R", "Fatema H", "Ali A", "Hasan B", "Husaina R", "Mohammad L", "Nisreen M", "Fatema M", "Insiya S", "Burhanuddin P", "Aliasger R", "Nafisa B", "Amatullah R"] }
+            "pre-first": { name: "Pre-First", count: 23, students: ["-", "Ajab sailanawala", "Amatullah Ratlamwala", "Burhanuddin Bahrainwala", "Burhanuddin Muffadal Patanwala", "-", "Burhanuddin Juzer Patanwala", "Husain Kushalgarh", "Hussaina kantabatwala", "Mohammed Rangwala"] }
         };
 
         const params = new URLSearchParams(window.location.search);
