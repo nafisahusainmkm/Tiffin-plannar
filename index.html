@@ -2,147 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MSB Tiffin Planner</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Quicksand', sans-serif; background: #fff5f7; }
-        .font-header { font-family: 'Fredoka One', cursive; }
-    </style>
+    <style>body { font-family: 'Quicksand', sans-serif; background: #fff5f7; } .font-header { font-family: 'Fredoka One', cursive; }</style>
 </head>
 <body class="p-4 md:p-10">
 
-    <!-- Header Section -->
     <div class="text-center mb-10">
         <h1 class="text-xs font-bold uppercase tracking-[0.3em] text-pink-500">MSB Educational Institute, Kota</h1>
-        <!-- यहाँ अपनी क्लास का नाम बदलें (उदा: Nursery, LKG, या Pre-First) -->
-        <h2 id="classNameHeader" class="text-5xl font-header text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 uppercase mt-2">Nursery</h2>
-        <div id="studentCount" class="inline-block mt-4 bg-white px-6 py-2 rounded-full font-bold text-pink-600 shadow-lg border-2 border-pink-200">Total Students: 21</div>
+        <h2 id="classNameDisplay" class="text-5xl font-header text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 uppercase mt-2">Loading...</h2>
+        <div id="studentCount" class="inline-block mt-4 bg-white px-6 py-2 rounded-full font-bold text-pink-600 shadow-lg border-2 border-pink-200">...</div>
         <div class="mt-4 bg-pink-500 text-white font-bold py-2 px-8 rounded-full inline-block shadow-lg">JULY 2026 TIFFIN PLANNER</div>
     </div>
 
-    <!-- Collapsible Master Register -->
+    <!-- Master Register -->
     <div class="max-w-6xl mx-auto mb-12 text-center">
-        <button onclick="toggleRegister()" class="bg-violet-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-violet-600 transition-all">
-            📋 Click here to view Master Tiffin Register (Other Classes)
-        </button>
+        <button onclick="document.getElementById('masterRegisterContainer').classList.toggle('hidden')" class="bg-violet-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-violet-600">📋 View Master Tiffin Register</button>
         <div id="masterRegisterContainer" class="hidden mt-6 p-8 bg-white rounded-[2rem] shadow-lg border-4 border-violet-100 overflow-x-auto">
             <h3 class="font-header text-2xl text-violet-600 mb-6">Master Tiffin Register (All Classes)</h3>
-            <table class="w-full text-sm text-slate-700 border-collapse border border-violet-200 text-center">
-                <thead class="bg-violet-50">
-                    <tr>
-                        <th class="border border-violet-200 px-4 py-2">Date</th>
-                        <th class="border border-violet-200 px-4 py-2">Dish</th>
-                        <th class="border border-violet-200 px-4 py-2">Nursery</th>
-                        <th class="border border-violet-200 px-4 py-2">LKG</th>
-                        <th class="border border-violet-200 px-4 py-2">Pre-first</th>
-                    </tr>
-                </thead>
-                <tbody id="masterTableBody"></tbody>
-            </table>
+            <table class="w-full text-sm text-slate-700 border-collapse border border-violet-200 text-center"><tbody id="masterTableBody"></tbody></table>
         </div>
     </div>
 
-    <!-- Planner Grid -->
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="plannerGrid"></div>
 
-    <!-- Footer Info -->
-    <div class="max-w-4xl mx-auto mt-12 bg-white p-8 rounded-[2rem] shadow-xl border-4 border-pink-100">
-        <h3 class="text-center font-header text-pink-600 text-2xl mb-6">🍎 Healthy Side Options</h3>
-        <p class="text-center text-sm text-slate-600 mb-6 italic">If you are unable to provide the specific side dish mentioned, please substitute with any of these healthy options:</p>
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-center font-bold text-sm text-slate-700">
-            <div class="p-4 bg-pink-50 rounded-2xl border-2 border-pink-100">🍿 Roasted Makhana</div>
-            <div class="p-4 bg-pink-50 rounded-2xl border-2 border-pink-100">🥜 Peanuts</div>
-            <div class="p-4 bg-pink-50 rounded-2xl border-2 border-pink-100">🥥 Dry Fruits</div>
-            <div class="p-4 bg-pink-50 rounded-2xl border-2 border-pink-100">🫘 Dried Dates</div>
-        </div>
-        <div class="mt-8 p-6 bg-amber-50 rounded-2xl border-2 border-amber-100 text-sm text-amber-900">
-            <p class="font-bold">🤝 Mutual Exchange Policy</p>
-            <p class="mt-1">If unavailable on your assigned date, please coordinate swaps directly with another parent. The school does not manage individual swaps.</p>
-        </div>
-        <div class="text-center mt-8 text-sm">
-            <p class="font-bold text-slate-700">Questions or Suggestions?</p>
-            <a href="mailto:nafisa.preprimary.hos@gmail.com" class="text-pink-600 underline font-bold">nafisa.preprimary.hos@gmail.com</a>
-        </div>
-    </div>
-
-    <!-- Recipe Modal -->
-    <div id="recipeModal" class="hidden fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-        <div class="bg-white rounded-[2rem] w-full max-w-lg p-8 shadow-2xl max-h-[80vh] overflow-y-auto">
-            <h3 id="modalDish" class="text-3xl font-header text-pink-600 mb-4"></h3>
-            <div id="modalInstructions" class="text-slate-700 space-y-4 leading-relaxed"></div>
-            <button onclick="document.getElementById('recipeModal').classList.add('hidden')" class="mt-8 w-full bg-slate-800 text-white py-4 rounded-xl font-bold">Close Recipe</button>
-        </div>
-    </div>
-
     <script>
-        function toggleRegister() {
-            document.getElementById('masterRegisterContainer').classList.toggle('hidden');
-        }
+        // CONFIGURATION: Add your students here
+        const data = {
+            "nursery": { name: "Nursery", count: "21", students: ["-", "Fatema B", "Nafisa S", "Abbas T", "Zainab F", "-", "Husaina H", "Juzer R", "Burhanuddin R", "Saifuddin I"] },
+            "lkg": { name: "LKG", count: "20", students: ["-", "Nafisa B", "Aliasger R", "Hasan B", "Husaina R", "-", "Mohammad L", "Nisreen M", "Fatema M", "Insiya S"] },
+            "prefirst": { name: "Pre-First", count: "23", students: ["-", "Ajab S", "Amatullah R", "Burhanuddin B", "Burhanuddin M", "-", "Husain K", "Hussaina K", "Mohammed R"] }
+        };
 
-        // यहाँ अपनी क्लास के छात्रों के नाम अपडेट करें
-        const currentClassStudents = ["-", "Fatema Bilaspurwala", "Nafisa Shakir", "Abbas Tyerwala", "Zainab Faizy", "-", "Husaina Hamid", "Juzer Rangwala", "Burhanuddin Rangwala", "Saifuddin Imadi"];
+        // Auto-detect class based on filename in URL
+        const path = window.location.pathname.toLowerCase();
+        const currentKey = path.includes("lkg") ? "lkg" : (path.includes("prefirst") ? "prefirst" : "nursery");
+        const currentClass = data[currentKey];
+
+        document.getElementById('classNameDisplay').innerText = currentClass.name;
+        document.getElementById('studentCount').innerText = "Total Students: " + currentClass.count;
 
         const planner = [
-            { date: "20 JUL", day: "MON", dish: "SELF LUNCH BOX DAY", portion: "Student's choice", side: "-", recipe: null },
-            { date: "21 JUL", day: "TUE", dish: "Mini Vegetable Idli", portion: "3 Mini Idlis per student", side: "½ cup cucumber", recipe: "1. Mix 1 cup Rava, 1 cup Curd, and water. Rest 15 mins.\n2. Add grated carrots and chopped beans.\n3. Pour in molds and steam for 10 mins.\n4. Serve warm." },
-            { date: "22 JUL", day: "WED", dish: "Paneer Paratha with Hung Curd Dip", portion: "1 Paratha + Dip", side: "½ cup carrot", recipe: "1. Mix crumbled paneer with cumin and salt. Stuff in dough, roll, and roast with ghee.\n2. **Hung Curd Dip:** Hang 1/2 cup yogurt in muslin cloth for 30 mins. Mix with salt, finely chopped mint/coriander, and a pinch of black pepper." },
-            { date: "23 JUL", day: "THU", dish: "Veg Besan Chilla with Tomato-Garlic Chutney", portion: "2 Chillas + Chutney", side: "½ cup cucumber", recipe: "1. Whisk besan with water, spinach, grated carrots, salt, and turmeric. Roast on pan.\n2. **Tomato-Garlic Chutney:** Roast 1 tomato and 2 garlic cloves. Blend with a pinch of salt and coriander leaves into a smooth paste." },
-            { date: "24 JUL", day: "FRI", dish: "Whole Wheat Pasta", portion: "1 Small bowl per student", side: "½ cup tomato", recipe: "1. Boil pasta until tender.\n2. Sauté garlic and corn.\n3. Add tomato puree and herbs.\n4. Toss pasta until coated." },
-            { date: "27 JUL", day: "MON", dish: "SELF LUNCH BOX DAY", portion: "Student's choice", side: "-", recipe: null },
-            { date: "28 JUL", day: "TUE", dish: "Chicken Gravy & Roti", portion: "Mild boneless chicken gravy + 1 palm-sized Roti", side: "½ cup cucumber", recipe: "1. Cook boneless chicken cubes with mild spices (no chili).\n2. Keep gravy thick and flavorful but non-spicy.\n3. Pack 1 small palm-sized Roti separately.\n4. Serve warm." },
-            { date: "29 JUL", day: "WED", dish: "Vegetable Appe", portion: "5 Mini Appes per student", side: "½ cup carrot", recipe: "1. Use fermented batter with grated veggies.\n2. Heat appe pan and grease molds.\n3. Pour batter and cook covered.\n4. Flip and cook until golden." },
-            { date: "30 JUL", day: "THU", dish: "Keema-Potato Samosa", portion: "2 Small Samosas per student", side: "½ cup cucumber", recipe: "1. Mix cooked filling with mild herbs.\n2. Fold roti strips into cones.\n3. Seal edges with water.\n4. Brush with oil and bake/air-fry." },
-            { date: "31 JUL", day: "FRI", dish: "Vegetable Quesadilla", portion: "1 palm-sized Quesadilla (using palm-sized rotis)", side: "½ cup tomato", recipe: "1. Place grated cheese and sautéed veggies between two palm-sized rotis.\n2. Toast on a pan until cheese melts and both sides are golden.\n3. Cut into wedges for easy handling.\n4. Pack fresh." }
+            { date: "20 JUL", dish: "SELF LUNCH BOX DAY", portion: "Student's choice" },
+            { date: "21 JUL", dish: "Mini Vegetable Idli", portion: "3 Mini Idlis" },
+            { date: "22 JUL", dish: "Paneer Paratha + Dip", portion: "1 Paratha + Dip" },
+            { date: "23 JUL", dish: "Veg Besan Chilla", portion: "2 Chillas" },
+            { date: "24 JUL", dish: "Whole Wheat Pasta", portion: "1 Bowl" },
+            { date: "27 JUL", dish: "SELF LUNCH BOX DAY", portion: "Student's choice" },
+            { date: "28 JUL", dish: "Chicken Gravy & Roti", portion: "1 Roti + Gravy" },
+            { date: "29 JUL", dish: "Vegetable Appe", portion: "5 Mini Appes" },
+            { date: "30 JUL", dish: "Keema-Potato Samosa", portion: "2 Samosas" },
+            { date: "31 JUL", dish: "Vegetable Quesadilla", portion: "1 Quesadilla" }
         ];
 
-        const masterRegister = [
-            { d: "21 Jul", dish: "Mini Veg Idli", n: "Fatema Bilaspurwala", l: "Nafisa Bahrainwala", p: "Ajab sailanawala" },
-            { d: "22 Jul", dish: "Paneer Paratha + Dip", n: "Nafisa Shakir", l: "Aliasger Ragib", p: "Amatullah Ratlamwala" },
-            { d: "23 Jul", dish: "Veg Chilla + Chutney", n: "Abbas Tyerwala", l: "Hasan Baran wala", p: "Burhanuddin Bahrainwala" },
-            { d: "24 Jul", dish: "Whole Wheat Pasta", n: "Zainab Faizy", l: "Husaina Rangwala", p: "Burhanuddin Muffadal Patanwala" },
-            { d: "28 Jul", dish: "Chicken-Roti", n: "Husaina Hamid", l: "Mohammad Lokhandwala", p: "Burhanuddin Juzer Patanwala" },
-            { d: "29 Jul", dish: "Vegetable Appe", n: "Juzer Rangwala", l: "Nisreen Medical wala", p: "Husain Kushalgarh" },
-            { d: "30 Jul", dish: "Keema-Potato Samosa", n: "Burhanuddin Rangwala", l: "Fatema Mhowwala", p: "Hussaina kantabatwala" },
-            { d: "31 Jul", dish: "Mini Veg Quesadillas", n: "Saifuddin Imadi", l: "Insiya Shakir", p: "Mohammed Rangwala" }
-        ];
-
-        const tbody = document.getElementById('masterTableBody');
-        masterRegister.forEach(row => {
-            tbody.innerHTML += `<tr>
-                <td class="border border-violet-200 px-4 py-2 font-bold">${row.d}</td>
-                <td class="border border-violet-200 px-4 py-2">${row.dish}</td>
-                <td class="border border-violet-200 px-4 py-2 text-xs">${row.n}</td>
-                <td class="border border-violet-200 px-4 py-2 text-xs">${row.l}</td>
-                <td class="border border-violet-200 px-4 py-2 text-xs">${row.p}</td>
-            </tr>`;
-        });
-        
         const grid = document.getElementById('plannerGrid');
-        const colors = ["bg-sky-400", "bg-pink-400", "bg-amber-400", "bg-emerald-400", "bg-violet-400"];
-        
         planner.forEach((item, i) => {
-            const color = colors[i % colors.length];
-            grid.innerHTML += `
-                <div class="bg-white p-6 rounded-[2rem] border-4 border-slate-100 hover:border-pink-300 transition-all shadow-lg">
-                    <div class="${color} text-white font-bold px-4 py-1 rounded-full text-xs inline-block mb-3">${item.date} • ${item.day}</div>
-                    <h3 class="font-header text-xl text-slate-800">${item.dish}</h3>
-                    <p class="bg-pink-50 text-pink-600 font-bold p-3 rounded-xl my-4 text-center">${currentClassStudents[i] || "Self Lunch Day"}</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <p>🍱 ${item.portion}</p>
-                        <p>🥕 ${item.side}</p>
-                    </div>
-                    ${item.recipe ? `<button onclick="showRecipe('${item.dish}', '${item.recipe.replace(/'/g, "\\'").replace(/\n/g, '\\n')}')" class="mt-6 w-full py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-pink-500 transition-colors">See Recipe</button>` : ''}
-                </div>
-            `;
+            grid.innerHTML += `<div class="bg-white p-6 rounded-[2rem] border-4 border-slate-100 shadow-lg">
+                <div class="bg-pink-400 text-white font-bold px-4 py-1 rounded-full text-xs inline-block mb-3">${item.date}</div>
+                <h3 class="font-header text-xl text-slate-800">${item.dish}</h3>
+                <p class="bg-pink-50 text-pink-600 font-bold p-3 rounded-xl my-4 text-center">${currentClass.students[i] || "Self Lunch Day"}</p>
+                <p class="text-xs text-slate-500">🍱 ${item.portion}</p>
+            </div>`;
         });
-
-        function showRecipe(dish, recipe) {
-            document.getElementById('modalDish').innerText = dish;
-            document.getElementById('modalInstructions').innerHTML = recipe.replace(/\\n/g, '<br>');
-            document.getElementById('recipeModal').classList.remove('hidden');
-        }
     </script>
 </body>
 </html>
