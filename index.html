@@ -21,20 +21,21 @@
         <div class="mt-4 bg-pink-500 text-white font-bold py-2 px-8 rounded-full inline-block shadow-lg">JULY 2026 TIFFIN PLANNER</div>
     </div>
 
-    <!-- Coordination Desk Section -->
-    <div class="max-w-6xl mx-auto mb-12 p-8 bg-white rounded-[2rem] shadow-lg border-4 border-pink-100">
-        <h3 class="font-header text-2xl text-pink-600 mb-6 text-center">👥 Coordination Desk: Other Classes</h3>
-        <div class="overflow-x-auto">
-            <table class="w-full text-sm text-center text-slate-600">
-                <thead class="bg-pink-50 text-pink-600 uppercase">
-                    <tr>
-                        <th class="px-4 py-3">Class</th>
-                        <th class="px-4 py-3">Menu Preview</th>
-                    </tr>
-                </thead>
-                <tbody id="otherClassesBody"></tbody>
-            </table>
-        </div>
+    <!-- Master Spreadsheet Coordination Desk -->
+    <div class="max-w-6xl mx-auto mb-12 p-8 bg-white rounded-[2rem] shadow-lg border-4 border-pink-100 overflow-x-auto">
+        <h3 class="font-header text-2xl text-pink-600 mb-6 text-center">📋 Master Tiffin Register (All Classes)</h3>
+        <table class="w-full text-sm text-slate-700 border-collapse border border-pink-200 text-center">
+            <thead class="bg-pink-50">
+                <tr>
+                    <th class="border border-pink-200 px-4 py-2">Date</th>
+                    <th class="border border-pink-200 px-4 py-2">Dish</th>
+                    <th class="border border-pink-200 px-4 py-2">Nursery</th>
+                    <th class="border border-pink-200 px-4 py-2">LKG</th>
+                    <th class="border border-pink-200 px-4 py-2">Pre-first</th>
+                </tr>
+            </thead>
+            <tbody id="masterTableBody"></tbody>
+        </table>
     </div>
 
     <!-- Planner Grid -->
@@ -50,7 +51,6 @@
             <div class="p-4 bg-pink-50 rounded-2xl border-2 border-pink-100">🥥 Dry Fruits</div>
             <div class="p-4 bg-pink-50 rounded-2xl border-2 border-pink-100">🫘 Dried Dates</div>
         </div>
-        
         <div class="mt-8 p-6 bg-amber-50 rounded-2xl border-2 border-amber-100 text-sm text-amber-900">
             <p class="font-bold">🤝 Mutual Exchange Policy</p>
             <p class="mt-1">If unavailable on your assigned date, please coordinate swaps directly with another parent. The school does not manage individual swaps.</p>
@@ -84,6 +84,28 @@
             { date: "31 JUL", day: "FRI", dish: "Vegetable Quesadilla", portion: "1 palm-sized Quesadilla (using palm-sized rotis)", side: "½ cup tomato", recipe: "1. Place grated cheese and sautéed veggies between two palm-sized rotis.\n2. Toast on a pan until cheese melts and both sides are golden.\n3. Cut into wedges for easy handling.\n4. Pack fresh." }
         ];
 
+        const masterRegister = [
+            { d: "21 Jul", dish: "Mini Veg Idli", n: "Fatema B", l: "Nafisa B", p: "Ajab S" },
+            { d: "22 Jul", dish: "Paneer Paratha + Dip", n: "Nafisa S", l: "Aliasger R", p: "Amatullah R" },
+            { d: "23 Jul", dish: "Veg Chilla + Chutney", n: "Abbas T", l: "Hasan B", p: "Burhanuddin B" },
+            { d: "24 Jul", dish: "Whole Wheat Pasta", n: "Zainab F", l: "Husaina R", p: "Burhanuddin M" },
+            { d: "28 Jul", dish: "Chicken-Roti", n: "Husaina H", l: "Mohammad L", p: "Burhanuddin J" },
+            { d: "29 Jul", dish: "Vegetable Appe", n: "Juzer R", l: "Nisreen M", p: "Husain K" },
+            { d: "30 Jul", dish: "Keema-Potato Samosa", n: "Burhanuddin R", l: "Fatema M", p: "Hussaina k" },
+            { d: "31 Jul", dish: "Mini Veg Quesadillas", n: "Saifuddin I", l: "Insiya S", p: "Mohammed R" }
+        ];
+
+        const tbody = document.getElementById('masterTableBody');
+        masterRegister.forEach(row => {
+            tbody.innerHTML += `<tr>
+                <td class="border border-pink-200 px-4 py-2 font-bold">${row.d}</td>
+                <td class="border border-pink-200 px-4 py-2">${row.dish}</td>
+                <td class="border border-pink-200 px-4 py-2 text-xs">${row.n}</td>
+                <td class="border border-pink-200 px-4 py-2 text-xs">${row.l}</td>
+                <td class="border border-pink-200 px-4 py-2 text-xs">${row.p}</td>
+            </tr>`;
+        });
+
         const classData = {
             nursery: { name: "Nursery", count: 21, students: ["-", "Fatema Bilaspurwala", "Nafisa Shakir", "Abbas Tyerwala", "Zainab Faizy", "-", "Husaina Hamid", "Juzer Rangwala", "Burhanuddin Rangwala", "Saifuddin Imadi"] },
             lkg: { name: "LKG", count: 21, students: ["-", "Nafisa Bahrainwala", "Aliasger Ragib", "Hasan Baran wala", "Husaina Rangwala", "-", "Mohammad Lokhandwala", "Nisreen Medical wala", "Fatema Mhowwala", "Insiya Shakir"] },
@@ -97,14 +119,6 @@
         
         document.getElementById('classNameHeader').innerText = currentClass.name;
         document.getElementById('studentCount').innerText = "Total Students: " + currentClass.count;
-        
-        // Populate Other Classes
-        const otherBody = document.getElementById('otherClassesBody');
-        for (let key in classData) {
-            if (key !== classKey) {
-                otherBody.innerHTML += `<tr><td class="px-4 py-3 font-bold">${classData[key].name}</td><td class="px-4 py-3 text-xs">View on <a href="?class=${key}" class="text-pink-600 underline">?class=${key}</a></td></tr>`;
-            }
-        }
         
         const grid = document.getElementById('plannerGrid');
         const colors = ["bg-sky-400", "bg-pink-400", "bg-amber-400", "bg-emerald-400", "bg-violet-400"];
