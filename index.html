@@ -16,26 +16,32 @@
     <!-- Header Section -->
     <div class="text-center mb-10">
         <h1 class="text-xs font-bold uppercase tracking-[0.3em] text-pink-500">MSB Educational Institute, Kota</h1>
-        <h2 id="classNameHeader" class="text-5xl font-header text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 uppercase mt-2">Class</h2>
-        <div id="studentCount" class="inline-block mt-4 bg-white px-6 py-2 rounded-full font-bold text-pink-600 shadow-lg border-2 border-pink-200"></div>
+        <!-- यहाँ अपनी क्लास का नाम बदलें (उदा: Nursery, LKG, या Pre-First) -->
+        <h2 id="classNameHeader" class="text-5xl font-header text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 uppercase mt-2">Nursery</h2>
+        <div id="studentCount" class="inline-block mt-4 bg-white px-6 py-2 rounded-full font-bold text-pink-600 shadow-lg border-2 border-pink-200">Total Students: 21</div>
         <div class="mt-4 bg-pink-500 text-white font-bold py-2 px-8 rounded-full inline-block shadow-lg">JULY 2026 TIFFIN PLANNER</div>
     </div>
 
-    <!-- Master Spreadsheet Coordination Desk -->
-    <div class="max-w-6xl mx-auto mb-12 p-8 bg-white rounded-[2rem] shadow-lg border-4 border-pink-100 overflow-x-auto">
-        <h3 class="font-header text-2xl text-pink-600 mb-6 text-center">📋 Master Tiffin Register (All Classes)</h3>
-        <table class="w-full text-sm text-slate-700 border-collapse border border-pink-200 text-center">
-            <thead class="bg-pink-50">
-                <tr>
-                    <th class="border border-pink-200 px-4 py-2">Date</th>
-                    <th class="border border-pink-200 px-4 py-2">Dish</th>
-                    <th class="border border-pink-200 px-4 py-2">Nursery</th>
-                    <th class="border border-pink-200 px-4 py-2">LKG</th>
-                    <th class="border border-pink-200 px-4 py-2">Pre-first</th>
-                </tr>
-            </thead>
-            <tbody id="masterTableBody"></tbody>
-        </table>
+    <!-- Collapsible Master Register -->
+    <div class="max-w-6xl mx-auto mb-12 text-center">
+        <button onclick="toggleRegister()" class="bg-violet-500 text-white font-bold py-3 px-6 rounded-full shadow-lg hover:bg-violet-600 transition-all">
+            📋 Click here to view Master Tiffin Register (Other Classes)
+        </button>
+        <div id="masterRegisterContainer" class="hidden mt-6 p-8 bg-white rounded-[2rem] shadow-lg border-4 border-violet-100 overflow-x-auto">
+            <h3 class="font-header text-2xl text-violet-600 mb-6">Master Tiffin Register (All Classes)</h3>
+            <table class="w-full text-sm text-slate-700 border-collapse border border-violet-200 text-center">
+                <thead class="bg-violet-50">
+                    <tr>
+                        <th class="border border-violet-200 px-4 py-2">Date</th>
+                        <th class="border border-violet-200 px-4 py-2">Dish</th>
+                        <th class="border border-violet-200 px-4 py-2">Nursery</th>
+                        <th class="border border-violet-200 px-4 py-2">LKG</th>
+                        <th class="border border-violet-200 px-4 py-2">Pre-first</th>
+                    </tr>
+                </thead>
+                <tbody id="masterTableBody"></tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Planner Grid -->
@@ -71,6 +77,13 @@
     </div>
 
     <script>
+        function toggleRegister() {
+            document.getElementById('masterRegisterContainer').classList.toggle('hidden');
+        }
+
+        // यहाँ अपनी क्लास के छात्रों के नाम अपडेट करें
+        const currentClassStudents = ["-", "Fatema Bilaspurwala", "Nafisa Shakir", "Abbas Tyerwala", "Zainab Faizy", "-", "Husaina Hamid", "Juzer Rangwala", "Burhanuddin Rangwala", "Saifuddin Imadi"];
+
         const planner = [
             { date: "20 JUL", day: "MON", dish: "SELF LUNCH BOX DAY", portion: "Student's choice", side: "-", recipe: null },
             { date: "21 JUL", day: "TUE", dish: "Mini Vegetable Idli", portion: "3 Mini Idlis per student", side: "½ cup cucumber", recipe: "1. Mix 1 cup Rava, 1 cup Curd, and water. Rest 15 mins.\n2. Add grated carrots and chopped beans.\n3. Pour in molds and steam for 10 mins.\n4. Serve warm." },
@@ -85,40 +98,26 @@
         ];
 
         const masterRegister = [
-            { d: "21 Jul", dish: "Mini Veg Idli", n: "Fatema B", l: "Nafisa B", p: "Ajab S" },
-            { d: "22 Jul", dish: "Paneer Paratha + Dip", n: "Nafisa S", l: "Aliasger R", p: "Amatullah R" },
-            { d: "23 Jul", dish: "Veg Chilla + Chutney", n: "Abbas T", l: "Hasan B", p: "Burhanuddin B" },
-            { d: "24 Jul", dish: "Whole Wheat Pasta", n: "Zainab F", l: "Husaina R", p: "Burhanuddin M" },
-            { d: "28 Jul", dish: "Chicken-Roti", n: "Husaina H", l: "Mohammad L", p: "Burhanuddin J" },
-            { d: "29 Jul", dish: "Vegetable Appe", n: "Juzer R", l: "Nisreen M", p: "Husain K" },
-            { d: "30 Jul", dish: "Keema-Potato Samosa", n: "Burhanuddin R", l: "Fatema M", p: "Hussaina k" },
-            { d: "31 Jul", dish: "Mini Veg Quesadillas", n: "Saifuddin I", l: "Insiya S", p: "Mohammed R" }
+            { d: "21 Jul", dish: "Mini Veg Idli", n: "Fatema Bilaspurwala", l: "Nafisa Bahrainwala", p: "Ajab sailanawala" },
+            { d: "22 Jul", dish: "Paneer Paratha + Dip", n: "Nafisa Shakir", l: "Aliasger Ragib", p: "Amatullah Ratlamwala" },
+            { d: "23 Jul", dish: "Veg Chilla + Chutney", n: "Abbas Tyerwala", l: "Hasan Baran wala", p: "Burhanuddin Bahrainwala" },
+            { d: "24 Jul", dish: "Whole Wheat Pasta", n: "Zainab Faizy", l: "Husaina Rangwala", p: "Burhanuddin Muffadal Patanwala" },
+            { d: "28 Jul", dish: "Chicken-Roti", n: "Husaina Hamid", l: "Mohammad Lokhandwala", p: "Burhanuddin Juzer Patanwala" },
+            { d: "29 Jul", dish: "Vegetable Appe", n: "Juzer Rangwala", l: "Nisreen Medical wala", p: "Husain Kushalgarh" },
+            { d: "30 Jul", dish: "Keema-Potato Samosa", n: "Burhanuddin Rangwala", l: "Fatema Mhowwala", p: "Hussaina kantabatwala" },
+            { d: "31 Jul", dish: "Mini Veg Quesadillas", n: "Saifuddin Imadi", l: "Insiya Shakir", p: "Mohammed Rangwala" }
         ];
 
         const tbody = document.getElementById('masterTableBody');
         masterRegister.forEach(row => {
             tbody.innerHTML += `<tr>
-                <td class="border border-pink-200 px-4 py-2 font-bold">${row.d}</td>
-                <td class="border border-pink-200 px-4 py-2">${row.dish}</td>
-                <td class="border border-pink-200 px-4 py-2 text-xs">${row.n}</td>
-                <td class="border border-pink-200 px-4 py-2 text-xs">${row.l}</td>
-                <td class="border border-pink-200 px-4 py-2 text-xs">${row.p}</td>
+                <td class="border border-violet-200 px-4 py-2 font-bold">${row.d}</td>
+                <td class="border border-violet-200 px-4 py-2">${row.dish}</td>
+                <td class="border border-violet-200 px-4 py-2 text-xs">${row.n}</td>
+                <td class="border border-violet-200 px-4 py-2 text-xs">${row.l}</td>
+                <td class="border border-violet-200 px-4 py-2 text-xs">${row.p}</td>
             </tr>`;
         });
-
-        const classData = {
-            nursery: { name: "Nursery", count: 21, students: ["-", "Fatema Bilaspurwala", "Nafisa Shakir", "Abbas Tyerwala", "Zainab Faizy", "-", "Husaina Hamid", "Juzer Rangwala", "Burhanuddin Rangwala", "Saifuddin Imadi"] },
-            lkg: { name: "LKG", count: 21, students: ["-", "Nafisa Bahrainwala", "Aliasger Ragib", "Hasan Baran wala", "Husaina Rangwala", "-", "Mohammad Lokhandwala", "Nisreen Medical wala", "Fatema Mhowwala", "Insiya Shakir"] },
-            "pre-first": { name: "Pre-First", count: 23, students: ["-", "Ajab sailanawala", "Amatullah Ratlamwala", "Burhanuddin Bahrainwala", "Burhanuddin Muffadal Patanwala", "-", "Husain Kushalgarh", "Hussaina kantabatwala", "Mohammed Rangwala", "M. Rangwala", "Zainab R", "Fatema H", "Ali A", "Hasan B", "Husaina R", "Mohammad L", "Nisreen M", "Fatema M", "Insiya S", "Burhanuddin P", "Aliasger R", "Nafisa B", "Amatullah R"] }
-        };
-
-        const params = new URLSearchParams(window.location.search);
-        let classKey = params.get('class');
-        if (classKey === 'prefirst') classKey = 'pre-first';
-        const currentClass = classData[classKey] || classData.nursery;
-        
-        document.getElementById('classNameHeader').innerText = currentClass.name;
-        document.getElementById('studentCount').innerText = "Total Students: " + currentClass.count;
         
         const grid = document.getElementById('plannerGrid');
         const colors = ["bg-sky-400", "bg-pink-400", "bg-amber-400", "bg-emerald-400", "bg-violet-400"];
@@ -129,7 +128,7 @@
                 <div class="bg-white p-6 rounded-[2rem] border-4 border-slate-100 hover:border-pink-300 transition-all shadow-lg">
                     <div class="${color} text-white font-bold px-4 py-1 rounded-full text-xs inline-block mb-3">${item.date} • ${item.day}</div>
                     <h3 class="font-header text-xl text-slate-800">${item.dish}</h3>
-                    <p class="bg-pink-50 text-pink-600 font-bold p-3 rounded-xl my-4 text-center">${currentClass.students[i] || "Self Lunch Day"}</p>
+                    <p class="bg-pink-50 text-pink-600 font-bold p-3 rounded-xl my-4 text-center">${currentClassStudents[i] || "Self Lunch Day"}</p>
                     <div class="text-xs text-slate-500 space-y-1">
                         <p>🍱 ${item.portion}</p>
                         <p>🥕 ${item.side}</p>
