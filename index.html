@@ -18,7 +18,7 @@
         <h1 class="text-xs font-bold uppercase tracking-[0.3em] text-pink-500">MSB Educational Institute, Kota</h1>
         <h2 id="classNameHeader" class="text-5xl font-header text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 uppercase mt-2">Class</h2>
         <div id="studentCount" class="inline-block mt-4 bg-white px-6 py-2 rounded-full font-bold text-pink-600 shadow-lg border-2 border-pink-200"></div>
-        <div class="mt-4 bg-pink-500 text-white font-bold py-2 px-8 rounded-full inline-block shadow-lg">JULY 2026 TIFFIN PLANNER</div>
+        <div id="monthTitleDisplay" class="mt-4 bg-pink-500 text-white font-bold py-2 px-8 rounded-full inline-block shadow-lg uppercase">AUGUST 2026 TIFFIN PLANNER</div>
     </div>
 
     <!-- Master Register Toggle -->
@@ -27,11 +27,11 @@
             📋 Click here to view Master Tiffin Register (Other Classes)
         </button>
         <div id="masterRegisterContainer" class="hidden mt-6 p-8 bg-white rounded-[2rem] shadow-lg border-4 border-violet-100 overflow-x-auto">
-            <h3 class="font-header text-2xl text-violet-600 mb-6">Master Tiffin Register (All Classes)</h3>
+            <h3 class="font-header text-2xl text-violet-600 mb-6">Master Tiffin Register - August 2026</h3>
             <table class="w-full text-sm text-slate-700 border-collapse border border-violet-200 text-center">
                 <thead class="bg-violet-50">
                     <tr>
-                        <th class="border border-violet-200 px-4 py-2">Date</th>
+                        <th class="border border-violet-200 px-4 py-2">Date & Day</th>
                         <th class="border border-violet-200 px-4 py-2">Dish</th>
                         <th class="border border-violet-200 px-4 py-2">Nursery</th>
                         <th class="border border-violet-200 px-4 py-2">LKG</th>
@@ -81,44 +81,110 @@
         }
 
         const planner = [
-            { date: "20 JUL", day: "MON", dish: "SELF LUNCH BOX DAY", portion: "Student's choice", side: "-", recipe: null },
-            { date: "21 JUL", day: "TUE", dish: "Mini Vegetable Idli", portion: "3 Mini Idlis per student", side: "½ cup cucumber", recipe: "1. Mix 1 cup Rava, 1 cup Curd, and water. Rest 15 mins.\n2. Add grated carrots and chopped beans.\n3. Pour in molds and steam for 10 mins.\n4. Serve warm." },
-            { date: "22 JUL", day: "WED", dish: "Paneer Paratha with Hung Curd Dip", portion: "1 Paratha + Dip", side: "½ cup carrot", recipe: "1. Mix crumbled paneer with cumin and salt. Stuff in dough, roll, and roast with ghee.\n2. **Hung Curd Dip:** Hang 1/2 cup yogurt in muslin cloth for 30 mins. Mix with salt, finely chopped mint/coriander, and a pinch of black pepper." },
-            { date: "23 JUL", day: "THU", dish: "Veg Besan Chilla with Tomato-Garlic Chutney", portion: "2 Chillas + Chutney", side: "½ cup cucumber", recipe: "1. Whisk besan with water, spinach, grated carrots, salt, and turmeric. Roast on pan.\n2. **Tomato-Garlic Chutney:** Roast 1 tomato and 2 garlic cloves. Blend with a pinch of salt and coriander leaves into a smooth paste." },
-            { date: "24 JUL", day: "FRI", dish: "Whole Wheat Pasta", portion: "1 Small bowl per student", side: "½ cup tomato", recipe: "1. Boil pasta until tender.\n2. Sauté garlic and corn.\n3. Add tomato puree and herbs.\n4. Toss pasta until coated." },
-            { date: "27 JUL", day: "MON", dish: "SELF LUNCH BOX DAY", portion: "Student's choice", side: "-", recipe: null },
-            { date: "28 JUL", day: "TUE", dish: "Chicken Gravy & Roti", portion: "Mild boneless chicken gravy + 1 palm-sized Roti", side: "½ cup cucumber", recipe: "1. Cook boneless chicken cubes with mild spices (no chili).\n2. Keep gravy thick and flavorful but non-spicy.\n3. Pack 1 small palm-sized Roti separately.\n4. Serve warm." },
-            { date: "29 JUL", day: "WED", dish: "Vegetable Appe", portion: "5 Mini Appes per student", side: "½ cup carrot", recipe: "1. Use fermented batter with grated veggies.\n2. Heat appe pan and grease molds.\n3. Pour batter and cook covered.\n4. Flip and cook until golden." },
-            { date: "30 JUL", day: "THU", dish: "Keema-Potato Samosa", portion: "2 Small Samosas per student", side: "½ cup cucumber", recipe: "1. Mix cooked filling with mild herbs.\n2. Fold roti strips into cones.\n3. Seal edges with water.\n4. Brush with oil and bake/air-fry." },
-            { date: "31 JUL", day: "FRI", dish: "Vegetable Quesadilla", portion: "1 palm-sized Quesadilla (using palm-sized rotis)", side: "½ cup tomato", recipe: "1. Place grated cheese and sautéed veggies between two palm-sized rotis.\n2. Toast on a pan until cheese melts and both sides are golden.\n3. Cut into wedges for easy handling.\n4. Pack fresh." }
+            { 
+                date: "4 AUG", day: "TUE", dish: "Lady Finger (Bhindi) + Roti", portion: "1 1/2 per child", side: "½ cup cucumber", 
+                recipe: "1. Wash and dry bhindi thoroughly before cutting to avoid stickiness.\n2. Sauté chopped onions and green chilies in oil, add sliced bhindi, turmeric, and salt.\n3. Cook uncovered on medium flame until tender.\n4. Pack with soft rotis." 
+            },
+            { 
+                date: "5 AUG", day: "WED", dish: "Potato + Chicken Tikkis", portion: "3 pieces per child", side: "½ cup carrot", 
+                recipe: "1. Boil and mash potatoes, mix with minced boiled chicken, ginger-garlic paste, and mild spices.\n2. Shape into flat round tikkis.\n3. Pan-fry with a little oil or ghee until golden brown on both sides." 
+            },
+            { 
+                date: "6 AUG", day: "THU", dish: "Potato + Beetroot Stuffed Paratha", portion: "1 1/2 per child", side: "½ cup cucumber", 
+                recipe: "1. Boil and grate potatoes and beetroot together, mix with mild cumin powder and salt for stuffing.\n2. Roll into wheat dough balls, seal stuffing, roll flat, and roast on tawa with ghee." 
+            },
+            { 
+                date: "7 AUG", day: "FRI", dish: "Corn + Chicken Sandwich", portion: "1 sandwich", side: "½ cup tomato", 
+                recipe: "1. Mix boiled sweet corn and shredded chicken with a little mayonnaise or hung curd, salt, and black pepper.\n2. Spread between whole wheat bread slices, toast lightly, and cut into triangles." 
+            },
+            { 
+                date: "11 AUG", day: "TUE", dish: "Paneer Gravy + Roti", portion: "1 1/2 per child", side: "½ cup cucumber", 
+                recipe: "1. Prepare a mild tomato-onion gravy with light spices and cream.\n2. Add cubed soft paneer pieces and simmer for 5 minutes.\n3. Pack warm along with soft rotis." 
+            },
+            { 
+                date: "12 AUG", day: "WED", dish: "Cheese + Methi / Spinach Stuffed Paratha", portion: "1 1/2 per child", side: "½ cup carrot", 
+                recipe: "1. Finely chop fresh methi or spinach and mix with grated cheese, salt, and a pinch of ajwain.\n2. Stuff inside wheat dough, roll carefully, and roast with ghee until crisp." 
+            },
+            { 
+                date: "13 AUG", day: "THU", dish: "Keema Dal Samosa", portion: "3 per child", side: "½ cup cucumber", 
+                recipe: "1. Cook minced meat (keema) and lentils together with mild aromatic spices until completely dry.\n2. Wrap filling in small pastry strips into triangle samosas and bake or shallow fry." 
+            },
+            { 
+                date: "14 AUG", day: "FRI", dish: "Pav Bhaji", portion: "1 1/2 pav", side: "½ cup tomato", 
+                recipe: "1. Mash boiled mixed vegetables (potatoes, peas, carrots, cauliflower) cooked with butter and pav bhaji masala.\n2. Toast pav lightly with butter and pack together." 
+            },
+            { 
+                date: "18 AUG", day: "TUE", dish: "Fry Potato + Roti", portion: "1 1/2 per child", side: "½ cup cucumber", 
+                recipe: "1. Cut potatoes into small cubes or matchsticks.\n2. Shallow fry with turmeric, salt, and cumin seeds until crispy on the outside and soft inside. Serve with rotis." 
+            },
+            { 
+                date: "19 AUG", day: "WED", dish: "Moong Dal Bhajiya", portion: "5 pieces", side: "½ cup carrot", 
+                recipe: "1. Soak yellow moong dal, grind coarsely, and whip with chopped coriander, green chili, and salt.\n2. Drop small spoonfuls into hot oil and fry until golden and crisp." 
+            },
+            { 
+                date: "20 AUG", day: "THU", dish: "Chana Bateta", portion: "1 kg (Batch prep)", side: "½ cup cucumber", 
+                recipe: "1. Boil white chickpeas (chana) and potatoes.\n2. Toss together with tamarind chutney, roasted cumin powder, and mild spices for a flavorful dry snack mix." 
+            },
+            { 
+                date: "21 AUG", day: "FRI", dish: "Whole Wheat or Semolina Pasta (Red)", portion: "1 kg (Batch prep)", side: "½ cup tomato", 
+                recipe: "1. Boil pasta until tender.\n2. Prepare a rich, smooth tomato and garlic herb sauce, toss the pasta through until well coated." 
+            },
+            { 
+                date: "25 AUG", day: "TUE", dish: "Keema + Roti", portion: "1 1/2 per child", side: "½ cup cucumber", 
+                recipe: "1. Cook finely minced meat with onions, tomatoes, ginger-garlic paste, and mild spices until thick.\n2. Pack warm alongside soft fresh rotis." 
+            },
+            { 
+                date: "27 AUG", day: "THU", dish: "Teachers' treat", portion: "Special Event", side: "-", recipe: null }
         ];
 
         const masterRegister = [
-            { d: "21 Jul", dish: "Mini Veg Idli", n: "Fatema Bilaspurwala", l: "Nafisa Bahrainwala", p: "Ajab sailanawala" },
-            { d: "22 Jul", dish: "Paneer Paratha + Dip", n: "Nafisa Shakir", l: "Aliasger Ragib", p: "Amatullah Ratlamwala" },
-            { d: "23 Jul", dish: "Veg Chilla + Chutney", n: "Abbas Tyerwala", l: "Hasan Baran wala", p: "Burhanuddin Bahrainwala" },
-            { d: "24 Jul", dish: "Whole Wheat Pasta", n: "Zainab Faizy", l: "Husaina Rangwala", p: "Burhanuddin Muffadal Patanwala" },
-            { d: "28 Jul", dish: "Chicken-Roti", n: "Husaina Hamid", l: "Mohammad Lokhandwala", p: "Burhanuddin Juzer Patanwala" },
-            { d: "29 Jul", dish: "Vegetable Appe", n: "Juzer Rangwala", l: "Nisreen Medical wala", p: "Husain Kushalgarh" },
-            { d: "30 Jul", dish: "Keema-Potato Samosa", n: "Burhanuddin Rangwala", l: "Fatema Mhowwala", p: "Hussaina kantabatwala" },
-            { d: "31 Jul", dish: "Mini Veg Quesadillas", n: "Saifuddin Imadi", l: "Insiya Shakir", p: "Mohammed Rangwala" }
+            { d: "4 Aug (Tue)", dish: "Lady Finger + Roti", n: "Husain Shakir", l: "Hatim Bandukwala", p: "Ali Asgar ezzy" },
+            { d: "5 Aug (Wed)", dish: "Potato + Chicken Tikkis", n: "Husain Azad", l: "Qutubkhan", p: "Batul Rang" },
+            { d: "6 Aug (Thu)", dish: "Potato + Beetroot Paratha", n: "Insiyah Alotwala", l: "Jumana Ezzy", p: "Saifuddin Bundi wala" },
+            { d: "7 Aug (Fri)", dish: "Corn + Chicken Sandwich", n: "Hasan Katthawala", l: "Sakina Bandukwala", p: "Murtaza aklera" },
+            { d: "11 Aug (Tue)", dish: "Paneer Gravy + Roti", n: "Johratulmajd", l: "Ruqaiyah Medicalwala", p: "nafisa sheopur" },
+            { d: "12 Aug (Wed)", dish: "Cheese + Methi/Spinach", n: "Hasan Saifee", l: "Saifuddin Bahrainwala", p: "zahara ujjain" },
+            { d: "13 Aug (Thu)", dish: "Keema Dal Samosa", n: "Nafisa Kotawala", l: "Murtaza Rampurawala", p: "Nafisa Bhanpura" },
+            { d: "14 Aug (Fri)", dish: "Pav Bhaji", n: "Nafisa Hamid", l: "Mohammed Patanwala", p: "Ruqaiyah Mhow wala" },
+            { d: "18 Aug (Tue)", dish: "Fry Potato + Roti", n: "Husaina Dhinoj", l: "Fatema Rangwala", p: "Saifuddin Bahrain" },
+            { d: "19 Aug (Wed)", dish: "Moong Dal Bhajiya", n: "Husaina kagdi", l: "Mohammed Kapadia", p: "Mohammad Daoodi" },
+            { d: "20 Aug (Thu)", dish: "Chana Bateta", n: "Mufaddal", l: "Hasan Maimoon", p: "Nafisa Baran" },
+            { d: "21 Aug (Fri)", dish: "Whole Wheat/Semolina Pasta", n: "Sakina Dilshad", l: "Hussain Tinwala", p: "Zahara Anta wala" },
+            { d: "25 Aug (Tue)", dish: "Keema + Roti", n: "Rukaiya Bagwala", l: "Hussaina Bahrainwala", p: "Zainab Baltiwala" },
+            { d: "27 Aug (Thu)", dish: "Teachers' treat", n: "-", l: "-", p: "-" }
         ];
 
-        const tbody = document.getElementById('masterTableBody');
-        masterRegister.forEach(row => {
-            tbody.innerHTML += `<tr>
-                <td class="border border-violet-200 px-4 py-2 font-bold">${row.d}</td>
-                <td class="border border-violet-200 px-4 py-2">${row.dish}</td>
-                <td class="border border-violet-200 px-4 py-2 text-xs">${row.n}</td>
-                <td class="border border-violet-200 px-4 py-2 text-xs">${row.l}</td>
-                <td class="border border-violet-200 px-4 py-2 text-xs">${row.p}</td>
-            </tr>`;
-        });
-
         const classData = {
-            nursery: { name: "Nursery", count: 21, students: ["-", "Fatema Bilaspurwala", "Nafisa Shakir", "Abbas Tyerwala", "Zainab Faizy", "-", "Husaina Hamid", "Juzer Rangwala", "Burhanuddin Rangwala", "Saifuddin Imadi"] },
-            lkg: { name: "LKG", count: 21, students: ["-", "Nafisa Bahrainwala", "Aliasger Ragib", "Hasan Baran wala", "Husaina Rangwala", "-", "Mohammad Lokhandwala", "Nisreen Medical wala", "Fatema Mhowwala", "Insiya Shakir"] },
-            "pre-first": { name: "Pre-First", count: 23, students: ["-", "Ajab sailanawala", "Amatullah Ratlamwala", "Burhanuddin Bahrainwala", "Burhanuddin Muffadal Patanwala", "-", "Burhanuddin Juzer Patanwala", "Husain Kushalgarh", "Hussaina kantabatwala", "Mohammed Rangwala"] }
+            nursery: { 
+                name: "Nursery", 
+                count: 21, 
+                students: [
+                    "Husain Shakir", "Husain Azad", "Insiyah Alotwala", "Hasan Katthawala", 
+                    "Johratulmajd", "Hasan Saifee", "Nafisa Kotawala", "Nafisa Hamid", 
+                    "Husaina Dhinoj", "Husaina kagdi", "Mufaddal", "Sakina Dilshad", 
+                    "Rukaiya Bagwala", "-"
+                ] 
+            },
+            lkg: { 
+                name: "LKG", 
+                count: 21, 
+                students: [
+                    "Hatim Bandukwala", "Qutubkhan", "Jumana Ezzy", "Sakina Bandukwala", 
+                    "Ruqaiyah Medicalwala", "Saifuddin Bahrainwala", "Murtaza Rampurawala", "Mohammed Patanwala", 
+                    "Fatema Rangwala", "Mohammed Kapadia", "Hasan Maimoon", "Hussain Tinwala", 
+                    "Hussaina Bahrainwala", "-"
+                ] 
+            },
+            "pre-first": { 
+                name: "Pre-First", 
+                count: 23, 
+                students: [
+                    "Ali Asgar ezzy", "Batul Rang", "Saifuddin Bundi wala", "Murtaza aklera", 
+                    "nafisa sheopur", "zahara ujjain", "Nafisa Bhanpura", "Ruqaiyah Mhow wala", 
+                    "Saifuddin Bahrain", "Mohammad Daoodi", "Nafisa Baran", "Zahara Anta wala", 
+                    "Zainab Baltiwala", "-"
+                ] 
+            }
         };
 
         const params = new URLSearchParams(window.location.search);
@@ -134,18 +200,33 @@
         
         planner.forEach((item, i) => {
             const color = colors[i % colors.length];
+            const studentName = currentClass.students[i] || "Self Lunch Day";
             grid.innerHTML += `
-                <div class="bg-white p-6 rounded-[2rem] border-4 border-slate-100 hover:border-pink-300 transition-all shadow-lg">
-                    <div class="${color} text-white font-bold px-4 py-1 rounded-full text-xs inline-block mb-3">${item.date} • ${item.day}</div>
-                    <h3 class="font-header text-xl text-slate-800">${item.dish}</h3>
-                    <p class="bg-pink-50 text-pink-600 font-bold p-3 rounded-xl my-4 text-center">${currentClass.students[i] || "Self Lunch Day"}</p>
-                    <div class="text-xs text-slate-500 space-y-1">
-                        <p>🍱 ${item.portion}</p>
-                        <p>🥕 ${item.side}</p>
+                <div class="bg-white p-6 rounded-[2rem] border-4 border-slate-100 hover:border-pink-300 transition-all shadow-lg flex flex-col justify-between">
+                    <div>
+                        <div class="${color} text-white font-bold px-4 py-1 rounded-full text-xs inline-block mb-3">${item.date} • ${item.day}</div>
+                        <h3 class="font-header text-xl text-slate-800">${item.dish}</h3>
+                        <p class="bg-pink-50 text-pink-600 font-bold p-3 rounded-xl my-4 text-center">Assigned: ${studentName}</p>
+                        <div class="text-xs text-slate-500 space-y-1">
+                            <p>🍱 Portion: ${item.portion}</p>
+                            <p>🥕 Side: ${item.side}</p>
+                        </div>
                     </div>
-                    ${item.recipe ? `<button onclick="showRecipe('${item.dish}', '${item.recipe.replace(/'/g, "\\'").replace(/\n/g, '\\n')}')" class="mt-6 w-full py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-pink-500 transition-colors">See Recipe</button>` : ''}
+                    ${item.recipe ? `<button onclick="showRecipe('${item.dish.replace(/'/g, "\\'")}', '${item.recipe.replace(/'/g, "\\'").replace(/\n/g, '\\n')}')" class="mt-6 w-full py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-pink-500 transition-colors">See Recipe</button>` : '<div class="mt-6 py-3 text-center text-xs font-bold text-amber-600 bg-amber-50 rounded-xl">Special Event</div>'}
                 </div>
             `;
+        });
+
+        // Initialize Master Table
+        const tbody = document.getElementById('masterTableBody');
+        masterRegister.forEach(row => {
+            tbody.innerHTML += `<tr>
+                <td class="border border-violet-200 px-4 py-2 font-bold">${row.d}</td>
+                <td class="border border-violet-200 px-4 py-2">${row.dish}</td>
+                <td class="border border-violet-200 px-4 py-2 text-xs">${row.n}</td>
+                <td class="border border-violet-200 px-4 py-2 text-xs">${row.l}</td>
+                <td class="border border-violet-200 px-4 py-2 text-xs">${row.p}</td>
+            </tr>`;
         });
 
         function showRecipe(dish, recipe) {
