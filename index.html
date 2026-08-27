@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MSB Tiffin Planner</title>
+    <title>MSB Tiffin Planner - September 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@400;700&display=swap" rel="stylesheet">
     <style>
@@ -18,7 +18,7 @@
         <h1 class="text-xs font-bold uppercase tracking-[0.3em] text-pink-500">MSB Educational Institute, Kota</h1>
         <h2 id="classNameHeader" class="text-5xl font-header text-transparent bg-clip-text bg-gradient-to-r from-pink-500 to-violet-500 uppercase mt-2">Class</h2>
         <div id="studentCount" class="inline-block mt-4 bg-white px-6 py-2 rounded-full font-bold text-pink-600 shadow-lg border-2 border-pink-200"></div>
-        <div id="monthTitleDisplay" class="mt-4 bg-pink-500 text-white font-bold py-2 px-8 rounded-full inline-block shadow-lg uppercase">AUGUST 2026 TIFFIN PLANNER</div>
+        <div id="monthTitleDisplay" class="mt-4 bg-pink-500 text-white font-bold py-2 px-8 rounded-full inline-block shadow-lg uppercase">SEPTEMBER 2026 TIFFIN PLANNER</div>
     </div>
 
     <!-- Master Register Toggle -->
@@ -27,7 +27,7 @@
             📋 Click here to view Master Tiffin Register (Other Classes)
         </button>
         <div id="masterRegisterContainer" class="hidden mt-6 p-8 bg-white rounded-[2rem] shadow-lg border-4 border-violet-100 overflow-x-auto">
-            <h3 class="font-header text-2xl text-violet-600 mb-6">Master Tiffin Register - August 2026</h3>
+            <h3 class="font-header text-2xl text-violet-600 mb-6">Master Tiffin Register - September 2026</h3>
             <table class="w-full text-sm text-slate-700 border-collapse border border-violet-200 text-center">
                 <thead class="bg-violet-50">
                     <tr>
@@ -82,104 +82,113 @@
 
         const planner = [
             { 
-                date: "4 AUG", day: "TUE", dish: "Lady Finger (Bhindi) + Roti", 
-                nPortion: "1 and 1/2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
-                side: "½ cup cucumber", 
-                recipe: "1. Wash and dry bhindi thoroughly before cutting to avoid stickiness.\n2. Sauté chopped onions and green chilies in oil, add sliced bhindi, turmeric, and salt.\n3. Cook uncovered on medium flame until tender.\n4. Pack with soft rotis." 
-            },
-            { 
-                date: "5 AUG", day: "WED", dish: "Potato + Chicken Tikkis", 
-                nPortion: "3 pieces per child", lPortion: "4 tikkis per child", pPortion: "4 tikkis per child",
-                side: "½ cup carrot", 
-                recipe: "1. Boil and mash potatoes, mix with minced boiled chicken, ginger-garlic paste, and mild spices.\n2. Shape into flat round tikkis.\n3. Pan-fry with a little oil or ghee until golden brown on both sides." 
-            },
-            { 
-                date: "6 AUG", day: "THU", dish: "Potato + Beetroot Stuffed Paratha", 
-                nPortion: "1 and 1/2 roti per child", lPortion: "2 paratha per child", pPortion: "2 paratha per child",
-                side: "½ cup cucumber", 
-                recipe: "1. Boil and grate potatoes and beetroot together, mix with mild cumin powder and salt for stuffing.\n2. Roll into wheat dough balls, seal stuffing, roll flat, and roast on tawa with ghee." 
-            },
-            { 
-                date: "7 AUG", day: "FRI", dish: "Corn + Chicken Sandwich", 
-                nPortion: "1 sandwich", lPortion: "2 Whole bread sandwich per child", pPortion: "2 Whole bread sandwich per child",
+                date: "1 SEP", day: "TUE", dish: "Egg Bhurji + Roti", 
+                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
                 side: "½ cup tomato", 
-                recipe: "1. Mix boiled sweet corn and shredded chicken with a little mayonnaise or hung curd, salt, and black pepper.\n2. Spread between whole wheat bread slices, toast lightly, and cut into triangles." 
+                recipe: "1. Sauté finely chopped onions and tomatoes together in oil until soft and pulpy.\n2. Crack in eggs, add turmeric, salt, and mild spices, scramble well until cooked.\n3. Serve with soft rotis." 
             },
             { 
-                date: "11 AUG", day: "TUE", dish: "Paneer Gravy + Roti", 
-                nPortion: "1 and 1/2 roti per child", lPortion: "2 roti per Child", pPortion: "2 roti per Child",
+                date: "2 SEP", day: "WED", dish: "Whole Wheat or Semolina Pasta (White)", 
+                nPortion: "750gm pasta", lPortion: "1 kg pasta", pPortion: "1.5 kg pasta",
+                side: "½ cup carrot & cucumber", 
+                recipe: "1. Boil pasta until tender.\n2. Prepare a rich white gravy using flour (atta), milk, and a little bit of cheese to ensure it stays creamy and moist (not dry)." 
+            },
+            { 
+                date: "3 SEP", day: "THU", dish: "Moong Dal (Not very dry) + Roti", 
+                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
                 side: "½ cup cucumber", 
-                recipe: "1. Prepare a mild tomato-onion gravy with light spices and cream.\n2. Add cubed soft paneer pieces and simmer for 5 minutes.\n3. Pack warm along with soft rotis." 
+                recipe: "1. Cook yellow moong dal with mild tempering so that the gravy remains moist and soft (not very dry).\n2. Pack with soft rotis." 
             },
             { 
-                date: "12 AUG", day: "WED", dish: "Cheese + Methi /Spinach Stuffed Paratha", 
-                nPortion: "1 and 1/2 roti per child", lPortion: "2 Paratha per Child", pPortion: "2 Paratha per Child",
-                side: "½ cup carrot", 
-                recipe: "1. Finely chop fresh methi or spinach and mix with grated cheese, salt, and a pinch of ajwain.\n2. Stuff inside wheat dough, roll carefully, and roast with ghee until crisp." 
+                date: "8 SEP", day: "TUE", dish: "Corn + Chicken Sandwich", 
+                nPortion: "1 Whole bread sandwich per child", lPortion: "1.5 Whole bread sandwich per child", pPortion: "1.5 Whole bread sandwich per child",
+                side: "½ cup tomato & cucumber", 
+                recipe: "1. Mix boiled sweet corn and shredded chicken using curd or mayonnaise as a smooth base.\n2. Spread between whole bread slices and cut neatly." 
             },
             { 
-                date: "13 AUG", day: "THU", dish: "Keema Dal Samosa", 
-                nPortion: "3 per child", lPortion: "4 - 5 samosa per child", pPortion: "4 samosa per child",
-                side: "½ cup cucumber", 
-                recipe: "1. Cook minced meat (keema) and lentils together with mild aromatic spices until completely dry.\n2. Wrap filling in small pastry strips into triangle samosas and bake or shallow fry." 
+                date: "9 SEP", day: "WED", dish: "Chilli Paneer (Gravy) + Roti", 
+                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
+                side: "½ cup beetroot & cucumber", 
+                recipe: "1. Toss paneer cubes and prepare a mild, kid-friendly savory gravy with bell peppers and light soy-tomato blend.\n2. Serve with soft rotis." 
             },
             { 
-                date: "14 AUG", day: "FRI", dish: "Pav Bhaji", 
-                nPortion: "2 pav", lPortion: "3 Pav per Child", pPortion: "3-4 Pav per Child",
+                date: "10 SEP", day: "THU", dish: "Kheer Puri", 
+                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
+                side: "Banana included", 
+                recipe: "1. Prepare sweet milk rice kheer and fluffy fried puris.\n2. Pack with a fresh banana on the side." 
+            },
+            { 
+                date: "11 SEP", day: "FRI", dish: "Moong Dal Samosa + Chutney", 
+                nPortion: "3 samosa per child", lPortion: "4 samosa per child", pPortion: "4 samosa per child",
                 side: "½ cup tomato", 
-                recipe: "1. Mash boiled mixed vegetables (potatoes, peas, carrots, cauliflower) cooked with butter and pav bhaji masala.\n2. Toast pav lightly with butter and pack together." 
+                recipe: "1. Fill crispy pastry pockets with spiced moong dal filling, bake or fry until golden.\n2. Serve with mild green chutney." 
             },
             { 
-                date: "18 AUG", day: "TUE", dish: "Fry Potato + Roti", 
-                nPortion: "1 and 1/2 roti per child", lPortion: "2 roti per Child", pPortion: "2 roti per Child",
+                date: "16 SEP", day: "WED", dish: "Bottle Gourd (Lauki) + Carrot Paratha + Green Chutney", 
+                nPortion: "2 Paratha per Child", lPortion: "2 Paratha per Child", pPortion: "2 Paratha per Child",
                 side: "½ cup cucumber", 
-                recipe: "1. Cut potatoes into small cubes or matchsticks.\n2. Shallow fry with turmeric, salt, and cumin seeds until crispy on the outside and soft inside. Serve with rotis." 
+                recipe: "1. Finely grate bottle gourd (lauki) and carrots and mix them directly into the wheat flour dough rather than stuffing, making soft, thin rotis that are easy for young children to eat.\n2. Serve with mild green chutney." 
             },
             { 
-                date: "19 AUG", day: "WED", dish: "Moong Dal Bhajiya", 
-                nPortion: "5 pieces", lPortion: "5 per Child", pPortion: "5 per Child",
+                date: "17 SEP", day: "THU", dish: "Vada Pav", 
+                nPortion: "1.5 pc per child", lPortion: "2 pc per child", pPortion: "2 pc per child",
                 side: "½ cup carrot", 
-                recipe: "1. Soak yellow moong dal, grind coarsely, and whip with chopped coriander, green chili, and salt.\n2. Drop small spoonfuls into hot oil and fry until golden and crisp." 
+                recipe: "1. Prepare spiced mashed potato vadas, place inside soft pav buns.\n2. Send along with tasty accompanying chutneys." 
             },
             { 
-                date: "20 AUG", day: "THU", dish: "Chana Bateta", 
-                nPortion: "1 kg", lPortion: "1.5 kg", pPortion: "2kg",
+                date: "18 SEP", day: "FRI", dish: "Potato Fry + Roti", 
+                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
+                side: "½ cup tomato & cucumber", 
+                recipe: "1. Dice potatoes and shallow fry with turmeric and salt until crispy outside and soft inside.\n2. Pack with soft rotis." 
+            },
+            { 
+                date: "22 SEP", day: "TUE", dish: "Puffed Rice Bhel Chat with Veggies and Banana", 
+                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
+                side: "Banana included", 
+                recipe: "1. Toss puffed rice with chopped veggies, mild chaat seasoning, and tamarind hint.\n2. Serve alongside a fresh banana." 
+            },
+            { 
+                date: "23 SEP", day: "WED", dish: "Spinach / Methi + Paneer Paratha + Tomato Garlic Chutney", 
+                nPortion: "2 Paratha per Child", lPortion: "2 Paratha per Child", pPortion: "2 Paratha per Child",
                 side: "½ cup cucumber", 
-                recipe: "1. Boil white chickpeas (chana) and potatoes.\n2. Toss together with tamarind chutney, roasted cumin powder, and mild spices for a flavorful dry snack mix." 
+                recipe: "1. Blend mashed paneer and finely chopped spinach or methi directly into the flour dough to create soft, flexible, non-stuffed rotis.\n2. Serve with tomato garlic chutney." 
             },
             { 
-                date: "21 AUG", day: "FRI", dish: "Whole Wheat or Semolina Pasta(Red)", 
-                nPortion: "1 kg", lPortion: "1.5 kg pasta", pPortion: "1.5 kg pasta",
+                date: "24 SEP", day: "THU", dish: "Boil Egg + Vegetable + Mayo Sandwich", 
+                nPortion: "1 Whole bread sandwich per child", lPortion: "1.5 Whole bread sandwich per child", pPortion: "1.5 Whole bread sandwich per child",
+                side: "½ cup carrot", 
+                recipe: "1. Mash boiled eggs with finely chopped veggies and mayonnaise to create a creamy spread.\n2. Layer between whole bread slices." 
+            },
+            { 
+                date: "25 SEP", day: "FRI", dish: "Lady Finger (Bhindi) + Roti", 
+                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
                 side: "½ cup tomato", 
-                recipe: "1. Boil pasta until tender.\n2. Prepare a rich, smooth tomato and garlic herb sauce, toss the pasta through until well coated." 
+                recipe: "1. Sauté chopped bhindi with onions and spices until tender and non-sticky.\n2. Pack with soft rotis." 
             },
             { 
-                date: "25 AUG", day: "TUE", dish: "Keema + Roti", 
-                nPortion: "1 and 1/2 roti per child", lPortion: "2 roti per Child", pPortion: "2 roti per Child",
+                date: "29 SEP", day: "TUE", dish: "Potato + Beetroot Paratha + Hung Curd with Herbs (Dip)", 
+                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
                 side: "½ cup cucumber", 
-                recipe: "1. Cook finely minced meat with onions, tomatoes, ginger-garlic paste, and mild spices until thick.\n2. Pack warm alongside soft fresh rotis." 
-            },
-            { 
-                date: "27 AUG", day: "THU", dish: "Teachers' treat", 
-                nPortion: "-", lPortion: "-", pPortion: "-",
-                side: "-", recipe: null }
+                recipe: "1. Mix boiled potatoes and beetroot puree directly into the wheat dough to form a smooth, soft pink dough rather than a stuffed pocket.\n2. Serve with seasoned hung curd herb dip." 
+            }
         ];
 
         const masterRegister = [
-            { d: "4 Aug (Tue)", dish: "Lady Finger + Roti", n: "Husain Shakir", l: "Hatim Bandukwala", p: "Ali Asgar ezzy" },
-            { d: "5 Aug (Wed)", dish: "Potato + Chicken Tikkis", n: "Husain Azad", l: "Qutubkhan", p: "Batul Rangwala" },
-            { d: "6 Aug (Thu)", dish: "Potato + Beetroot Paratha", n: "Insiyah Alotwala", l: "Jumana Ezzy", p: "Saifuddin Bundi wala" },
-            { d: "7 Aug (Fri)", dish: "Corn + Chicken Sandwich", n: "Hasan Katthawala", l: "Sakina Bandukwala", p: "Murtaza Aklerawala" },
-            { d: "11 Aug (Tue)", dish: "Paneer Gravy + Roti", n: "Johratulmajd", l: "Ruqaiyah Medicalwala", p: "Nafisa Sheopurwala" },
-            { d: "12 Aug (Wed)", dish: "Cheese + Methi/Spinach Paratha", n: "Hasan Saifee", l: "Saifuddin Bahrainwala", p: "Zahara ujjainwala" },
-            { d: "13 Aug (Thu)", dish: "Keema Dal Samosa", n: "Nafisa Kotawala", l: "Murtaza Rampurawala", p: "Nafisa Bhanpurawala" },
-            { d: "14 Aug (Fri)", dish: "Pav Bhaji", n: "Nafisa Hamid", l: "Mohammed Patanwala", p: "Ruqaiyah Mhow wala" },
-            { d: "18 Aug (Tue)", dish: "Fry Potato + Roti", n: "Husaina Dhinoj", l: "Fatema Rangwala", p: "Saifuddin Bahrainwala" },
-            { d: "19 Aug (Wed)", dish: "Moong Dal Bhajiya", n: "Husaina kagdi", l: "Mohammed Kapadia", p: "Mohammad Daoodi" },
-            { d: "20 Aug (Thu)", dish: "Chana Bateta", n: "Mufaddal", l: "Hasan Maimoon", p: "Nafisa Baranwala" },
-            { d: "21 Aug (Fri)", dish: "Whole Wheat/Semolina Pasta", n: "Sakina Dilshad", l: "Hussain Tinwala", p: "Zahara Anta wala" },
-            { d: "25 Aug (Tue)", dish: "Keema + Roti", n: "Rukaiya Bagwala", l: "Hussaina Bahrainwala", p: "Zainab Baltiwala" },
-            { d: "27 Aug (Thu)", dish: "Teachers' treat", n: "-", l: "-", p: "-" }
+            { d: "1 Sep (Tue)", dish: "Egg Bhurji + Roti", n: "Fatema Bilaspurwala", l: "Fatema Indorewala", p: "Burhanuddin katthawala" },
+            { d: "2 Sep (Wed)", dish: "Whole Wheat/Semolina Pasta (White)", n: "Nafisa Shakir", l: "Aliasger Ragib", p: "Ajab sailanawala" },
+            { d: "3 Sep (Thu)", dish: "Moong Dal (Not dry) + Roti", n: "Zainab Faizy", l: "Nafisa Bahrainwala", p: "Burhanuddin Bahrainwala" },
+            { d: "8 Sep (Tue)", dish: "Corn + Chicken Sandwich", n: "Abbas Tyerwala", l: "Insiya Shakir", p: "Burhanuddin Muffadal Patanwala" },
+            { d: "9 Sep (Wed)", dish: "Chilli Paneer (Gravy) + Roti", n: "Juzer Rangwala", l: "Hussaina Rangwala", p: "Amatullah Ratlamwala" },
+            { d: "10 Sep (Thu)", dish: "Kheer Puri + Banana", n: "Burhanuddin Rangwala", l: "Mohammed Lokhandwala", p: "Hussaina kantabatwala" },
+            { d: "11 Sep (Fri)", dish: "Moong Dal Samosa + Chutney", n: "Husaina Hamid", l: "Hasan Baranwala", p: "Ali Asgar ezzy" },
+            { d: "16 Sep (Wed)", dish: "Bottle Gourd/Carrot Paratha", n: "Saifuddin Imadi", l: "Fatema Mhowwala", p: "Burhanuddin Juzer Patanwala" },
+            { d: "17 Sep (Thu)", dish: "Vada Pav", n: "Husain Shakir", l: "Ruqiyqh Medical wala", p: "Husain Kushalgarh" },
+            { d: "18 Sep (Fri)", dish: "Potato Fry + Roti", n: "Insiya Alotwala", l: "Nisreen Medicalwala", p: "Mohammed Rangwala" },
+            { d: "22 Sep (Tue)", dish: "Puffed Rice Bhel Chat + Banana", n: "Husain Azad", l: "Fatema Rangwala", p: "Batul Rangwala" },
+            { d: "23 Sep (Wed)", dish: "Spinach/Methi + Paneer Paratha", n: "Hasan Katthawala", l: "Hatim Bandookwala", p: "Saifuddin Bundi wala" },
+            { d: "24 Sep (Thu)", dish: "Boil Egg + Veg + Mayo Sandwich", n: "Hasan Saifee", l: "Hussain Tinwala", p: "Murtaza Aklerawala" },
+            { d: "25 Sep (Fri)", dish: "Lady Finger + Roti", n: "Nafisa Kotawala", l: "Qutubkhan Bagwala", p: "Nafisa Sheopurwala" },
+            { d: "29 Sep (Tue)", dish: "Potato + Beetroot Paratha + Dip", n: "Johratulmajd Mkm", l: "Mohammed Kapadia", p: "Zahara ujjainwala" }
         ];
 
         const classData = {
@@ -188,10 +197,10 @@
                 count: 21, 
                 portionKey: "nPortion",
                 students: [
-                    "Husain Shakir", "Husain Azad", "Insiyah Alotwala", "Hasan Katthawala", 
-                    "Johratulmajd", "Hasan Saifee", "Nafisa Kotawala", "Nafisa Hamid", 
-                    "Husaina Dhinoj", "Husaina kagdi", "Mufaddal", "Sakina Dilshad", 
-                    "Rukaiya Bagwala", "-"
+                    "Fatema Bilaspurwala", "Nafisa Shakir", "Zainab Faizy", "Abbas Tyerwala", 
+                    "Juzer Rangwala", "Burhanuddin Rangwala", "Husaina Hamid", "Saifuddin Imadi", 
+                    "Husain Shakir", "Insiya Alotwala", "Husain Azad", "Hasan Katthawala", 
+                    "Hasan Saifee", "Nafisa Kotawala", "Johratulmajd Mkm"
                 ] 
             },
             lkg: { 
@@ -199,10 +208,10 @@
                 count: 22, 
                 portionKey: "lPortion",
                 students: [
-                    "Hatim Bandukwala", "Qutubkhan", "Jumana Ezzy", "Sakina Bandukwala", 
-                    "Ruqaiyah Medicalwala", "Saifuddin Bahrainwala", "Murtaza Rampurawala", "Mohammed Patanwala", 
-                    "Fatema Rangwala", "Mohammed Kapadia", "Hasan Maimoon", "Hussain Tinwala", 
-                    "Hussaina Bahrainwala", "-"
+                    "Fatema Indorewala", "Aliasger Ragib", "Nafisa Bahrainwala", "Insiya Shakir", 
+                    "Hussaina Rangwala", "Mohammed Lokhandwala", "Hasan Baranwala", "Fatema Mhowwala", 
+                    "Ruqiyqh Medical wala", "Nisreen Medicalwala", "Fatema Rangwala", "Hatim Bandookwala", 
+                    "Hussain Tinwala", "Qutubkhan Bagwala", "Mohammed Kapadia"
                 ] 
             },
             "pre-first": { 
@@ -210,10 +219,10 @@
                 count: 23, 
                 portionKey: "pPortion",
                 students: [
-                    "Ali Asgar ezzy", "Batul Rangwala", "Saifuddin Bundi wala", "Murtaza Aklerawala", 
-                    "Nafisa Sheopurwala", "Zahara ujjainwala", "Nafisa Bhanpurawala", "Ruqaiyah Mhow wala", 
-                    "Saifuddin Bahrainwala", "Mohammad Daoodi", "Nafisa Baranwala", "Zahara Anta wala", 
-                    "Zainab Baltiwala", "-"
+                    "Burhanuddin katthawala", "Ajab sailanawala", "Burhanuddin Bahrainwala", "Burhanuddin Muffadal Patanwala", 
+                    "Amatullah Ratlamwala", "Hussaina kantabatwala", "Ali Asgar ezzy", "Burhanuddin Juzer Patanwala", 
+                    "Husain Kushalgarh", "Mohammed Rangwala", "Batul Rangwala", "Saifuddin Bundi wala", 
+                    "Murtaza Aklerawala", "Nafisa Sheopurwala", "Zahara ujjainwala"
                 ] 
             }
         };
