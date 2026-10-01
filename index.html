@@ -91,7 +91,7 @@
         const planner = [
             { 
                 date: "6 OCT", day: "TUE", dish: "Lady Finger + Roti", 
-                nPortion: "2 roti per child", lPortion: "Birthday Treat", pPortion: "2 roti per child",
+                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
                 side: "½ cup tomato", 
                 recipe: "1. Sauté chopped bhindi with onions and spices until tender and non-sticky.\n2. Pack with soft rotis." 
             },
@@ -115,7 +115,7 @@
             },
             { 
                 date: "13 OCT", day: "TUE", dish: "Paneer (Gravy) + Roti", 
-                nPortion: "2 roti per child", lPortion: "Birthday Treat", pPortion: "2 Roti per child",
+                nPortion: "2 roti per child", lPortion: "2 Roti per child", pPortion: "2 Roti per child",
                 side: "½ cup beetroot & cucumber", 
                 recipe: "1. Prepare a mild, kid-friendly paneer gravy.\n2. Serve with soft rotis." 
             },
@@ -157,7 +157,7 @@
             },
             { 
                 date: "27 OCT", day: "TUE", dish: "Spinach / Methi + Paneer Paratha + Tomato Garlic Chutney", 
-                nPortion: "2 Paratha per Child", lPortion: "Birthday Treat", pPortion: "2 paratha per child",
+                nPortion: "2 Paratha per Child", lPortion: "2 paratha per child", pPortion: "2 paratha per child",
                 side: "½ cup cucumber", 
                 recipe: "1. Blend mashed paneer and finely chopped spinach or methi directly into the dough to create thin, soft non-stuffed rotis.\n2. Serve with tomato garlic chutney." 
             },
@@ -186,14 +186,14 @@
             { d: "7 Oct (Wed)", dish: "Whole Wheat/Semolina Pasta", n: "Nafisa Hamid", l: "Hasan Maimoon", p: "Nafisa Shopurwala" },
             { d: "8 Oct (Thu)", dish: "Moong Dal Bhajiye", n: "Husaina Hamid", l: "Mohammed Patanwala", p: "Ali Asgar Ezzy" },
             { d: "9 Oct (Fri)", dish: "Corn + Chicken Sandwich", n: "Husaina Chinoz", l: "Saifuddin Maimoon", p: "Burhanuddin Bahrainwala" },
-            { d: "13 Oct (Tue)", dish: "Paneer (Gravy) + Roti", n: "Husaina kagdi", l: "Birthday Treat", p: "Mohammad Dauch" },
+            { d: "13 Oct (Tue)", dish: "Paneer (Gravy) + Roti", n: "Husaina kagdi", l: "Jumana Ezzy", p: "Mohammad Dauch" },
             { d: "14 Oct (Wed)", dish: "Mashed Potato + Beetroot Paratha", n: "Sakina Dilshad", l: "Murtaza Rampurwala", p: "Nafisa Boranwala" },
             { d: "15 Oct (Thu)", dish: "Moong Dal Samosa + Chutney", n: "Mutaddal", l: "Hussaina Baharainwala", p: "Ruqaiyh Mhow wala" },
             { d: "16 Oct (Fri)", dish: "Paneer Paratha + Dip", n: "Rukaiya Bagwala", l: "Sakina Bandookwala", p: "Zainab Baltiwala" },
             { d: "21 Oct (Wed)", dish: "Vada Pav", n: "Fatema Bilaspurwala", l: "Alasger Ragib", p: "Zahara Anta wala" },
             { d: "22 Oct (Thu)", dish: "Potato Fry + Roti", n: "Nafisa Shakir", l: "Hussaina Rangwala", p: "Burhanuddin katthawala" },
             { d: "23 Oct (Fri)", dish: "Kheer Puri", n: "Zainab Faizy", l: "Nafisa Baharainwala", p: "Ajab sailanawala" },
-            { d: "27 Oct (Tue)", dish: "Spinach/Methi + Paneer Paratha", n: "Burhanuddin Rangwala", l: "Birthday Treat", p: "Burhanuddin Bahrainwala" },
+            { d: "27 Oct (Tue)", dish: "Spinach/Methi + Paneer Paratha", n: "Burhanuddin Rangwala", l: "Mohammed Lokhandwala", p: "Burhanuddin Bahrainwala" },
             { d: "28 Oct (Wed)", dish: "Egg Bhurji + Roti", n: "Abbas Tyerwala", l: "Ruqaiyh Medical", p: "Burhanuddin Muffadal Patanwala" },
             { d: "29 Oct (Thu)", dish: "Lady Finger + Roti", n: "Husaina Hamid", l: "Fatema Indorewala", p: "Amatullah Ratlamwala" },
             { d: "30 Oct (Fri)", dish: "Chicken + Roti", n: "Juzer Rangwala", l: "Fatema Mhowwala", p: "Hussaina kantabatwala" }
@@ -217,8 +217,8 @@
                 portionKey: "lPortion",
                 students: [
                     "Birthday Treat", "Hasan Maimoon", "Mohammed Patanwala", "Saifuddin Maimoon", 
-                    "Birthday Treat", "Murtaza Rampurwala", "Hussaina Baharainwala", "Sakina Bandookwala", 
-                    "Alasger Ragib", "Hussaina Rangwala", "Nafisa Baharainwala", "Birthday Treat", 
+                    "Jumana Ezzy", "Murtaza Rampurwala", "Hussaina Baharainwala", "Sakina Bandookwala", 
+                    "Alasger Ragib", "Hussaina Rangwala", "Nafisa Baharainwala", "Mohammed Lokhandwala", 
                     "Ruqaiyh Medical", "Fatema Indorewala", "Fatema Mhowwala"
                 ] 
             },
@@ -251,8 +251,8 @@
             const studentName = currentClass.students[i] || "Self Lunch Day";
             const currentPortion = item[currentClass.portionKey];
             
-            // Check if current class is LKG and it's a birthday treat day (indicated by currentPortion === "Birthday Treat")
-            const isBirthdayTreat = (currentClass.name === "LKG" && currentPortion === "Birthday Treat");
+            // Only on 6th October (index 0) for LKG, show Birthday Treat with no food/recipe details
+            const isBirthdayTreat = (currentClass.name === "LKG" && i === 0);
 
             grid.innerHTML += `
                 <div class="bg-white p-6 rounded-[2rem] border-4 border-slate-100 hover:border-pink-300 transition-all shadow-lg flex flex-col justify-between">
