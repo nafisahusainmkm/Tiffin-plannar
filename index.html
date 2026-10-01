@@ -91,7 +91,7 @@
         const planner = [
             { 
                 date: "6 OCT", day: "TUE", dish: "Lady Finger + Roti", 
-                nPortion: "2 roti per child", lPortion: "2 roti per child", pPortion: "2 roti per child",
+                nPortion: "2 roti per child", lPortion: "Birthday Treat", pPortion: "2 roti per child",
                 side: "½ cup tomato", 
                 recipe: "1. Sauté chopped bhindi with onions and spices until tender and non-sticky.\n2. Pack with soft rotis." 
             },
@@ -115,7 +115,7 @@
             },
             { 
                 date: "13 OCT", day: "TUE", dish: "Paneer (Gravy) + Roti", 
-                nPortion: "2 roti per child", lPortion: "2 Roti per child", pPortion: "2 Roti per child",
+                nPortion: "2 roti per child", lPortion: "Birthday Treat", pPortion: "2 Roti per child",
                 side: "½ cup beetroot & cucumber", 
                 recipe: "1. Prepare a mild, kid-friendly paneer gravy.\n2. Serve with soft rotis." 
             },
@@ -157,7 +157,7 @@
             },
             { 
                 date: "27 OCT", day: "TUE", dish: "Spinach / Methi + Paneer Paratha + Tomato Garlic Chutney", 
-                nPortion: "2 Paratha per Child", lPortion: "2 paratha per child", pPortion: "2 paratha per child",
+                nPortion: "2 Paratha per Child", lPortion: "Birthday Treat", pPortion: "2 paratha per child",
                 side: "½ cup cucumber", 
                 recipe: "1. Blend mashed paneer and finely chopped spinach or methi directly into the dough to create thin, soft non-stuffed rotis.\n2. Serve with tomato garlic chutney." 
             },
@@ -250,19 +250,21 @@
             const color = colors[i % colors.length];
             const studentName = currentClass.students[i] || "Self Lunch Day";
             const currentPortion = item[currentClass.portionKey];
+            
+            // Check if current class is LKG and it's a birthday treat day (indicated by currentPortion === "Birthday Treat")
+            const isBirthdayTreat = (currentClass.name === "LKG" && currentPortion === "Birthday Treat");
 
             grid.innerHTML += `
                 <div class="bg-white p-6 rounded-[2rem] border-4 border-slate-100 hover:border-pink-300 transition-all shadow-lg flex flex-col justify-between">
                     <div>
                         <div class="${color} text-white font-bold px-4 py-1 rounded-full text-xs inline-block mb-3">${item.date} • ${item.day}</div>
-                        <h3 class="font-header text-xl text-slate-800">${item.dish}</h3>
-                        <p class="bg-pink-50 text-pink-600 font-bold p-3 rounded-xl my-4 text-center">Assigned: ${studentName}</p>
+                        <h3 class="font-header text-xl text-slate-800">${isBirthdayTreat ? "Birthday Treat" : item.dish}</h3>
+                        <p class="bg-pink-50 text-pink-600 font-bold p-3 rounded-xl my-4 text-center">${isBirthdayTreat ? "Special Celebration" : "Assigned: " + studentName}</p>
                         <div class="text-xs text-slate-500 space-y-1">
-                            <p>🍱 Quantity: ${currentPortion}</p>
-                            <p>🥕 Side: ${item.side}</p>
+                            ${isBirthdayTreat ? '<p class="font-bold text-pink-500 text-center py-2">Provided by Parent</p>' : `<p>🍱 Quantity: ${currentPortion}</p><p>🥕 Side: ${item.side}</p>`}
                         </div>
                     </div>
-                    ${item.recipe ? `<button onclick="showRecipe('${item.dish.replace(/'/g, "\\'")}', '${item.recipe.replace(/'/g, "\\'").replace(/\n/g, '\\n')}')" class="mt-6 w-full py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-pink-500 transition-colors">See Recipe</button>` : '<div class="mt-6 py-3 text-center text-xs font-bold text-amber-600 bg-amber-50 rounded-xl">Special Event</div>'}
+                    ${!isBirthdayTreat && item.recipe ? `<button onclick="showRecipe('${item.dish.replace(/'/g, "\\'")}', '${item.recipe.replace(/'/g, "\\'").replace(/\n/g, '\\n')}')" class="mt-6 w-full py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-pink-500 transition-colors">See Recipe</button>` : '<div class="mt-6 py-3 text-center text-xs font-bold text-amber-600 bg-amber-50 rounded-xl">Special Event</div>'}
                 </div>
             `;
         });
